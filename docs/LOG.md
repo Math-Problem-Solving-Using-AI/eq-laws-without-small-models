@@ -101,6 +101,15 @@ Running notes of the loop: decisions, mistakes, dead ends, and notes for the own
   keyword search with one mutation in the scratch folder. README gained one paragraph and the
   missing step 16 in its step list. Nothing published, no format changed.
 
+- 2026-11-22 (run 14): queue item 1 (Lean review) is still blocked, so took item 2 (Kisielewicz's
+  definition of "Austin identity"). Only open sources, each after its robots.txt: the Wrocław
+  digital library (robots.txt answered 502 twice, so nothing fetched), zbMATH Open (robots.txt
+  disallows the assistant's agents, so nothing fetched), the author's publication list, Crossref and
+  OpenAlex (metadata only, no abstract). Nothing sent but the addresses; no e-mail address in the
+  Crossref requests, although Crossref asks for one for its faster service. The item is closed with
+  the answer "unknown"; a retry of the library became a new queue item, and the zbMATH question went
+  to Blocked, because using a site against its robots.txt or through a side door is the owner's
+  call. Nothing published, no format changed.
 
 ## Mistakes and dead ends
 
@@ -185,6 +194,14 @@ Running notes of the loop: decisions, mistakes, dead ends, and notes for the own
 - 2026-11-22 (run 13): the README's step list had stopped at step 15; step 16 had not been added in
   run 12. Added with step 17.
 
+- 2026-11-22 (run 14): queue item 7 (search zbMATH Open) had been queued since run 10 without
+  reading zbMATH's robots.txt; read now, it disallows `anthropic-ai`, `ClaudeBot` and `Claude-Web`.
+  The item could not be done as planned.
+- 2026-11-22 (run 14): `curl` refused `prac.im.pwr.edu.pl` (`SSL certificate problem: unable to get
+  local issuer certificate`, incomplete chain sent by the server). Used PowerShell's
+  `Invoke-WebRequest` (Windows completes the chain) instead of turning certificate checks off.
+- 2026-11-22 (run 14): dead end: `digilab.uwr.edu.pl` answered 502 Bad Gateway to its robots.txt at
+  20:32 and 20:33 UTC.
 
 ## For other repositories
 
@@ -253,6 +270,12 @@ Running notes of the loop: decisions, mistakes, dead ends, and notes for the own
   re-checked". The slides give no reference for Dudek's paper, and print `ee = 2^5` where their
   table gives `2^3` (probable typo, not rendered).
 
+- eq-unary-magma-laws (for the owner): zbMATH Open's robots.txt (last-modified 2025-10-09, read
+  2026-11-22) disallows `anthropic-ai`, `ClaudeBot` and `Claude-Web` on the whole site; any queued
+  zbMATH search there needs the owner's decision too. Also a lead for its `docs/PRIOR_WORK.md`:
+  Kisielewicz's 1990 chapter cites J. Dudek, "A note on models of identities", Algebra Universalis
+  25 (1988), 400-401 (DOI `10.1007/BF01229987`), a candidate source for Dudek's `(ex)y = x`
+  (title only seen, via Crossref; step 18 here).
 
 ## Lessons for the hub
 
@@ -319,3 +342,9 @@ Running notes of the loop: decisions, mistakes, dead ends, and notes for the own
   control, and print non-ASCII search keys with `ascii()` on Windows consoles.
 - When a step adds a file to a list kept by hand (a README step list), check the list in the same
   commit; here one step was missing for a whole run.
+- Read a site's robots.txt when a queue item that needs the site is written, not only when it is
+  done. Here a zbMATH search sat in the queue for four runs, and the site disallows the assistant's
+  agents. Some sites single out AI agents by name, so "the site is open to everyone" is not enough.
+- When a robots.txt cannot be read (server error such as 502), treat the site as unreadable for that
+  run; do not fetch pages on the guess that nothing is disallowed. A 404 is different: by the usual
+  convention it means the site states no limits.
