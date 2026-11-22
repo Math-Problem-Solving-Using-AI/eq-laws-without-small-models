@@ -138,6 +138,8 @@ Infinite part: Model C, elements = all finite terms over `G`, `F(.)`, `P(.,.)`,
   Every use of `left`/`right` in the three real models is guarded by an `is_P` test in the same
   condition or branch, so unspecified values cannot change the answer. Checked by reading.
 - Mutation tests in both scripts: catch a checker that never reports a failure.
+- Exit codes: a copy of each script with Model C's `*` changed to return `f(t)` (made in a scratch
+  folder, not committed) printed `SOME FAILED` and exited with code 1, so CI would now fail.
 - Finite part: z3 found no model of sizes 2 to 6 (earlier steps). That is consistent with the
   argument but checks only those sizes.
 
