@@ -45,7 +45,9 @@ model satisfies its law is checked on all terms only by z3. This is implication 
 structures; for finite structures these laws (by the hand argument below) imply every law.
 The 712 law texts and ids in that file are the main repository's: each text equals the main
 repository's text for its id and reads back to its stored term tree (step 12, `check_copied_laws.py`,
-which needs the main repository next to this one).
+which needs the main repository next to this one). That list of 712 is every law with 1 to 3
+operations, up to renaming letters and swapping sides, each exactly once (step 21,
+`check_law_list.py`, a brute-force count compared with the stored file).
 Literature (step 20, shallow: 6 web, 5 OpenAlex and 6 GitHub searches, titles and summaries only):
 none of the 2,828 non-implications was found stated anywhere, which does not make them new. The way
 the models are built is known for magmas: the ETP report's section "Canonization" (read in the
@@ -203,6 +205,7 @@ found" does not mean new. Details in `steps/05-collapse-xy-fz.md`.
 18. `18-kisielewicz-definition-search.md`
 19. `19-dudek-source-search.md`
 20. `20-literature-refutations.md`
+21. `21-law-list-complete.md`
 
 ## Files
 
@@ -225,6 +228,9 @@ found" does not mean new. Details in `steps/05-collapse-xy-fz.md`.
   read from their texts, mirror cross-check), with `--selftest`.
 - `check_copied_laws.py` checks that the law ids and texts in that results file are the main
   repository's and read back to its term trees, with `--selftest`. Needs the main repository.
+- `check_law_list.py` checks that the main repository's `data/laws_3.json` is every law with 1 to 3
+  operations, each once (own brute force, two ways to tell laws apart), with `--selftest`. Needs
+  the main repository.
 - `etp_specializations.py` looks up the magma special cases of the two collapsing laws in the
   ETP data and checks that the ETP records each as forcing one element, with `--selftest`. Needs a
   clone of the ETP; not in CI.
@@ -276,6 +282,8 @@ that repository):
 ```
 python check_copied_laws.py results/refutations_term_models.json            # 2,848 references, 712 ids
 python check_copied_laws.py --selftest results/refutations_term_models.json # corrupted input must fail
+python check_law_list.py              # 712 laws, by order {1: 7, 2: 62, 3: 643}, each once
+python check_law_list.py --selftest   # corrupted input must fail
 ```
 
 The magma special cases of the two collapses are looked up in the ETP data (not in CI, it needs a

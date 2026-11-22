@@ -50,6 +50,8 @@ in `steps/`.
   - `python check_copied_laws.py results/refutations_term_models.json` (needs the main repository
     `eq-unary-magma-laws` next to this one, read only; not in CI for that reason)
   - `python check_copied_laws.py --selftest results/refutations_term_models.json`
+  - `python check_law_list.py` (reads the main repository's `data/laws_3.json`; not in CI)
+  - `python check_law_list.py --selftest`
   A verifier you changed must still fail on corrupted input (mutation test).
 - **Hand arguments are leads.** A hand proof is not a proof until every step is machine-checked or
   checked by an independent method. A solver timeout may mean a step is missing.
