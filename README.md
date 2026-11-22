@@ -24,7 +24,7 @@ Labels are defined in `docs/shared/VERIFICATION_PROTOCOL.md`. No row is Lean-che
 | Law | Status |
 |-----|--------|
 | `f(x)*(y*z) = y` | **collapses**. Short hand proof below, every step accepted by z3. `z3-only`. |
-| `(x*y)*(y*x) = y` | **does not collapse**: a model with 4 elements, re-checked by plain evaluation (`model-verified`). This is ETP Equation167, whose smallest model the ETP also lists as 4 elements. **Row fully decided** (step 04): 710 targets refuted by certificates, 1 implication proved by the ETP. |
+| `(x*y)*(y*x) = y` | **does not collapse**: a model with 4 elements, re-checked by plain evaluation (`model-verified`). **Known**: ETP Equation167, *Stein's third law*. Structures satisfying it are "centrist groupoids", and OEIS A128934 counts 0 of them with 2 or 3 elements and 58 with 4. **Row fully decided** (step 04): 710 targets refuted by certificates, 1 implication proved by the ETP. |
 | `(x*y)*(y*z) = y` | **does not collapse**, same evidence. **Known**: this is ETP Equation168, the *central groupoid law* (Evans; Knuth 1970, as cited in the ETP paper). Finite central groupoids have n^2 elements, so 4 is the smallest size above 1. **Row fully decided** (step 04): 707 refuted, 4 implications proved by the ETP. |
 | `((x*y)*z)*x = w` | **collapses, trivially** (step 04): `w` occurs only on the right, so put `x = y = z = a` and get `a = ((a*a)*a)*a = b` for any `a`, `b`. The ETP data agrees (Equation303 implies `x = y`). Our z3 run had missed it. |
 | `(f(x)*y)*z = y` | open. No model of size 4, 5, 6 (z3 `unsat`, `z3-only`). Collapse unproven. |
@@ -35,7 +35,15 @@ Labels are defined in `docs/shared/VERIFICATION_PROTOCOL.md`. No row is Lean-che
 
 "No model up to size 6" does not rule out larger or infinite models.
 
-### Leads from hand analysis (NOT machine-proven)
+### Leads from hand analysis (NOT machine-proven): candidate Austin laws
+
+Vocabulary (literature check, eq-unary-magma-laws `docs/PRIOR_WORK.md`): a law with infinite models
+but no nontrivial finite model is called an **Austin law**. ETP blueprint: "no law of order four or
+less is an Austin law" for magmas. With a unary operation, size 3 seems enough, much as a short
+identity with a constant, `(ex)y = x` (Dudek), has only infinite nontrivial models. So the two laws
+below are **candidate Austin laws in type (2,1)**. This kind of result is known in general. We found
+nothing about these two specific laws. The arguments were re-read step by step on 2026-11-22
+(second reading, still not a human reviewer, not Lean).
 
 For `f(x*(y*z)) = y` and `x*(y*f(z)) = y` I think the answer is: **no finite structure with 2 or
 more elements satisfies the law, yet the law does not collapse, because an infinite structure
