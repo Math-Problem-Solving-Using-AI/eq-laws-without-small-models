@@ -88,6 +88,11 @@ Running notes of the loop: decisions, mistakes, dead ends, and notes for the own
   each needs a robots.txt step first. Wrote a new script `etp_specializations_austin.py` instead of
   extending `etp_specializations.py`, so the checker of step 14 stays unchanged. Not a LOOP gate or
   CI step (needs the ETP clone). Nothing published, no format changed.
+- 2026-11-22 (run 12): queue item 1 (Lean review) is still blocked, so took item 2 (re-read the
+  Ernst slides). Two requests to `www.cs.unm.edu` (robots.txt, then the PDF 22 seconds later),
+  nothing sent but the two addresses. Wrote `dudek_slides_check.py` to check our reading of the
+  slides' formulas; not a LOOP gate and not in CI, like the other literature-check scripts. The
+  missing reference for Dudek became its own queue item. Nothing published, no format changed.
 
 
 ## Mistakes and dead ends
@@ -158,6 +163,16 @@ Running notes of the loop: decisions, mistakes, dead ends, and notes for the own
   rejected. The checker was fine, the test was wrong.
 - 2026-11-22 (run 11): a mutation draft shifted one of two copies of the same list, so it would have
   been caught by a consistency guard instead of the check it was meant to test. Fixed before running.
+- 2026-11-22 (run 12): `pdftotext -bbox` does not exist in the installed `pdftotext` (Glyph & Cog
+  4.00, not Poppler), and no PDF renderer is installed, so raised and lowered symbols on the slides
+  were read from the page's content stream and font table instead.
+- 2026-11-22 (run 12): a Python script passed through a shell here-document lost a backslash and
+  did not run; written with the file tool instead.
+- 2026-11-22 (run 12): a selftest mutation ("row search that finds nothing for sizes 2 and up")
+  could not be rejected, because the right answer is "nothing". Fixed by counting the rows the
+  search tries. Two other mutations were first caught by the wrong check; fixed and re-run.
+- 2026-11-22 (run 12): the slides write `ee = 2^5` where their own table gives `2^3`; either a typo
+  in the slides or our decoding of the raised number is wrong (not rendered as a picture).
 
 
 ## For other repositories
@@ -221,6 +236,11 @@ Running notes of the loop: decisions, mistakes, dead ends, and notes for the own
   `f(t) := (t*t)*t`, and that the blueprint's finite argument for 28770 is the one used here for
   id 135 (step 15 here, `etp_specializations_austin.py`). The 22 magma special cases of ids 135,
   336, 450 and 639 all force one element (ETP table up to order 4, z3 for order 5).
+- eq-unary-magma-laws (for the owner): the Ernst slides quote in its `docs/PRIOR_WORK.md` (marked
+  "read by subagent") is word for word right: re-read from the primary PDF on 2026-11-22 (step 16
+  here, SHA-256 `23bf7d76...470e6f`, `Last-Modified` 2008-08-01). The mark could become "read,
+  re-checked". The slides give no reference for Dudek's paper, and print `ee = 2^5` where their
+  table gives `2^3` (probable typo, not rendered).
 
 
 ## Lessons for the hub
@@ -276,3 +296,10 @@ Running notes of the loop: decisions, mistakes, dead ends, and notes for the own
 - When a law has an extra operation, look for published laws of the plain operation that are its
   instances with the extra operation replaced by a formula. Here Kisielewicz's 1997 Austin law turned
   out to be one of our laws with `f(t) := (t*t)*t`, and its published finite argument is ours.
+- A search whose correct answer is "nothing found" cannot be told apart from a search that never
+  ran. Give it a positive control: count what it tried and compare with the number it must try
+  (here every constant times every one-to-one row, `n * n!`), or run it on a variant that does have
+  answers.
+- When a PDF's text extraction loses raised or lowered symbols and no renderer is available, the
+  page's content stream lists each text piece with its font; the font object's encoding tells which
+  character a code is. Record that the reading was reconstructed, not seen.

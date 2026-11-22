@@ -14,20 +14,19 @@ to one element, has a finite model, or has only infinite models.
    argument is about all finite structures and needs a human reviewer or a Lean proof. Write the
    Lean statement with an English reading next to it and check it as in `docs/shared/LEAN_CAVEATS.md`
    (statement fidelity first). Waits for the owner, see Blocked (no Lean on this machine).
-2. **Re-read the Ernst slides on Dudek's `(ex)y = x`** (a short identity with a constant that has
-   only infinite nontrivial models, cited in the README from a subagent report in the main
-   repository): find the slides' address in the main repository, read that site's robots.txt in
-   its own step, then read the slides and quote what they say, with date; split from the step 15
-   literature item.
-3. **Read the arXiv abstract page of 2609.05690** ("Trace-Tree Magmas: Proof-Producing Infinite
+2. **Read the arXiv abstract page of 2609.05690** ("Trace-Tree Magmas: Proof-Producing Infinite
    Countermodels and 28 New Order-Five Austin Classifications", seen only as a search result in
    step 15): only `/abs`, after arXiv's robots.txt and 15 seconds from every request; record
    whether it mentions unary operations, type (2,1), or the shapes of our four laws.
-4. **Find out how Kisielewicz defines "Austin identity"** (1990, 1997): for any type of algebra or
+3. **Find out how Kisielewicz defines "Austin identity"** (1990, 1997): for any type of algebra or
    for groupoids only (step 13 "NOT verified"). Springer and AMS are not fetched; look for an open
    source that quotes the definition (an open review database, an author copy) and label what
    could not be read. Lead from step 15: a record of "Austin identities" (1997) in the Wrocław
    university digital library (`digilab.uwr.edu.pl`); read its robots.txt first.
+4. **Find Dudek's primary source** for the identity `(ex)y = x` (Ernst's 2008 slides, read in
+   step 16, give no reference): which Dudek, which paper and year, what it proves. Look for an open
+   source (zbMATH Open, an author page), read robots.txt first, label what could not be read. If a
+   PDF renderer becomes available, also confirm the raised number in the slides' `ee = 2^5`.
 5. **Literature check: the 2,828 non-implications of step 11** (search terms such as "term model",
    "free algebra", "identities of type (2,1)").
 6. **Re-run the main repository's count check** (`src/check_laws_count.py`, read only, `python -B`)
@@ -122,10 +121,17 @@ to one element, has a finite model, or has only infinite models.
   `(f(x)*y)*z = y`, with the same finite argument. No label changed. Ernst slides and an arXiv lead
   queued separately.
 
+- 2026-11-22: step 16 (loop run 12). Re-read Ernst's 2008 slides from the primary PDF (after the
+  site's robots.txt): the README's quote on Dudek's `(ex)y = x` is word for word right, and the
+  slides' infinite model checks on a sample by plain Python (new `dudek_slides_check.py`, 7 of 7
+  corrupted inputs rejected); no structure with 2 to 6 elements satisfies the identity (finite
+  search). The slides give no reference for Dudek (queued) and print `ee = 2^5` where their table
+  gives `2^3`. No label of our laws changed.
+
 ## Last iteration
 
-2026-11-22 (loop run 11): looked for earlier work on the four rules that seem to have only infinite structures with more than one element: nothing about the rules themselves was found, published data on simpler rules agrees with our reasoning, and a known rule from 1997 by Kisielewicz turns out to be a special case of one of our rules (with `f` replaced by a fixed formula), and its published proof for finite structures uses the same argument as ours.
-Next run: read the original slides about a similar rule with a constant (Dudek's rule), after checking that the site allows it; the Lean items still wait for the owner.
+2026-11-22 (loop run 12): read the original 2008 slides that our README cites for Dudek's short rule with a fixed element `e`, `(e*x)*y = x`: they say exactly what we quoted (it has structures with more than one element, but only infinite ones), and a small program confirmed their example and found no table with 2 to 6 elements that obeys the rule.
+Next run: read the summary page of an arXiv paper about such rules (2609.05690), after checking that arXiv allows it; the slides name no source for Dudek, so finding it is now a queue item, and the Lean items still wait for the owner.
 
 ## Blocked
 
