@@ -68,6 +68,12 @@ Running notes of the loop: decisions, mistakes, dead ends, and notes for the own
   with the main list and reads each text with the parser `check_refutations.py` uses. Added to the
   LOOP gates but not to CI, because CI does not clone the main repository (changing CI to fetch
   another repository was not needed). Nothing published, no format changed.
+- 2026-11-22 (run 9): queue item 1 (Lean review) is still blocked, so took item 2 (literature
+  check). Too big for one session: split into four items (collapse of `(x*y)*f(z) = y`; the four
+  candidate Austin laws; Kisielewicz's definition; the 2,828 non-implications). This run did the
+  piece the queue named explicitly, re-reading the source of the term "Austin law". Sources read:
+  the local ETP clone (no web request) and one arXiv `/html` page. Nothing published, no format
+  changed, only the README paragraph and a new step file.
 
 ## Mistakes and dead ends
 
@@ -118,6 +124,10 @@ Running notes of the loop: decisions, mistakes, dead ends, and notes for the own
   `IndexError` or `StopIteration` as "rejected", so a broken mutation (for example one that looked
   for a certificate that does not exist) would have counted as caught. Changed to count only the
   checker's own `Bad` failure before the first run.
+- 2026-11-22 (run 9): the arXiv page (`/html/2512.07087v2`) was requested 7 seconds after
+  `robots.txt` on the same site, which asks for `Crawl-delay: 15`. robots.txt was read in its own
+  step, as required, but the delay was not counted from that request. One request; no more arXiv
+  requests in this run.
 
 ## For other repositories
 
@@ -161,6 +171,11 @@ Running notes of the loop: decisions, mistakes, dead ends, and notes for the own
   row: 707 not implied, 4 implied. The certificates use the main repository's law ids and texts.
   Updating codes 5 for these rows would need a new code or certificate kind there (infinite models
   are not tables), which is the owner's call.
+- eq-unary-magma-laws (for the owner): its `docs/PRIOR_WORK.md` A3(c) quotes the ETP blueprint's
+  definition of "Austin law" correctly (re-read here at commit `dbc9a2b` of the ETP clone, step 13).
+  Two things it could add: the definition is stated for magmas only, so "candidate Austin laws in
+  type (2,1)" is our carry-over; and the ETP's published report (arXiv 2512.07087v2) never uses
+  the term, only the blueprint does.
 
 ## Lessons for the hub
 
@@ -198,3 +213,7 @@ Running notes of the loop: decisions, mistakes, dead ends, and notes for the own
 - A mutation selftest should count as "rejected" only the checker's own failure type. Catching
   generic errors (missing key, index out of range) lets a mutation that crashed while being built
   pass as caught.
+
+- A site's crawl delay counts from every request to it, including the one that fetched
+  `robots.txt`. Reading robots.txt "in its own step" is not enough: wait the delay before the first
+  page as well.
