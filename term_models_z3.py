@@ -1,4 +1,4 @@
-"""Check the three infinite term models of infinite_models.py on ALL terms, with z3.
+"""Check the four infinite term models of infinite_models.py on ALL terms, with z3.
 
 infinite_models.py tests the models on a finite sample of terms. Here the elements are the terms of
 a z3 algebraic datatype T with constructors
@@ -14,6 +14,7 @@ For each model, z3 is asked for terms x, y, z where the law FAILS. `unsat` means
 Model A, law  f(x*(y*z)) = y:   x*y := P(x, y);  f(t) := b if t = P(x, P(b, z)), else t
 Model B, law  x*(y*f(z)) = y:   f(t) := F(t);    x*w := b if w = P(b, F(z)), else P(x, w)
 Model C, law  (f(x)*y)*z = y:   f(t) := F(t);    u*z := b if u = P(F(t), b), else P(u, z)
+Model D, law  f((x*y)*z) = y:   x*y := P(x, y);  f(t) := b if t = P(P(a, b), z), else t
 
 Nontrivial: z3 is also asked whether G = F(G); `unsat` means the model has at least two elements.
 
@@ -64,6 +65,15 @@ def mulC(u, z):
     return z3.If(z3.And(isP(u), isF(left(u))), right(u), P(u, z))
 
 
+# Model D
+def mulD(x, y):
+    return P(x, y)
+
+
+def fD(t):
+    return z3.If(z3.And(isP(t), isP(left(t))), right(left(t)), t)
+
+
 def lawA(m, f, x, y, z):
     return f(m(x, m(y, z))) == y
 
@@ -74,6 +84,10 @@ def lawB(m, f, x, y, z):
 
 def lawC(m, f, x, y, z):
     return m(m(f(x), y), z) == y
+
+
+def lawD(m, f, x, y, z):
+    return f(m(m(x, y), z)) == y
 
 
 def failure_exists(mul, f, law, timeout=60000):
@@ -93,6 +107,7 @@ def main():
         ("Model A f(x*(y*z)) = y", mulA, fA, lawA),
         ("Model B x*(y*f(z)) = y", mulB, fB, lawB),
         ("Model C (f(x)*y)*z = y", mulC, fC, lawC),
+        ("Model D f((x*y)*z) = y", mulD, fD, lawD),
     ]:
         r, _ = failure_exists(mul, f, law)
         print(f"{name}: failing terms exist? {r}  (unsat = law holds on all terms)")
@@ -118,6 +133,9 @@ def selftest():
     def fC_bad(t):  # f is the identity
         return t
 
+    def fD_bad(t):  # returns z instead of y
+        return z3.If(z3.And(isP(t), isP(left(t))), right(t), t)
+
     mutations = [
         ("A: f returns z", mulA, fA_bad, lawA),
         ("B: * returns f(z)", mulB_bad, fB, lawB),
@@ -125,6 +143,9 @@ def selftest():
         ("C: f is the identity", mulC, fC_bad, lawC),
         ("C checked against (f(x)*y)*z = z", mulC, fC, lambda m, f, x, y, z: m(m(f(x), y), z) == z),
         ("A checked against law C", mulA, fA, lawC),
+        ("D: f returns z", mulD, fD_bad, lawD),
+        ("D: f is the identity", mulD, fC_bad, lawD),
+        ("D checked against law A", mulD, fD, lawA),
     ]
     caught = 0
     for name, mul, f, law in mutations:
