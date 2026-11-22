@@ -1,6 +1,6 @@
 # eq-laws-without-small-models
 
-> Nine short laws over one binary operation `*` and one unary operation `f` have no model with 2 or 3 elements. Which of them force every structure to one element, which have a finite model, which only infinite ones? EARLY and EXPERIMENTAL: 3 collapse (one z3-only, one z3-only plus our own derivation checker, one trivial with ETP agreement), 2 have verified size-4 models and fully decided rows (one is the known central groupoid law), 4 are finite-versus-general leads (infinite models checked by z3 on all terms, finite part a hand argument, not machine-proven). None is fully open. The laws come in mirror pairs (read `a*b` as `b*a`), which share their answer.
+> Nine short laws over one binary operation `*` and one unary operation `f` have no model with 2 or 3 elements. Which of them force every structure to one element, which have a finite model, which only infinite ones? EARLY and EXPERIMENTAL: 3 collapse (two z3-only plus our own derivation checker, one trivial with ETP agreement), 2 have verified size-4 models and fully decided rows (one is the known central groupoid law), 4 are finite-versus-general leads (infinite models checked by z3 on all terms, finite part a hand argument, not machine-proven). None is fully open. The laws come in mirror pairs (read `a*b` as `b*a`), which share their answer.
 
 ## Start here
 
@@ -13,14 +13,15 @@
 - [results/zero_model_laws.json](results/zero_model_laws.json): for each law, the structure found (tables for `*`
   and `f`) or the solver's answer per size (`unsat` for sizes 4 to 6 means none found by z3, not independently checked)
 - `python verify_models.py results/zero_model_laws.json` re-checks the structures with an independent evaluator
-- `python check_derivation.py results/collapse_xy_fz.json` re-checks the stored collapse proof without a solver
+- `python check_derivation.py results/collapse_xy_fz.json results/collapse_fx_yz.json` re-checks the two stored collapse proofs without a solver
 
 ## How to trust it
 
 - `model-verified`: structure re-checked by independent plain-Python code (the two size-4 models).
-- `z3-only`: z3 said unsat and nothing else confirmed it (collapse of `f(x)*(y*z) = y`, "no model up to size 6").
-- `z3-only` plus derivation checker: collapse of `(x*y)*f(z) = y`, stored step by step in
-  `results/collapse_xy_fz.json` and accepted by `check_derivation.py` (written here, mutation-tested, not reviewed).
+- `z3-only`: z3 said unsat and nothing else confirmed it ("no model up to size 6").
+- `z3-only` plus derivation checker: collapse of `(x*y)*f(z) = y` and of `f(x)*(y*z) = y`, stored step by step in
+  `results/collapse_xy_fz.json` and `results/collapse_fx_yz.json` and accepted by `check_derivation.py`
+  (written here, mutation-tested, not reviewed).
 - `hand-argument`: derived by hand, not machine-proven (the finite part of the four finite-versus-general leads;
   their infinite models are `z3-only` on all terms, `python term_models_z3.py`).
 - `open`: unknown (no law is in this state since step 07).
