@@ -71,8 +71,17 @@ order four or less is an Austin law" (magmas only). With a unary operation, size
 much as a short identity with a constant, `(ex)y = x` (Dudek; slides read only by a subagent in the
 main repository), has only infinite nontrivial models. So the four laws below are **candidate
 Austin laws in type (2,1)**. Whether Kisielewicz's papers define the term for all types of algebra
-is unknown (not read). We found nothing about the first two specific laws; no search was done for
-the third, `(f(x)*y)*z = y`, or the fourth, `f((x*y)*z) = y`.
+is unknown (not read). Literature (step 15, shallow: 5 web and 4 GitHub queries, no paper
+database): nothing found about any of the four laws. Their 22 magma special cases (`f` replaced by a
+formula in one letter, at most 5 operations in all) all force one element, by the ETP's outcome
+table (order 4 or less) or by z3 (order 5, `z3-only`), and none is in the blueprint's tables of
+unsettled order-5 laws; a special case with a nontrivial finite model would have refuted our
+argument (`python etp_specializations_austin.py`, needs a clone of the ETP). **Known relative:**
+Kisielewicz's Austin laws `x = (((y*y)*y)*x)*((y*y)*z)` (1990) and `x = (((y*y)*y)*x)*(y*z)`
+(1997, ETP Equation28770), as given in the ETP blueprint, are `(f(x)*y)*z = y` with `f(t) := (t*t)*t`
+and `z` replaced by `(y*y)*z` or `y*z`, and the blueprint's finite argument for Equation28770 is
+the same as ours for `(f(x)*y)*z = y`. So the argument is of a known kind; the laws with a free `f`
+were not found stated anywhere, which does not make them new.
 The arguments for the first two were re-read step by step on 2026-11-22 (second reading, still not
 a human reviewer, not Lean); the third and fourth have had one reading each.
 
@@ -173,6 +182,7 @@ found" does not mean new. Details in `steps/05-collapse-xy-fz.md`.
 12. `12-copied-law-texts.md`
 13. `13-source-of-austin-law.md`
 14. `14-literature-collapse-xy-fz.md`
+15. `15-literature-austin-candidates.md`
 
 ## Files
 
@@ -198,6 +208,10 @@ found" does not mean new. Details in `steps/05-collapse-xy-fz.md`.
 - `etp_specializations.py` looks up the magma special cases of the two collapsing laws in the
   ETP data and checks that the ETP records each as forcing one element, with `--selftest`. Needs a
   clone of the ETP; not in CI.
+- `etp_specializations_austin.py` the same for the four candidate Austin laws (special cases up to
+  5 operations: ETP outcome table, the blueprint's order-5 tables and z3), and checks how
+  Kisielewicz's Austin laws are instances of a special case, with `--selftest`. Needs a clone of
+  the ETP; not in CI.
 - Depends on the engine in `src/` of [eq-unary-magma-laws](https://github.com/Math-Problem-Solving-Using-AI/eq-unary-magma-laws) (clone it next to this repository) and its generated data.
 
 ## Reproduce
@@ -250,6 +264,8 @@ clone of `github.com/teorth/equational_theories` at `../_external/equational_the
 ```
 python etp_specializations.py              # 8 special cases, each an ETP equation implying x = y
 python etp_specializations.py --selftest   # corrupted input must fail
+python etp_specializations_austin.py              # 22 special cases of the four candidate Austin laws
+python etp_specializations_austin.py --selftest   # corrupted input must fail
 ```
 
 ## Contributing
