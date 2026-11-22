@@ -151,6 +151,15 @@ Running notes of the loop: decisions, mistakes, dead ends, and notes for the own
   as queue items rather than following them in this run (one item per run). Nothing published, no
   format changed; README paragraph and step list updated.
 
+- 2026-11-22 (run 20): items 1 and 2 still wait for the owner. Took item 3 whole, through the
+  GitHub API only (its host has no robots.txt; github.com's asks one second between requests,
+  kept at two or more). Read 13 files of the repository and looked up 3 commits/tags in the Lean
+  and Mathlib repositories to compare version names; fetched one certificate of 732, cloned
+  nothing, copied nothing into this repository (their code is Apache-2.0; reuse is a license
+  question, added to the Lean bullet under Blocked). The unpublished `JudgeProblem` file became a
+  new last queue item rather than being chased in this run. Nothing published, no format changed;
+  README gained one sentence and the step list one line.
+
 ## Mistakes and dead ends
 
 - 2026-11-22 (run 1): first draft of the derivation checker's mutation test had two weak
@@ -278,6 +287,13 @@ Running notes of the loop: decisions, mistakes, dead ends, and notes for the own
   text, where two of them run across a line break; the copy's safety assert (`count == 1`) stopped
   it, no corrupted copy was written, and the check then failed only on a missing file. Redone on the
   whitespace-collapsed text, which is what the check reads.
+
+- 2026-11-22 (run 20): the step 24 quote script crashed on printing `→` (Windows console code
+  page cp1252) before its verdict, in the normal and in the mutated run; both exited 1. Fixed with
+  `ascii()` and rerun (normal 0, mutated 1 with the three intended reasons).
+- 2026-11-22 (run 20): the first draft of step 24 shortened file hashes to "first 8 ... last 2"
+  characters and wrote the last two from memory; most were wrong. Replaced by full hashes, each then
+  found once in the step file by a command that hashed the scratch files again.
 
 ## For other repositories
 
@@ -468,3 +484,10 @@ Running notes of the loop: decisions, mistakes, dead ends, and notes for the own
 - A mutation must be applied to the text in the same form the checker reads it (here after
   collapsing whitespace). On the raw form a quote split across lines is not found, and a run that
   then fails on a missing file looks like a passing mutation test unless the failure reason is read.
+
+- A script that prints non-ASCII text (Lean arrows, accented names) can crash on a Windows
+  console before printing its verdict, and its exit code 1 then looks like a failed check, or in a
+  mutation run like a successful one. Print with `ascii()` or set the output encoding, and read the
+  failure reason of every mutation run, not only its exit code.
+- Never shorten a hash by hand. Copy it whole from the command output, or cut it with a command;
+  then grep the record for each hash the files really have.

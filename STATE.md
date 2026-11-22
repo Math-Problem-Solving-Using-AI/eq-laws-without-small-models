@@ -22,17 +22,13 @@ to one element, has a finite model, or has only infinite models.
    Since step 10 each collapse has two stored derivations (the second is the partner's proof read
    backwards); a second checker should check all four. Waits for the owner, see Blocked (step 22:
    no second prover is installed, z3 is the only one).
-3. **Read the README of `github.com/YanbiaoLab/trace-tree-magmas`** (the code of 2609.05690) with
-   `gh api`: what its Lean certificates look like, which Lean and Mathlib versions, which license.
-   A lead for the blocked Lean item 1, not a source of our results. Step 23: the paper names
-   "Judge v3 revision 380d1b2c, Lean 4.33.1, and Mathlib revision 0df444a3"; compare with the README.
-4. **Read the Zenodo record of the 2026 preprint** "Seeded infinite models of the Austin identities
+3. **Read the Zenodo record of the 2026 preprint** "Seeded infinite models of the Austin identities
    E5093 and E5107" (Jason Peng, `doi:10.5281/zenodo.24340685`, found in step 22 by its OpenAlex
    record only): read `zenodo.org/robots.txt` first in its own request. Record what E5093 and E5107
    are (ETP magma laws, by the title), how its "seeded" models compare with our term models, and
    whether it mentions a unary operation. A lead, not a source of our results. Step 23: E5093 and
    E5107 are not among the 32 laws of arXiv 2609.05690.
-5. **Retry the Wrocław university digital library** (`digilab.uwr.edu.pl`) for its record of
+4. **Retry the Wrocław university digital library** (`digilab.uwr.edu.pl`) for its record of
    Kisielewicz, "Austin identities" (1997): its robots.txt answered 502 twice on 2026-11-22 (step 18).
    Read robots.txt first; fetch nothing if it cannot be read. If the record has the text, read how
    "Austin identity" is defined (any type of algebra, or groupoids only).
@@ -40,10 +36,10 @@ to one element, has a finite model, or has only infinite models.
    groupoids" (2006), record `cn=E1BGBB_2006_v22n2_215`, which cites Dudek's 1988 note (step 19):
    its robots.txt gave an empty reply on both domains on 2026-11-22. If readable, record what it
    says about Dudek 1988 and whether it quotes `(ex)y = x`.
-6. **Confirm the raised number in Ernst's slides** (`ee = 2^5` where their table gives `2^3`, step
+5. **Confirm the raised number in Ernst's slides** (`ee = 2^5` where their table gives `2^3`, step
    16): look whether a PDF renderer is already installed (install nothing); if one is, render that
    slide as a picture and read it.
-7. **Check by machine that the four infinite models fit the ETP's canonization conditions** (step
+6. **Check by machine that the four infinite models fit the ETP's canonization conditions** (step
    20, a hand reading so far): the ETP report (`paper/metatheorems.tex`, lines 54 to 121 in the
    clone at `dbc9a2b`) proves that a rewrite `R` that is "weakly collapsing, a weak canonizer, and
    non-overlapping" gives a syntactic model, for magmas. Write the three conditions for our models
@@ -51,24 +47,31 @@ to one element, has a finite model, or has only infinite models.
    on a sample by plain code, with a mutation test, and say whether the ETP proof carries over to
    `f` (hand argument until checked). This would be a second route to "the model satisfies its
    law", next to `term_models_z3.py`.
-8. **Read the Knuth-Bendix paper (1970)**, "Simple word problems in universal algebras", in the
+7. **Read the Knuth-Bendix paper (1970)**, "Simple word problems in universal algebras", in the
    open copy at `www.cs.tufts.edu/~nr/cs257/archive/don-knuth/knuth-bendix.pdf` (robots.txt first,
    in its own request): a web-search summary (step 20, not read) says it has an example with a
    unary operator. Record whether it treats free algebras of one binary and one unary operation and
    whether any of our laws or models appear. Needs a way to read the PDF text with tools already
    installed; install nothing.
-9. **Read the arXiv abstract page of 2602.16324** (M. Janota, M. Rawson, S. Schulz, "Case study:
+8. **Read the arXiv abstract page of 2602.16324** (M. Janota, M. Rawson, S. Schulz, "Case study:
    saturations as explicit models in equational theories", 2026, cited in step 23): only `/abs`,
    after arXiv's robots.txt in its own request and 15 seconds from every request. Step 23 quotes
    arXiv 2609.05690 saying "A saturated unit-equational clause set can sometimes be read as a
    convergent rewrite presentation of an explicit, possibly infinite model." Record whether this is
    the same kind of model as our four term models and whether its conditions (termination,
-   confluence) could check them; a lead for item 7.
-10. **Find an open copy of A. K. Austin, "Finite models for laws in two variables"** (Proc. AMS 17,
+   confluence) could check them; a lead for item 6 (canonization conditions).
+9. **Find an open copy of A. K. Austin, "Finite models for laws in two variables"** (Proc. AMS 17,
    1966, pp. 1410–1412, as cited in arXiv 2609.05690, step 23): look up its record in OpenAlex
    (robots.txt `Allow: /`, read again first, 10 seconds between requests) and record where it is
    open. If only on ams.org, add it to the owner's ams.org question under Blocked; fetch nothing
    from ams.org.
+10. **Find where `JudgeProblem` of `YanbiaoLab/trace-tree-magmas` is stated** (step 24: every
+   certificate starts `import JudgeProblem`, which is not among the repository's 993 files): read
+   `arxiv-v1/experiments/unrestricted_four_search_20260904/runner/vendor/solver_runtime_sandbox/judge.py`
+   and `scripts/submit_judge_v3.py` with `gh api` (two seconds between requests). Record how their
+   Lean goal ("the law has a model with two different elements") is written, if it is shown, as a
+   pattern for the Lean statement of blocked item 1. Also unknown from step 24: what `lean-4a7ab54d`
+   in their Judge version string names (not a Lean commit).
 
 ## Done
 
@@ -197,10 +200,17 @@ to one element, has a finite model, or has only infinite models.
   the same free-pair default as ours (hand reading). Two leads queued: Janota, Rawson and Schulz
   (arXiv 2602.16324) and Austin 1966. No label changed.
 
+- 2026-11-22: step 24 (loop run 20). Read the code repository of the "Trace-Tree Magmas" paper on
+  GitHub (through the API, after both GitHub robots.txt files): its Lean certificates are
+  Apache-2.0, the paper's text is all rights reserved; each certificate builds trees from `e`, `k`,
+  `p` and proves `k(e) ≠ e`, but imports a `JudgeProblem` file that is not published, so their
+  statements cannot be checked from the repository. The Mathlib commit matches "Lean 4.33.1"; the
+  Lean part of their version string is not a Lean commit (unknown). Nothing copied. No label changed.
+
 ## Last iteration
 
-2026-11-22 (loop run 19): read the full text of a 2026 paper that builds infinite examples for laws with one operation; it never treats a second, one-input operation like our `f`, does not mention our laws, and does not give Kisielewicz's old definition of "Austin identity", though its examples are built the same way as ours.
-Next run: the two checking tasks still wait for the owner (they need new software), so the next run reads the description page of that paper's code on GitHub (with the `gh` tool) to see how its Lean proofs are set up.
+2026-11-22 (loop run 20): looked at the public code of a 2026 paper that proves infinite examples in the proof checker Lean; its Lean files may be reused under a common open license and show a pattern we could follow later, but the file that says what they prove is not published, and one version label in it could not be matched.
+Next run: the two checking tasks still wait for the owner (they need new software), so the next run reads the record of a 2026 preprint on Zenodo about infinite examples for two such laws.
 
 ## Blocked
 
@@ -208,6 +218,9 @@ Next run: the two checking tasks still wait for the owner (they need new softwar
   Lean is not installed on this machine (`lean`, `lake`, `elan` not found, 2026-11-22, run 5), and
   installing a new tool needs the owner's decision: should the loop install Lean (elan) and Mathlib,
   and which version?
+  Related (step 24): if Lean comes, may a Lean file here follow the certificate pattern of
+  `YanbiaoLab/trace-tree-magmas` (Apache-2.0, which asks to keep its notice), or should it be
+  written without looking at it?
 - Queue item 2 (second check of the collapse proofs), the part without Lean: no second prover is
   installed either (16 names looked for, only z3 found, 2026-11-22, run 18). Decision needed: may the
   loop install one (for example Vampire, E, Prover9 or Twee), and which?
