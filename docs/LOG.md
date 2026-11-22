@@ -121,6 +121,15 @@ Running notes of the loop: decisions, mistakes, dead ends, and notes for the own
   added to the repository: the result is a citation, checked by a scratch script with a mutation.
   Nothing published, no format changed.
 
+- 2026-11-22 (run 16): queue item 1 (Lean review) is still blocked, so took item 2 (literature check
+  of the 2,828 non-implications). Read the ETP report and blueprint in the local clone first (no
+  network), then searched the web (summaries only), OpenAlex (after its robots.txt) and GitHub. No
+  page of Springer, AMS or zbMATH was fetched. The finding that our models have the shape of the
+  ETP's "canonizers" is kept as a hand reading; checking it by machine became its own queue item
+  rather than part of this run, to keep one item per run. The Knuth-Bendix lead (a PDF) was queued,
+  not read, because reading a PDF needs a tool check first. Nothing published, no format changed;
+  README and llms.txt gained one sentence each.
+
 ## Mistakes and dead ends
 
 - 2026-11-22 (run 1): first draft of the derivation checker's mutation test had two weak
@@ -222,6 +231,14 @@ Running notes of the loop: decisions, mistakes, dead ends, and notes for the own
 - 2026-11-22 (run 15): dead end: KoreaScience (`www.koreascience.or.kr`, `www.koreascience.kr`) gave
   an empty reply to its robots.txt at 20:40 and 20:41 UTC.
 
+- 2026-11-22 (run 16): the scratch quote checker wrote LaTeX quotes as ordinary Python strings, so
+  `\G` and `\[` became escape sequences and two real quotes were reported missing. Fixed with raw
+  strings before the mutation run.
+- 2026-11-22 (run 16): `python -I` ignores `PYTHONIOENCODING`; printing an OpenAlex title with a
+  Greek letter crashed on the Windows console. Fixed with `sys.stdout.reconfigure(encoding="utf-8")`.
+- 2026-11-22 (run 16): the times of the six web searches were not written down one by one (only a
+  range). The OpenAlex and GitHub requests have exact times.
+
 ## For other repositories
 
 - eq-unary-magma-laws (for the owner): `(x*y)*f(z) = y` collapses (step 05 here, `z3-only` plus
@@ -295,6 +312,12 @@ Running notes of the loop: decisions, mistakes, dead ends, and notes for the own
   Kisielewicz's 1990 chapter cites J. Dudek, "A note on models of identities", Algebra Universalis
   25 (1988), 400-401 (DOI `10.1007/BF01229987`), a candidate source for Dudek's `(ex)y = x`
   (title only seen, via Crossref; step 18 here).
+
+- eq-unary-magma-laws (for the owner): the ETP report's section "Canonization"
+  (`paper/metatheorems.tex`, lines 54 to 121, clone at `dbc9a2b`) describes the syntactic models
+  ("rewrite the law's left side to its right side, leave other terms alone") that this repository
+  uses as infinite counterexamples (step 20 here). A citation for its `docs/PRIOR_WORK.md`, as the
+  known magma method behind any term-model refutation there.
 
 ## Lessons for the hub
 
@@ -374,3 +397,10 @@ Running notes of the loop: decisions, mistakes, dead ends, and notes for the own
   did nothing looks like a checker failure, or worse, like a pass.
 - Put the wait between requests to one site into the command itself (for example a `sleep` inside
   the script that makes the requests), not into the operator's memory.
+- A literature check of a result should also ask "is the method known?", and the cheapest place to
+  look is a source already cloned locally: here the ETP report's LaTeX source named the method
+  behind 2,828 of our certificates, with no network request.
+- Write LaTeX or regex quotes in Python as raw strings (`r"..."`); otherwise backslashes vanish and
+  a correct quote looks missing.
+- A "0 hits" from GitHub code search is only evidence if a control query in the same session finds
+  a known item.

@@ -14,33 +14,31 @@ to one element, has a finite model, or has only infinite models.
    argument is about all finite structures and needs a human reviewer or a Lean proof. Write the
    Lean statement with an English reading next to it and check it as in `docs/shared/LEAN_CAVEATS.md`
    (statement fidelity first). Waits for the owner, see Blocked (no Lean on this machine).
-2. **Literature check: the 2,828 non-implications of step 11** (search terms such as "term model",
-   "free algebra", "identities of type (2,1)").
-3. **Re-run the main repository's count check** (`src/check_laws_count.py`, read only, `python -B`)
+2. **Re-run the main repository's count check** (`src/check_laws_count.py`, read only, `python -B`)
    on `data/laws_3.json` and record whether its 712 laws are all and only the short laws, since
    steps 11 and 12 rely on that list (step 12 "NOT verified").
-4. **Second independent check of the collapse proofs** (`check_derivation.py` was written in the same
+3. **Second independent check of the collapse proofs** (`check_derivation.py` was written in the same
    session as the proof): a Lean proof following `docs/shared/LEAN_CAVEATS.md`, or a second prover.
    Installing a new tool needs the owner. The same Lean file could prove the mirror rule used in
    step 09 (a structure satisfies a law exactly when its mirror satisfies the mirror law), which is
    a hand argument so far.
    Since step 10 each collapse has two stored derivations (the second is the partner's proof read
    backwards); a second checker should check all four.
-5. **Deeper literature search for the two collapses** (`(x*y)*f(z) = y`, `f(x)*(y*z) = y`): step 14
+4. **Deeper literature search for the two collapses** (`(x*y)*f(z) = y`, `f(x)*(y*z) = y`): step 14
    searched only the web and GitHub (nothing found). zbMATH Open disallows the loop's agent (step 18,
    see Blocked), so do the part that needs no owner: search an open index that allows it (OpenAlex,
    robots.txt `Allow: /` on 2026-11-22) by title words (identities of type (2,1), unary operation,
    one-element or trivial algebra); record queries, dates and what could not be read. The same
    search can cover the four candidate Austin laws.
-6. **Read the HTML full text of arXiv 2609.05690v3** (step 17 read only its abstract page): only
+5. **Read the HTML full text of arXiv 2609.05690v3** (step 17 read only its abstract page): only
    `/html/2609.05690v3`, after arXiv's robots.txt in its own request and 15 seconds from every
    request. Record whether the body mentions unary operations, other types of algebra, or laws
    like ours, how its "trace-tree magmas" compare with our term models (`term_models_z3.py`), and
    whether it quotes Kisielewicz's definition of "Austin identity" (step 18: not found elsewhere).
-7. **Read the README of `github.com/YanbiaoLab/trace-tree-magmas`** (the code of 2609.05690) with
+6. **Read the README of `github.com/YanbiaoLab/trace-tree-magmas`** (the code of 2609.05690) with
    `gh api`: what its Lean certificates look like, which Lean and Mathlib versions, which license.
    A lead for the blocked Lean item 1, not a source of our results.
-8. **Retry the Wrocław university digital library** (`digilab.uwr.edu.pl`) for its record of
+7. **Retry the Wrocław university digital library** (`digilab.uwr.edu.pl`) for its record of
    Kisielewicz, "Austin identities" (1997): its robots.txt answered 502 twice on 2026-11-22 (step 18).
    Read robots.txt first; fetch nothing if it cannot be read. If the record has the text, read how
    "Austin identity" is defined (any type of algebra, or groupoids only).
@@ -48,9 +46,23 @@ to one element, has a finite model, or has only infinite models.
    groupoids" (2006), record `cn=E1BGBB_2006_v22n2_215`, which cites Dudek's 1988 note (step 19):
    its robots.txt gave an empty reply on both domains on 2026-11-22. If readable, record what it
    says about Dudek 1988 and whether it quotes `(ex)y = x`.
-9. **Confirm the raised number in Ernst's slides** (`ee = 2^5` where their table gives `2^3`, step
+8. **Confirm the raised number in Ernst's slides** (`ee = 2^5` where their table gives `2^3`, step
    16): look whether a PDF renderer is already installed (install nothing); if one is, render that
    slide as a picture and read it.
+9. **Check by machine that the four infinite models fit the ETP's canonization conditions** (step
+   20, a hand reading so far): the ETP report (`paper/metatheorems.tex`, lines 54 to 121 in the
+   clone at `dbc9a2b`) proves that a rewrite `R` that is "weakly collapsing, a weak canonizer, and
+   non-overlapping" gives a syntactic model, for magmas. Write the three conditions for our models
+   with `f` (models A and D rewrite `f`, B and C rewrite `*`), check them with z3 on all terms and
+   on a sample by plain code, with a mutation test, and say whether the ETP proof carries over to
+   `f` (hand argument until checked). This would be a second route to "the model satisfies its
+   law", next to `term_models_z3.py`.
+10. **Read the Knuth-Bendix paper (1970)**, "Simple word problems in universal algebras", in the
+   open copy at `www.cs.tufts.edu/~nr/cs257/archive/don-knuth/knuth-bendix.pdf` (robots.txt first,
+   in its own request): a web-search summary (step 20, not read) says it has an example with a
+   unary operator. Record whether it treats free algebras of one binary and one unary operation and
+   whether any of our laws or models appear. Needs a way to read the PDF text with tools already
+   installed; install nothing.
 
 ## Done
 
@@ -153,18 +165,24 @@ to one element, has a finite model, or has only infinite models.
   abstract or review is open, so what it proves is still unknown. A 2006 paper by Cho and Dudek that
   cites it was found; its site (KoreaScience) did not answer, so it was not read. No label changed.
 
+- 2026-11-22: step 20 (loop run 16). Literature check of the 2,828 non-implications of step 11
+  (shallow: 6 web, 5 OpenAlex and 6 GitHub searches, titles and summaries only): none found stated
+  anywhere, which does not make them new. The way our four infinite models are built is a known
+  method for magmas, the ETP report's "canonizers" (read in the local clone); that our models meet
+  its three conditions is a hand reading, queued for a machine check. No label changed.
+
 ## Last iteration
 
-2026-11-22 (loop run 15): looked for the paper behind the identity `(ex)y = x` that a 2008 talk credits to "Dudek"; two independent open catalogues agree on a short 1988 note by Józef Dudek, but none of the open places we may use has a free copy or a summary of it, so what it proves is still unknown; a 2006 paper that cites it sits on a site that did not answer.
-Next run: the Lean item still waits for the owner, so the next run does a literature check of the 2,828 "does not imply" results from step 11.
+2026-11-22 (loop run 16): looked for the 2,828 "law A does not imply law B" results in papers, an open paper index and GitHub; none of them was found written down anywhere (a shallow search, so this does not make them new), and the way our infinite example structures are built turned out to be a method the Equational Theories Project already describes for the simpler one-operation case.
+Next run: the Lean item still waits for the owner, so the next run re-runs the main repository's count of its 712 short laws (read only) and records whether the list is complete.
 
 ## Blocked
 
-- Queue item 1 (Lean review of the four finite-versus-general leads) and the Lean part of item 4:
+- Queue item 1 (Lean review of the four finite-versus-general leads) and the Lean part of item 3:
   Lean is not installed on this machine (`lean`, `lake`, `elan` not found, 2026-11-22, run 5), and
   installing a new tool needs the owner's decision: should the loop install Lean (elan) and Mathlib,
   and which version?
-- zbMATH Open (part of queue item 5, and of the Dudek question closed in step 19): its robots.txt (read 2026-11-22, run 14) says
+- zbMATH Open (part of queue item 4, and of the Dudek question closed in step 19): its robots.txt (read 2026-11-22, run 14) says
   `Disallow: /` for `anthropic-ai`, `ClaudeBot` and `Claude-Web`. Decision needed: should the loop
   leave zbMATH alone (current behaviour), or may the owner look up the reviews of Kisielewicz 1990
   and 1997 and Dudek 1988 by hand and save them in the repository? (Step 19: what Dudek 1988 proves
