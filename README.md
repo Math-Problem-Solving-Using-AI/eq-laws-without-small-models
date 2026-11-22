@@ -61,13 +61,18 @@ collapse in the main repository (three re-runs of that query in step 09 agree), 
 
 ### Leads from hand analysis (NOT machine-proven): candidate Austin laws
 
-Vocabulary (literature check, eq-unary-magma-laws `docs/PRIOR_WORK.md`): a law with infinite models
-but no nontrivial finite model is called an **Austin law**. ETP blueprint: "no law of order four or
-less is an Austin law" for magmas. With a unary operation, size 3 seems enough, much as a short
-identity with a constant, `(ex)y = x` (Dudek), has only infinite nontrivial models. So the four laws
-below are **candidate Austin laws in type (2,1)**. This kind of result is known in general. We found
-nothing about the first two specific laws; no search was done for the third, `(f(x)*y)*z = y`,
-or the fourth, `f((x*y)*z) = y`.
+Vocabulary (source re-read in step 13): the ETP blueprint (`blueprint/src/chapter/infinite_models.tex`,
+read in a clone at commit `dbc9a2b`, 2026-11-19) defines: "An *Austin law* is a law which admits
+infinite models, but no nontrivial finite models". That definition is for magmas (one operation
+`*`); the ETP's published report (arXiv 2512.07087v2) does not use the term. Carrying it over to
+our laws with `f` is our own step. Known magma examples: Austin (1965, order 9), Kisielewicz (1990,
+order 6; 1997, order 5), and 10 laws of order 5 in the ETP blueprint, which also says "no law of
+order four or less is an Austin law" (magmas only). With a unary operation, size 3 seems enough,
+much as a short identity with a constant, `(ex)y = x` (Dudek; slides read only by a subagent in the
+main repository), has only infinite nontrivial models. So the four laws below are **candidate
+Austin laws in type (2,1)**. Whether Kisielewicz's papers define the term for all types of algebra
+is unknown (not read). We found nothing about the first two specific laws; no search was done for
+the third, `(f(x)*y)*z = y`, or the fourth, `f((x*y)*z) = y`.
 The arguments for the first two were re-read step by step on 2026-11-22 (second reading, still not
 a human reviewer, not Lean); the third and fourth have had one reading each.
 
