@@ -43,6 +43,9 @@ mutation-tested, each also checked read backwards in the mirror model). The othe
 the law itself with letters made equal, so they are implied. Label `z3-only`, because that the
 model satisfies its law is checked on all terms only by z3. This is implication over all
 structures; for finite structures these laws (by the hand argument below) imply every law.
+The 712 law texts and ids in that file are the main repository's: each text equals the main
+repository's text for its id and reads back to its stored term tree (step 12, `check_copied_laws.py`,
+which needs the main repository next to this one).
 
 **Mirror pairs** (noticed in step 07, checked by machine in step 09): reading every product `a*b`
 as `b*a` turns a model of one law into a model of its mirror law. `f(x*(y*z)) = y` and
@@ -157,6 +160,7 @@ checked by a human, Lean, or another prover. Not checked against the literature.
 9. `09-mirror-pairs-by-machine.md`
 10. `10-mirror-collapse-proofs.md`
 11. `11-refutations-from-infinite-models.md`
+12. `12-copied-law-texts.md`
 
 ## Files
 
@@ -177,6 +181,8 @@ checked by a human, Lean, or another prover. Not checked against the literature.
   main repository's list fails (plain search, then z3). Output: `results/refutations_term_models.json`.
 - `check_refutations.py` plain-Python checker of those certificates (own copy of the models, laws
   read from their texts, mirror cross-check), with `--selftest`.
+- `check_copied_laws.py` checks that the law ids and texts in that results file are the main
+  repository's and read back to its term trees, with `--selftest`. Needs the main repository.
 - Depends on the engine in `src/` of [eq-unary-magma-laws](https://github.com/Math-Problem-Solving-Using-AI/eq-unary-magma-laws) (clone it next to this repository) and its generated data.
 
 ## Reproduce
@@ -213,6 +219,14 @@ Regenerating `results/zero_model_laws.json` needs the engine and generated data 
 ```
 P=../eq-unary-magma-laws
 python zero_model_laws.py $P/data/laws_3.json $P/data/o3 6 15000     # or set EQ_ENGINE to its src/
+```
+
+The copied law texts are checked against the main repository's term trees (not in CI, it needs
+that repository):
+
+```
+python check_copied_laws.py results/refutations_term_models.json            # 2,848 references, 712 ids
+python check_copied_laws.py --selftest results/refutations_term_models.json # corrupted input must fail
 ```
 
 ## Contributing
