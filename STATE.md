@@ -14,43 +14,43 @@ to one element, has a finite model, or has only infinite models.
    argument is about all finite structures and needs a human reviewer or a Lean proof. Write the
    Lean statement with an English reading next to it and check it as in `docs/shared/LEAN_CAVEATS.md`
    (statement fidelity first). Waits for the owner, see Blocked (no Lean on this machine).
-2. **Find Dudek's primary source** for the identity `(ex)y = x` (Ernst's 2008 slides, read in
-   step 16, give no reference): which Dudek, which paper and year, what it proves. Look for an open
-   source (an author page, Crossref or OpenAlex metadata), read robots.txt first, label what could not be read. If a
-   PDF renderer becomes available, also confirm the raised number in the slides' `ee = 2^5`.
-   Lead from step 18: Kisielewicz's 1990 chapter cites J. Dudek, "A note on models of identities",
-   Algebra Universalis 25 (1988), 400-401, DOI `10.1007/BF01229987` (title only seen; zbMATH is
-   not available to the loop, see Blocked).
-3. **Literature check: the 2,828 non-implications of step 11** (search terms such as "term model",
+2. **Literature check: the 2,828 non-implications of step 11** (search terms such as "term model",
    "free algebra", "identities of type (2,1)").
-4. **Re-run the main repository's count check** (`src/check_laws_count.py`, read only, `python -B`)
+3. **Re-run the main repository's count check** (`src/check_laws_count.py`, read only, `python -B`)
    on `data/laws_3.json` and record whether its 712 laws are all and only the short laws, since
    steps 11 and 12 rely on that list (step 12 "NOT verified").
-5. **Second independent check of the collapse proofs** (`check_derivation.py` was written in the same
+4. **Second independent check of the collapse proofs** (`check_derivation.py` was written in the same
    session as the proof): a Lean proof following `docs/shared/LEAN_CAVEATS.md`, or a second prover.
    Installing a new tool needs the owner. The same Lean file could prove the mirror rule used in
    step 09 (a structure satisfies a law exactly when its mirror satisfies the mirror law), which is
    a hand argument so far.
    Since step 10 each collapse has two stored derivations (the second is the partner's proof read
    backwards); a second checker should check all four.
-6. **Deeper literature search for the two collapses** (`(x*y)*f(z) = y`, `f(x)*(y*z) = y`): step 14
+5. **Deeper literature search for the two collapses** (`(x*y)*f(z) = y`, `f(x)*(y*z) = y`): step 14
    searched only the web and GitHub (nothing found). zbMATH Open disallows the loop's agent (step 18,
    see Blocked), so do the part that needs no owner: search an open index that allows it (OpenAlex,
    robots.txt `Allow: /` on 2026-11-22) by title words (identities of type (2,1), unary operation,
    one-element or trivial algebra); record queries, dates and what could not be read. The same
    search can cover the four candidate Austin laws.
-7. **Read the HTML full text of arXiv 2609.05690v3** (step 17 read only its abstract page): only
+6. **Read the HTML full text of arXiv 2609.05690v3** (step 17 read only its abstract page): only
    `/html/2609.05690v3`, after arXiv's robots.txt in its own request and 15 seconds from every
    request. Record whether the body mentions unary operations, other types of algebra, or laws
    like ours, how its "trace-tree magmas" compare with our term models (`term_models_z3.py`), and
    whether it quotes Kisielewicz's definition of "Austin identity" (step 18: not found elsewhere).
-8. **Read the README of `github.com/YanbiaoLab/trace-tree-magmas`** (the code of 2609.05690) with
+7. **Read the README of `github.com/YanbiaoLab/trace-tree-magmas`** (the code of 2609.05690) with
    `gh api`: what its Lean certificates look like, which Lean and Mathlib versions, which license.
    A lead for the blocked Lean item 1, not a source of our results.
-9. **Retry the Wrocław university digital library** (`digilab.uwr.edu.pl`) for its record of
+8. **Retry the Wrocław university digital library** (`digilab.uwr.edu.pl`) for its record of
    Kisielewicz, "Austin identities" (1997): its robots.txt answered 502 twice on 2026-11-22 (step 18).
    Read robots.txt first; fetch nothing if it cannot be read. If the record has the text, read how
    "Austin identity" is defined (any type of algebra, or groupoids only).
+   Same run, same rules: retry KoreaScience for J. R. Cho and J. Dudek, "A note on the Austin's
+   groupoids" (2006), record `cn=E1BGBB_2006_v22n2_215`, which cites Dudek's 1988 note (step 19):
+   its robots.txt gave an empty reply on both domains on 2026-11-22. If readable, record what it
+   says about Dudek 1988 and whether it quotes `(ex)y = x`.
+9. **Confirm the raised number in Ernst's slides** (`ee = 2^5` where their table gives `2^3`, step
+   16): look whether a PDF renderer is already installed (install nothing); if one is, render that
+   slide as a picture and read it.
 
 ## Done
 
@@ -147,18 +147,25 @@ to one element, has a finite model, or has only infinite models.
   paper (both closed). Definition still unknown. Found on the way: his 1990 chapter cites Dudek,
   "A note on models of identities" (1988), a lead for Dudek's source. No label changed.
 
+- 2026-11-22: step 19 (loop run 15). Looked for Dudek's source for `(ex)y = x` in open places:
+  Crossref, OpenAlex and Ježek's universal-algebra bibliography agree that Józef Dudek wrote "A note
+  on models of identities", Algebra Universalis 25 (1988), 400-401 (a candidate source). No text,
+  abstract or review is open, so what it proves is still unknown. A 2006 paper by Cho and Dudek that
+  cites it was found; its site (KoreaScience) did not answer, so it was not read. No label changed.
+
 ## Last iteration
 
-2026-11-22 (loop run 14): looked in five open places on the web for how Kisielewicz, who named "Austin identities", defines the term; none had the papers or a summary, one library was down and the mathematics review database zbMATH asks programs like this one not to visit, so the answer is still unknown; on the way we found a 1988 note by Dudek that may be the source of the identity `(ex)y = x`.
-Next run: look for Dudek's paper on `(ex)y = x`, starting from that 1988 note; the Lean items and any use of zbMATH wait for the owner.
+2026-11-22 (loop run 15): looked for the paper behind the identity `(ex)y = x` that a 2008 talk credits to "Dudek"; two independent open catalogues agree on a short 1988 note by Józef Dudek, but none of the open places we may use has a free copy or a summary of it, so what it proves is still unknown; a 2006 paper that cites it sits on a site that did not answer.
+Next run: the Lean item still waits for the owner, so the next run does a literature check of the 2,828 "does not imply" results from step 11.
 
 ## Blocked
 
-- Queue item 1 (Lean review of the four finite-versus-general leads) and the Lean part of item 5:
+- Queue item 1 (Lean review of the four finite-versus-general leads) and the Lean part of item 4:
   Lean is not installed on this machine (`lean`, `lake`, `elan` not found, 2026-11-22, run 5), and
   installing a new tool needs the owner's decision: should the loop install Lean (elan) and Mathlib,
   and which version?
-- zbMATH Open (part of queue items 2 and 6): its robots.txt (read 2026-11-22, run 14) says
+- zbMATH Open (part of queue item 5, and of the Dudek question closed in step 19): its robots.txt (read 2026-11-22, run 14) says
   `Disallow: /` for `anthropic-ai`, `ClaudeBot` and `Claude-Web`. Decision needed: should the loop
   leave zbMATH alone (current behaviour), or may the owner look up the reviews of Kisielewicz 1990
-  and 1997 and Dudek 1988 by hand and save them in the repository?
+  and 1997 and Dudek 1988 by hand and save them in the repository? (Step 19: what Dudek 1988 proves
+  has no open source either; only a review or the paper itself can tell.)

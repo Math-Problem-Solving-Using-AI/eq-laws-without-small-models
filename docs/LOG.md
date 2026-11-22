@@ -111,6 +111,16 @@ Running notes of the loop: decisions, mistakes, dead ends, and notes for the own
   to Blocked, because using a site against its robots.txt or through a side door is the owner's
   call. Nothing published, no format changed.
 
+- 2026-11-22 (run 15): queue item 1 (Lean review) is still blocked, so took item 2 (Dudek's source
+  for `(ex)y = x`). Only open metadata and one open bibliography, each after its robots.txt: Crossref,
+  OpenAlex, Ježek's `bibua.tex`; KoreaScience's robots.txt gave an empty reply, so nothing fetched
+  there. Nothing sent but the addresses. Closed the item with "which paper: a candidate by metadata;
+  what it proves: unknown", because the remaining part needs the paper or a review, and those are
+  behind Springer or zbMATH (owner's call, already under Blocked). The KoreaScience retry joined the
+  library retry item, and the PDF-renderer part of the old item became its own small item. No script
+  added to the repository: the result is a citation, checked by a scratch script with a mutation.
+  Nothing published, no format changed.
+
 ## Mistakes and dead ends
 
 - 2026-11-22 (run 1): first draft of the derivation checker's mutation test had two weak
@@ -202,6 +212,15 @@ Running notes of the loop: decisions, mistakes, dead ends, and notes for the own
   `Invoke-WebRequest` (Windows completes the chain) instead of turning certificate checks off.
 - 2026-11-22 (run 14): dead end: `digilab.uwr.edu.pl` answered 502 Bad Gateway to its robots.txt at
   20:32 and 20:33 UTC.
+
+- 2026-11-22 (run 15): the waits between requests to Crossref, OpenAlex and Ježek's server were 6
+  to 7 seconds, below the 10 seconds kept in run 14. No site asked for a delay, but it is below our
+  own practice.
+- 2026-11-22 (run 15): a `sed` mutation of a copy of `bibua.tex` changed only line endings (shell
+  quoting of `\A`), so the first mutation run printed the real author. Redone in Python with an
+  assert that the text occurs once.
+- 2026-11-22 (run 15): dead end: KoreaScience (`www.koreascience.or.kr`, `www.koreascience.kr`) gave
+  an empty reply to its robots.txt at 20:40 and 20:41 UTC.
 
 ## For other repositories
 
@@ -348,3 +367,10 @@ Running notes of the loop: decisions, mistakes, dead ends, and notes for the own
 - When a robots.txt cannot be read (server error such as 502), treat the site as unreadable for that
   run; do not fetch pages on the guess that nothing is disallowed. A 404 is different: by the usual
   convention it means the site states no limits.
+- A citing-works list from an open index (OpenAlex `filter=cites:`) is a cheap way to find who
+  quotes a closed paper; here it turned up a 2006 paper not seen in any earlier search.
+- When a mutation is applied with a shell tool, first check that the corrupted copy differs from the
+  original where intended (an assert on the count of the replaced text). A mutation that silently
+  did nothing looks like a checker failure, or worse, like a pass.
+- Put the wait between requests to one site into the command itself (for example a `sleep` inside
+  the script that makes the requests), not into the operator's memory.
