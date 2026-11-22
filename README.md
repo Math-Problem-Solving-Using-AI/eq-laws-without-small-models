@@ -84,6 +84,12 @@ Kisielewicz's Austin laws `x = (((y*y)*y)*x)*((y*y)*z)` (1990) and `x = (((y*y)*
 and `z` replaced by `(y*y)*z` or `y*z`, and the blueprint's finite argument for Equation28770 is
 the same as ours for `(f(x)*y)*z = y`. So the argument is of a known kind; the laws with a free `f`
 were not found stated anywhere, which does not make them new.
+**Related method (step 17, abstract page only):** arXiv 2609.05690v3 (J. Zhao, B. Wu, T. Yang,
+X. Miao, 2026, "Trace-Tree Magmas") builds infinite models of magma Austin laws on "a countably
+infinite constructor-tree carrier": "The default product pairs its arguments; finitely many positive
+Horn clauses define exceptions", and it emits a Lean 4 certificate per model. Our term models below
+have the same shape (formal pairs by default, a few exceptions). Its abstract speaks of magmas only,
+with no unary operation; its body was not read.
 The arguments for the first two were re-read step by step on 2026-11-22 (second reading, still not
 a human reviewer, not Lean); the third and fourth have had one reading each.
 
@@ -185,6 +191,8 @@ found" does not mean new. Details in `steps/05-collapse-xy-fz.md`.
 13. `13-source-of-austin-law.md`
 14. `14-literature-collapse-xy-fz.md`
 15. `15-literature-austin-candidates.md`
+16. `16-ernst-slides-dudek.md`
+17. `17-arxiv-trace-tree-magmas.md`
 
 ## Files
 
