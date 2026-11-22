@@ -130,6 +130,14 @@ Running notes of the loop: decisions, mistakes, dead ends, and notes for the own
   not read, because reading a PDF needs a tool check first. Nothing published, no format changed;
   README and llms.txt gained one sentence each.
 
+- 2026-11-22 (run 17): queue item 1 (Lean review) is still blocked, so took item 2 (re-run the main
+  repository's count check). Ran it read only (`python -B`, working tree clean after). The check
+  turned out to test the generator, not the stored file, and a mutation showed it cannot see repeats.
+  Two ways forward: change the main repository's check (writing there is outside this loop's scope),
+  or write a check here that reads the stored file. Took the second: it changes no published format,
+  publishes nothing, spends nothing. The weakness is reported for the owner below. Nothing published,
+  no format changed; README and llms.txt gained one sentence each, LOOP.md two gate lines.
+
 ## Mistakes and dead ends
 
 - 2026-11-22 (run 1): first draft of the derivation checker's mutation test had two weak
@@ -239,6 +247,13 @@ Running notes of the loop: decisions, mistakes, dead ends, and notes for the own
 - 2026-11-22 (run 16): the times of the six web searches were not written down one by one (only a
   range). The OpenAlex and GitHub requests have exact times.
 
+- 2026-11-22 (run 17): a first scratch mutation used `sed` with a newline escape in the pattern;
+  `sed` reads line by line, so it ran and changed nothing. The Python step right after it, with an
+  assert that the replaced text occurs once (the rule from run 15), applied the intended change
+  before any check was run on the copy.
+- 2026-11-22 (run 17): Git Bash's `time` showed 0 user time for a native Python run on Windows;
+  re-measured with PowerShell's `Measure-Command` (0.59 s) before trusting the speed.
+
 ## For other repositories
 
 - eq-unary-magma-laws (for the owner): `(x*y)*f(z) = y` collapses (step 05 here, `z3-only` plus
@@ -318,6 +333,15 @@ Running notes of the loop: decisions, mistakes, dead ends, and notes for the own
   ("rewrite the law's left side to its right side, leave other terms alone") that this repository
   uses as infinite counterexamples (step 20 here). A citation for its `docs/PRIOR_WORK.md`, as the
   known magma method behind any term-model refutation there.
+
+- eq-unary-magma-laws (for the owner): `src/check_laws_count.py` compares its brute force with the
+  generator `laws.py`, never with the stored `data/laws_3.json`, and it puts the generator's laws
+  into a dictionary by standard form before comparing, so a generator that lists every law twice
+  passes. Shown on 2026-11-22 (step 21 here) with a scratch copy where `key = min(a, b)` became
+  `key = a`: 1,418 entries, "MATCH", exit 0. The real list is fine (712 entries, each once, checked
+  by `check_law_list.py` here). Possible fix there: compare `len(enumerate_laws(n))` with the number
+  of classes, and also read the stored file; and add a mutation test of the count check to
+  `src/selftest_verifiers.py`. Its docstring says order 3 "takes about a minute"; it took 0.6 s here.
 
 ## Lessons for the hub
 
@@ -404,3 +428,8 @@ Running notes of the loop: decisions, mistakes, dead ends, and notes for the own
   a correct quote looks missing.
 - A "0 hits" from GitHub code search is only evidence if a control query in the same session finds
   a known item.
+- A check that compares two collections as sets (or after putting them into a dictionary) cannot see
+  repeats. When "each exactly once" matters, compare the counts before removing repeats too, and
+  include a "listed twice" mutation in its test.
+- A check of a generated file should read the file, not only re-run the program that wrote it: the
+  file may come from an older version of the program.
