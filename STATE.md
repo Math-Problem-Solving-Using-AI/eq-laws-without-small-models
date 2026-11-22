@@ -14,16 +14,17 @@ to one element, has a finite model, or has only infinite models.
    argument is about all finite structures and needs a human reviewer or a Lean proof. Write the
    Lean statement with an English reading next to it and check it as in `docs/shared/LEAN_CAVEATS.md`
    (statement fidelity first). Waits for the owner, see Blocked (no Lean on this machine).
-2. **Use the infinite models to refute implications:** for law A with an infinite model M, a law B that
-   fails in M at explicit elements gives a certificate that A does not imply B. Define a certificate
-   format (elements as terms, evaluation by plain code), verify it independently with mutation tests.
-   A certificate for one law gives one for its mirror law (mirror both laws and the model).
-   Report the counts to https://github.com/Math-Problem-Solving-Using-AI/eq-unary-magma-laws so its table can be updated.
+2. **Statement fidelity of the copied law texts** (step 11): `results/refutations_term_models.json`
+   copies 712 law texts and ids from the main repository. Re-run its `src/check_laws_text.py` (read
+   only, `python -B`) and record that each text matches its term tree, or write a small text-versus-tree
+   comparison here.
 3. **Literature check** before any novelty claim (in progress in eq-unary-magma-laws `docs/PRIOR_WORK.md`),
    now also for the collapse of `(x*y)*f(z) = y` and the candidate Austin laws `(f(x)*y)*z = y` and
    `f((x*y)*z) = y`.
    Also re-read the source of the term "Austin law" (eq-unary-magma-laws `docs/PRIOR_WORK.md` and the
    primary page it cites) before using it further.
+   Also for the 2,828 non-implications of step 11 (search terms such as "term model", "free algebra",
+   "identities of type (2,1)").
 4. **Second independent check of the collapse proofs** (`check_derivation.py` was written in the same
    session as the proof): a Lean proof following `docs/shared/LEAN_CAVEATS.md`, or a second prover.
    Installing a new tool needs the owner. The same Lean file could prove the mirror rule used in
@@ -76,10 +77,16 @@ to one element, has a finite model, or has only infinite models.
   deliberately wrong mirrors rejected). Label unchanged: `z3-only` plus our own checker. In CI and
   the LOOP gates.
 
+- 2026-11-22: step 11 (loop run 7). The four infinite term models refute 707 of 711 targets each
+  (2,828 certificates in `results/refutations_term_models.json`, made by `refute_by_term_models.py`,
+  recomputed by the new plain-Python `check_refutations.py`, 15 of 15 corruptions rejected, mirror
+  cross-check A-D and B-C). The other 4 targets per law are substitution instances of the law
+  (implied). Label `z3-only`. General implication only, nothing about finite structures.
+
 ## Last iteration
 
-2026-11-22 (loop run 6): each of the two rules that force a one-element structure got a second written proof, made by reading the other rule's proof backwards, and our checking program accepted both new proofs and rejected every deliberately broken version; this is the same checking program as before, so the trust level stays the same.
-Next run: start using the infinite structures found earlier to show, with checkable examples, that some rules do not follow from others (queue item "Use the infinite models"; the Lean items still wait for the owner).
+2026-11-22 (loop run 7): for the four rules that have only an infinite example structure, that structure shows each rule does not imply 707 of the 711 other short rules, with the exact elements where the other rule breaks; a separate checking program recomputed all 2,828 cases and rejected all 15 deliberately broken inputs, and the remaining 4 rules per law are just special cases of it; trust level `z3-only`, because that the infinite structure obeys its rule is checked only by the z3 solver.
+Next run: check that the 712 rule texts copied from the main repository match its stored rule trees (queue item 2), then the literature check; the Lean items still wait for the owner.
 
 ## Blocked
 

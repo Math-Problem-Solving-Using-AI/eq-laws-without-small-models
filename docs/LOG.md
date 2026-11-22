@@ -52,6 +52,17 @@ Running notes of the loop: decisions, mistakes, dead ends, and notes for the own
   added to CI and the LOOP gates. Label of both collapses unchanged (same checker for all four
   proofs). Next free item is 3 (refutation certificates from the infinite models).
 
+- 2026-11-22 (run 7): queue item "use the infinite models to refute implications" taken whole; it
+  fitted one session. New certificate format (`results/refutations_term_models.json`: model, target
+  law id and text, elements as constructor terms `G`, `F(t)`, `P(a,b)`, both sides' values) and new
+  files only; nothing published, no format of another repository changed. The queue said to
+  "report the counts" to the main repository: written below under "For other repositories" for the
+  owner instead, since the loop does not write there. Label `z3-only` for the non-implications, not
+  `model-verified`, because the model is infinite and its law is checked on all terms only by z3.
+  The 4 targets per law that were not refuted turned out to be substitution instances of the law;
+  the checker now proves that by matching, which decides the four rows. A new queue item checks
+  that the copied law texts match the main repository's term trees.
+
 ## Mistakes and dead ends
 
 - 2026-11-22 (run 1): first draft of the derivation checker's mutation test had two weak
@@ -90,6 +101,14 @@ Running notes of the loop: decisions, mistakes, dead ends, and notes for the own
   law-matching guard, so it never reached the checker; replaced by mutations that do (subst terms,
   rewritten terms, claims not mirrored). Found by printing every rejection reason.
 
+- 2026-11-22 (run 7): asking z3 about every law in every infinite model (10 s limit each) did not
+  finish the first model in 10 minutes; stopped. A plain search over the 89 terms with at most 7
+  symbols found 2,826 of the 2,828 witnesses in seconds; z3 is now used only for the 18 leftovers,
+  where it answers at once. `f(f(x)) = f(x)` fails in models A and D only at a term with 9 symbols.
+- 2026-11-22 (run 7): a hand-made corrupted file for the exit-code test was not corrupted: the value
+  written in was the stored value already. Same mistake as the run 6 lesson; caught because the run
+  printed ALL PASS where a failure was expected.
+
 ## For other repositories
 
 - eq-unary-magma-laws (for the owner): `(x*y)*f(z) = y` collapses (step 05 here, `z3-only` plus
@@ -123,6 +142,16 @@ Running notes of the loop: decisions, mistakes, dead ends, and notes for the own
   `(x*y)*f(z) = y` now has a second stored derivation, the other law's proof read backwards
   (`results/*_by_mirror.json`, step 10 here), accepted by the same checker. No label change.
 
+- eq-unary-magma-laws (for the owner): the four rows `f(x*(y*z)) = y` (id 450), `x*(y*f(z)) = y`
+  (id 639), `(f(x)*y)*z = y` (id 135) and `f((x*y)*z) = y` (id 336), code 5 in its status table, are
+  decided for implication over all structures (step 11 here): in each row, 707 targets are NOT
+  implied (2,828 certificates in `results/refutations_term_models.json`, witnesses in an infinite
+  term model, recomputed by plain Python; label `z3-only` because the model's own law is checked on
+  all terms only by z3), and 4 targets are substitution instances of the law (implied). Counts per
+  row: 707 not implied, 4 implied. The certificates use the main repository's law ids and texts.
+  Updating codes 5 for these rows would need a new code or certificate kind there (infinite models
+  are not tables), which is the owner's call.
+
 ## Lessons for the hub
 
 - When a mutation test reports "N of N caught", print the reason each mutation was rejected. A
@@ -147,3 +176,11 @@ Running notes of the loop: decisions, mistakes, dead ends, and notes for the own
   mutation of a rule the data never exercises (here: mirroring inside `f`, when `f` only wraps
   letters) changes nothing and can only be "not caught"; a count that silently skipped it would
   overstate what was tested.
+
+- To refute implications with an infinite term model, try a plain search over small terms before
+  asking a solver: here every witness but two used terms with at most 7 symbols, and the search
+  took seconds where z3 on every query did not finish in 10 minutes. Ask the solver only for the
+  leftovers, and check its witnesses with plain code.
+- When a law is not refuted by a model of itself, check first whether it is just a substitution
+  instance of that law (letters made equal). Such targets are implied in one step and need no
+  solver.

@@ -164,4 +164,5 @@ plus all LOOP gates.
 
 ## Next
 
-Queue: Lean items wait for the owner; the next free item is the literature check (item 3).
+Queue item 2 (check that the 712 copied law texts match the main repository's term trees), then
+the literature check (item 3). The Lean items wait for the owner.
