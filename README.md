@@ -1,9 +1,9 @@
 # Nine laws with no small model: do they collapse?
 
-> Part of [math-curiosity](https://github.com/MauroBCardoso/math-curiosity): open, reproducible experiments on equational laws, one repository per problem.
+> Part of [math-curiosity](https://github.com/Math-Problem-Solving-Using-AI/math-curiosity): open, reproducible experiments on equational laws, one repository per problem.
 > **LLMs and tools:** read [`llms.txt`](llms.txt). **Autonomous sessions:** [`LOOP.md`](LOOP.md) and [`STATE.md`](STATE.md). License: Apache-2.0.
 
-Belongs to [eq-unary-magma-laws](https://github.com/MauroBCardoso/eq-unary-magma-laws). Kept as its own problem because it is a self-contained open
+Belongs to [eq-unary-magma-laws](https://github.com/Math-Problem-Solving-Using-AI/eq-unary-magma-laws). Kept as its own problem because it is a self-contained open
 question, and because settling it decides 6,399 implication pairs of the main problem
 (9 laws, 711 candidate targets each).
 
@@ -93,7 +93,7 @@ literature. A first attempt at step 4 without the instance in step 2 was too wea
 - `zero_model_laws.py` searches for models of size 4 to 6. Output: `results/zero_model_laws.json`
   (the two models found are stored there as tables).
 - `lemma_chain_f_x_yz.py` z3 check of the hand proof above.
-- Depends on the engine in `src/` of [eq-unary-magma-laws](https://github.com/MauroBCardoso/eq-unary-magma-laws) (clone it next to this repository) and its generated data.
+- Depends on the engine in `src/` of [eq-unary-magma-laws](https://github.com/Math-Problem-Solving-Using-AI/eq-unary-magma-laws) (clone it next to this repository) and its generated data.
 
 ## Reproduce
 
@@ -108,7 +108,7 @@ python lemma_chain_f_x_yz.py                                    # z3 on the hand
 ```
 
 Regenerating `results/zero_model_laws.json` needs the engine and generated data of
-[eq-unary-magma-laws](https://github.com/MauroBCardoso/eq-unary-magma-laws). Clone it next to this repository, reproduce its steps, then:
+[eq-unary-magma-laws](https://github.com/Math-Problem-Solving-Using-AI/eq-unary-magma-laws). Clone it next to this repository, reproduce its steps, then:
 
 ```
 P=../eq-unary-magma-laws

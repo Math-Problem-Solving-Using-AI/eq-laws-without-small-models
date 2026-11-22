@@ -23,7 +23,7 @@ to one element, has a finite model, or has only infinite models.
 3. **Use the infinite models to refute implications:** for law A with an infinite model M, a law B that
    fails in M at explicit elements gives a certificate that A does not imply B. Define a certificate
    format (elements as terms, evaluation by plain code), verify it independently with mutation tests,
-   and report the counts to https://github.com/MauroBCardoso/eq-unary-magma-laws so its table can be updated.
+   and report the counts to https://github.com/Math-Problem-Solving-Using-AI/eq-unary-magma-laws so its table can be updated.
 4. **Cross-check the two `*`-only laws** (`(x*y)*(y*x) = y`, `(x*y)*(y*z) = y`) against the Equational
    Theories Project data. Unknown until read from the primary source.
 5. **Literature check** before any novelty claim.

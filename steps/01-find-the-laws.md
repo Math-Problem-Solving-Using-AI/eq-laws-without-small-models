@@ -8,7 +8,7 @@
 Isolate the laws with no model of size 2 or 3 that z3 could not prove collapse.
 
 ## How
-See [`steps/04-collapse-laws.md` in eq-unary-magma-laws](https://github.com/MauroBCardoso/eq-unary-magma-laws/blob/main/steps/04-collapse-laws.md): 216 laws have no model of size 2 or 3,
+See [`steps/04-collapse-laws.md` in eq-unary-magma-laws](https://github.com/Math-Problem-Solving-Using-AI/eq-unary-magma-laws/blob/main/steps/04-collapse-laws.md): 216 laws have no model of size 2 or 3,
 207 were proved to collapse by z3 (accumulated over runs), 9 were not.
 
 ## NOT verified
