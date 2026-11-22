@@ -9,7 +9,7 @@ to one element, has a finite model, or has only infinite models.
 
 ## Queue (take the first item)
 
-1. **Six open laws**: `((x*y)*z)*x = w`, `(f(x)*y)*z = y`, `(x*y)*f(z) = y`, `f((x*y)*z) = y`,
+1. **Five open laws**: `(f(x)*y)*z = y`, `(x*y)*f(z) = y`, `f((x*y)*z) = y`,
    `f(x*(y*z)) = y`, `x*(y*f(z)) = y`. For each: look for a hand proof of collapse split into lemmas that
    z3 checks one by one (see `lemma_chain_f_x_yz.py`), or an infinite model (see `infinite_models.py`).
    Useful pattern from the two cases already analyzed: a law of the form "y is recoverable from a
@@ -24,18 +24,20 @@ to one element, has a finite model, or has only infinite models.
    fails in M at explicit elements gives a certificate that A does not imply B. Define a certificate
    format (elements as terms, evaluation by plain code), verify it independently with mutation tests,
    and report the counts to https://github.com/Math-Problem-Solving-Using-AI/eq-unary-magma-laws so its table can be updated.
-4. **Cross-check the two `*`-only laws** (`(x*y)*(y*x) = y`, `(x*y)*(y*z) = y`) against the Equational
-   Theories Project data. Unknown until read from the primary source.
-5. **Literature check** before any novelty claim.
+4. **Literature check** before any novelty claim (in progress in eq-unary-magma-laws `docs/PRIOR_WORK.md`).
 
 ## Done
 
 - 2026-11-22: steps 01 to 03, see `steps/`. Collapse of `f(x)*(y*z) = y` shown (z3-only), two laws
   have verified models of size 4, two leads recorded.
 
+- 2026-11-22: step 04. The three laws without `f` are settled with the ETP data and the 4-element
+  models: `((x*y)*z)*x = w` collapses (trivial), the two others have fully decided rows.
+
 ## Last iteration
 
-(none yet)
+2026-11-22 (research session, branch research/2026-11-22-literature-and-erdos): step 04.
+Five laws remain open, all contain `f`; two of them are the finite-versus-general leads.
 
 ## Blocked
 
