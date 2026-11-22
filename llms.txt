@@ -1,0 +1,40 @@
+# eq-laws-without-small-models
+
+> Nine short laws over one binary operation `*` and one unary operation `f` have no model with 2 or 3 elements. Which of them force every structure to one element, which have a finite model, which only infinite ones? EARLY and EXPERIMENTAL: 1 collapse shown (z3-only), 2 have verified size-4 models, 2 are finite-versus-general leads (hand arguments, not machine-proven), 4 are open.
+
+## Start here
+
+- [README.md](README.md): the nine laws, status per law, the hand proof and the leads
+- [steps/](steps): one record per step with commands, checks and a "NOT verified" list
+- [docs/shared/VERIFICATION_PROTOCOL.md](docs/shared/VERIFICATION_PROTOCOL.md), [docs/shared/LEAN_CAVEATS.md](docs/shared/LEAN_CAVEATS.md)
+
+## Data
+
+- [results/zero_model_laws.json](results/zero_model_laws.json): for each law, the structure found (tables for `*`
+  and `f`) or the solver's answer per size (`unsat` for sizes 4 to 6 means none found by z3, not independently checked)
+- `python verify_models.py results/zero_model_laws.json` re-checks the structures with an independent evaluator
+
+## How to trust it
+
+- `model-verified`: structure re-checked by independent plain-Python code (the two size-4 models).
+- `z3-only`: z3 said unsat and nothing else confirmed it (collapse of `f(x)*(y*z) = y`, "no model up to size 6").
+- `hand-argument`: derived by hand, construction sample-checked, not machine-proven (the two finite-versus-general leads).
+- `open`: unknown.
+
+## Rules for any LLM or agent using or extending this repository
+
+1. Never state a result with a stronger label than the file gives it. `z3-only` is not proved.
+   Only `lean-checked + fidelity-reviewed + literature-checked` may be called a result, and
+   nothing here has reached that yet.
+2. If you do not know something, say it is unknown. Do not fill gaps from memory. Search
+   summaries and other agents' reports are leads: read the primary page.
+3. A Lean-accepted proof is not sufficient: statement fidelity, junk values, `native_decide`,
+   kernel bugs. See `docs/shared/LEAN_CAVEATS.md`.
+4. Do not claim novelty. No deep literature search has been done.
+5. Autonomous sessions follow `LOOP.md` and keep `STATE.md` current.
+6. Do not publish, push or change license without the owner.
+
+## Optional
+
+- [STATE.md](STATE.md), [LOOP.md](LOOP.md)
+- Engine and the main problem: https://github.com/MauroBCardoso/eq-unary-magma-laws. Hub: https://github.com/MauroBCardoso/math-curiosity
