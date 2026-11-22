@@ -138,6 +138,13 @@ Running notes of the loop: decisions, mistakes, dead ends, and notes for the own
   publishes nothing, spends nothing. The weakness is reported for the owner below. Nothing published,
   no format changed; README and llms.txt gained one sentence each, LOOP.md two gate lines.
 
+- 2026-11-22 (run 18): queue item 1 (Lean review) is still blocked. Item 2 (second check of the
+  collapse proofs) asks for Lean or a second prover; none but z3 is installed (16 names looked for)
+  and installing one needs the owner, so it went to Blocked with one question. Took item 3: the
+  part that needs no owner, a title search in OpenAlex (robots.txt `Allow: /`). Did not fetch the two
+  open ams.org papers it turned up (the loop's rule) and did not read the Zenodo preprint (queued,
+  one item per run). Nothing published, no format changed; README and llms.txt gained a few words.
+
 ## Mistakes and dead ends
 
 - 2026-11-22 (run 1): first draft of the derivation checker's mutation test had two weak
@@ -253,6 +260,13 @@ Running notes of the loop: decisions, mistakes, dead ends, and notes for the own
   before any check was run on the copy.
 - 2026-11-22 (run 17): Git Bash's `time` showed 0 user time for a native Python run on Windows;
   re-measured with PowerShell's `Measure-Command` (0.59 s) before trusting the speed.
+
+- 2026-11-22 (run 18): the scratch scan's list of hand-read hits was written before all hits had been
+  read, so its first real run printed FAIL for 10 unrelated titles. Each was read and added; the
+  mutation run still failed for the intended reasons only.
+- 2026-11-22 (run 18): dead end: OpenAlex title searches with long phrases ("identities of type
+  (2,1)", "groupoids with a unary operation", "unary operation identities") returned 0 results;
+  shorter title words ("type (2,1)") returned 96.
 
 ## For other repositories
 
@@ -433,3 +447,9 @@ Running notes of the loop: decisions, mistakes, dead ends, and notes for the own
   include a "listed twice" mutation in its test.
 - A check of a generated file should read the file, not only re-run the program that wrote it: the
   file may come from an older version of the program.
+
+- A title search in an index with several words can return 0 because it is too narrow, not because
+  nothing exists. Run each word set in a shorter form too, and keep a control search with a known
+  answer in the same run.
+- Write the list of "hits already read by hand" after reading the hits, not before; a list written
+  from expectation makes the first run fail for the wrong reason (or, if written too wide, pass).

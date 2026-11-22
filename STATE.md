@@ -20,21 +20,21 @@ to one element, has a finite model, or has only infinite models.
    step 09 (a structure satisfies a law exactly when its mirror satisfies the mirror law), which is
    a hand argument so far.
    Since step 10 each collapse has two stored derivations (the second is the partner's proof read
-   backwards); a second checker should check all four.
-3. **Deeper literature search for the two collapses** (`(x*y)*f(z) = y`, `f(x)*(y*z) = y`): step 14
-   searched only the web and GitHub (nothing found). zbMATH Open disallows the loop's agent (step 18,
-   see Blocked), so do the part that needs no owner: search an open index that allows it (OpenAlex,
-   robots.txt `Allow: /` on 2026-11-22) by title words (identities of type (2,1), unary operation,
-   one-element or trivial algebra); record queries, dates and what could not be read. The same
-   search can cover the four candidate Austin laws.
-4. **Read the HTML full text of arXiv 2609.05690v3** (step 17 read only its abstract page): only
+   backwards); a second checker should check all four. Waits for the owner, see Blocked (step 22:
+   no second prover is installed, z3 is the only one).
+3. **Read the HTML full text of arXiv 2609.05690v3** (step 17 read only its abstract page): only
    `/html/2609.05690v3`, after arXiv's robots.txt in its own request and 15 seconds from every
    request. Record whether the body mentions unary operations, other types of algebra, or laws
    like ours, how its "trace-tree magmas" compare with our term models (`term_models_z3.py`), and
    whether it quotes Kisielewicz's definition of "Austin identity" (step 18: not found elsewhere).
-5. **Read the README of `github.com/YanbiaoLab/trace-tree-magmas`** (the code of 2609.05690) with
+4. **Read the README of `github.com/YanbiaoLab/trace-tree-magmas`** (the code of 2609.05690) with
    `gh api`: what its Lean certificates look like, which Lean and Mathlib versions, which license.
    A lead for the blocked Lean item 1, not a source of our results.
+5. **Read the Zenodo record of the 2026 preprint** "Seeded infinite models of the Austin identities
+   E5093 and E5107" (Jason Peng, `doi:10.5281/zenodo.24340685`, found in step 22 by its OpenAlex
+   record only): read `zenodo.org/robots.txt` first in its own request. Record what E5093 and E5107
+   are (ETP magma laws, by the title), how its "seeded" models compare with our term models, and
+   whether it mentions a unary operation. A lead, not a source of our results.
 6. **Retry the Wrocław university digital library** (`digilab.uwr.edu.pl`) for its record of
    Kisielewicz, "Austin identities" (1997): its robots.txt answered 502 twice on 2026-11-22 (step 18).
    Read robots.txt first; fetch nothing if it cannot be read. If the record has the text, read how
@@ -174,10 +174,17 @@ to one element, has a finite model, or has only infinite models.
   file itself with its own brute force (13 of 13 corrupted inputs rejected). A mutation test showed
   the main repository's check cannot see a law listed twice (reported for the owner). No label changed.
 
+- 2026-11-22: step 22 (loop run 18). Title search in the open paper index OpenAlex (14 requests,
+  after its robots.txt) for the two collapsing laws and the four candidate Austin laws: nothing found
+  about them; three control searches found their known papers, so the search works. New lead: a 2026
+  Zenodo preprint on infinite models of two magma Austin identities (queued). Austin 1965 and Stein
+  1963 are open only on ams.org, which the loop does not fetch. Queue item 2 moved to Blocked (no
+  second prover installed). No label changed.
+
 ## Last iteration
 
-2026-11-22 (loop run 17): checked that the main repository's list of 712 short laws, which our earlier tests ran through, contains every law with up to three operation symbols exactly once; it does, by its own count and by a new count written here, and the new count also catches a law listed twice, which the old one could not.
-Next run: the Lean work still waits for the owner, so the next run takes the first queue item that can go ahead without the owner (a second check of the two proofs that force one element, if it needs no new tool; otherwise the open paper index search for earlier work on those two laws).
+2026-11-22 (loop run 18): searched the titles in a free index of research papers for earlier work on our two laws that force one element and our four laws with only infinite examples; nothing about them turned up, while three test searches did find the papers they should, so the search itself works.
+Next run: the two checking tasks still wait for the owner (they need new software), so the next run reads the full text of the 2026 arXiv paper on infinite magma models (arXiv rules: robots.txt first, 15 seconds between requests).
 
 ## Blocked
 
@@ -185,8 +192,15 @@ Next run: the Lean work still waits for the owner, so the next run takes the fir
   Lean is not installed on this machine (`lean`, `lake`, `elan` not found, 2026-11-22, run 5), and
   installing a new tool needs the owner's decision: should the loop install Lean (elan) and Mathlib,
   and which version?
-- zbMATH Open (part of queue item 3, and of the Dudek question closed in step 19): its robots.txt (read 2026-11-22, run 14) says
+- Queue item 2 (second check of the collapse proofs), the part without Lean: no second prover is
+  installed either (16 names looked for, only z3 found, 2026-11-22, run 18). Decision needed: may the
+  loop install one (for example Vampire, E, Prover9 or Twee), and which?
+- zbMATH Open (the part of the literature search of the two collapses that step 22 could not do,
+  and the Dudek question closed in step 19): its robots.txt (read 2026-11-22, run 14) says
   `Disallow: /` for `anthropic-ai`, `ClaudeBot` and `Claude-Web`. Decision needed: should the loop
   leave zbMATH alone (current behaviour), or may the owner look up the reviews of Kisielewicz 1990
   and 1997 and Dudek 1988 by hand and save them in the repository? (Step 19: what Dudek 1988 proves
   has no open source either; only a review or the paper itself can tell.)
+  Same question for two open papers on ams.org, which the loop does not fetch (step 22): A. K. Austin,
+  "A Note on Models of Identities" (Proc. AMS 1965) and S. K. Stein, "Finite Models of Identities"
+  (Proc. AMS 1963); may the owner read or save them by hand?
