@@ -12,6 +12,11 @@ jobs:
       - run: python verify_models.py results/zero_model_laws.json
       - run: python verify_models.py --selftest results/zero_model_laws.json
       - run: python infinite_models.py
+      - run: python check_derivation.py results/collapse_xy_fz.json
+      - run: python check_derivation.py --selftest results/collapse_xy_fz.json
       - name: z3 lemma chain (z3 results vary between runs, informational only)
         continue-on-error: true
         run: python lemma_chain_f_x_yz.py
+      - name: z3 lemma chain for (x*y)*f(z) = y (informational only)
+        continue-on-error: true
+        run: python lemma_chain_xy_fz.py

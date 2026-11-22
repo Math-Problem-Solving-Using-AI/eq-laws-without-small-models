@@ -1,0 +1,18 @@
+{
+ "law": "(x*y)*f(z) = y",
+ "comment": "Hand derivation (step 05) that the law forces every structure to one element. Checked by check_derivation.py.",
+ "steps": [
+  {"id": "E1", "rule": "law", "subst": {"x": "a", "y": "b", "z": "c"}, "claim": "(a*b)*f(c) = b"},
+  {"id": "E2", "rule": "law", "subst": {"x": "a*b", "y": "f(c)", "z": "d"}, "claim": "((a*b)*f(c))*f(d) = f(c)"},
+  {"id": "E3", "rule": "rewrite", "from": "E1", "in": "((a*b)*f(c))*f(d)", "at": [1], "claim": "((a*b)*f(c))*f(d) = b*f(d)"},
+  {"id": "E4", "rule": "sym", "from": "E3", "claim": "b*f(d) = ((a*b)*f(c))*f(d)"},
+  {"id": "E5", "rule": "trans", "from": ["E4", "E2"], "claim": "b*f(d) = f(c)"},
+  {"id": "E6", "rule": "law", "subst": {"x": "a", "y": "b", "z": "d"}, "claim": "(a*b)*f(d) = b"},
+  {"id": "E7", "rule": "inst", "from": "E5", "subst": {"b": "a*b"}, "claim": "(a*b)*f(d) = f(c)"},
+  {"id": "E8", "rule": "sym", "from": "E6", "claim": "b = (a*b)*f(d)"},
+  {"id": "E9", "rule": "trans", "from": ["E8", "E7"], "claim": "b = f(c)"},
+  {"id": "E10", "rule": "inst", "from": "E9", "subst": {"b": "e"}, "claim": "e = f(c)"},
+  {"id": "E11", "rule": "sym", "from": "E10", "claim": "f(c) = e"},
+  {"id": "E12", "rule": "trans", "from": ["E9", "E11"], "claim": "b = e"}
+ ]
+}

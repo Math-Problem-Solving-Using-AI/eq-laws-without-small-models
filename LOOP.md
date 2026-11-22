@@ -30,6 +30,8 @@ in `steps/`.
   - `python verify_models.py results/zero_model_laws.json`
   - `python verify_models.py --selftest results/zero_model_laws.json`
   - `python infinite_models.py`
+  - `python check_derivation.py results/collapse_xy_fz.json`
+  - `python check_derivation.py --selftest results/collapse_xy_fz.json`
   A verifier you changed must still fail on corrupted input (mutation test).
 - **Hand arguments are leads.** A hand proof is not a proof until every step is machine-checked or
   checked by an independent method. A solver timeout may mean a step is missing.
