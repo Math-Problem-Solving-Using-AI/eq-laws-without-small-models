@@ -14,17 +14,16 @@ to one element, has a finite model, or has only infinite models.
    argument is about all finite structures and needs a human reviewer or a Lean proof. Write the
    Lean statement with an English reading next to it and check it as in `docs/shared/LEAN_CAVEATS.md`
    (statement fidelity first). Waits for the owner, see Blocked (no Lean on this machine).
-2. **Statement fidelity of the copied law texts** (step 11): `results/refutations_term_models.json`
-   copies 712 law texts and ids from the main repository. Re-run its `src/check_laws_text.py` (read
-   only, `python -B`) and record that each text matches its term tree, or write a small text-versus-tree
-   comparison here.
-3. **Literature check** before any novelty claim (in progress in eq-unary-magma-laws `docs/PRIOR_WORK.md`),
+2. **Literature check** before any novelty claim (in progress in eq-unary-magma-laws `docs/PRIOR_WORK.md`),
    now also for the collapse of `(x*y)*f(z) = y` and the candidate Austin laws `(f(x)*y)*z = y` and
    `f((x*y)*z) = y`.
    Also re-read the source of the term "Austin law" (eq-unary-magma-laws `docs/PRIOR_WORK.md` and the
    primary page it cites) before using it further.
    Also for the 2,828 non-implications of step 11 (search terms such as "term model", "free algebra",
    "identities of type (2,1)").
+3. **Re-run the main repository's count check** (`src/check_laws_count.py`, read only, `python -B`)
+   on `data/laws_3.json` and record whether its 712 laws are all and only the short laws, since
+   steps 11 and 12 rely on that list (step 12 "NOT verified").
 4. **Second independent check of the collapse proofs** (`check_derivation.py` was written in the same
    session as the proof): a Lean proof following `docs/shared/LEAN_CAVEATS.md`, or a second prover.
    Installing a new tool needs the owner. The same Lean file could prove the mirror rule used in
@@ -83,10 +82,16 @@ to one element, has a finite model, or has only infinite models.
   cross-check A-D and B-C). The other 4 targets per law are substitution instances of the law
   (implied). Label `z3-only`. General implication only, nothing about finite structures.
 
+- 2026-11-22: step 12 (loop run 8). The 712 law texts and ids copied into
+  `results/refutations_term_models.json` are the main repository's: each text equals its text and,
+  read by our checker's parser, gives its stored term tree (new `check_copied_laws.py`, 13 of 13
+  corrupted inputs rejected, LOOP gate, not in CI because it needs the main repository). The main
+  repository's own text check passes on its list (712, 0 mismatches). Labels of step 11 unchanged.
+
 ## Last iteration
 
-2026-11-22 (loop run 7): for the four rules that have only an infinite example structure, that structure shows each rule does not imply 707 of the 711 other short rules, with the exact elements where the other rule breaks; a separate checking program recomputed all 2,828 cases and rejected all 15 deliberately broken inputs, and the remaining 4 rules per law are just special cases of it; trust level `z3-only`, because that the infinite structure obeys its rule is checked only by the z3 solver.
-Next run: check that the 712 rule texts copied from the main repository match its stored rule trees (queue item 2), then the literature check; the Lean items still wait for the owner.
+2026-11-22 (loop run 8): checked that the 712 short rules copied from the main repository into our results file are written exactly as there and mean the same rule as the main repository's stored rule trees; a new checking program agrees on all 2,848 mentions and rejected all 13 deliberately broken inputs, so the search and the checker of run 7 were working on the same rules.
+Next run: the literature check (queue item 2), looking for earlier work on these rules before anything is called new; the Lean items still wait for the owner.
 
 ## Blocked
 

@@ -62,6 +62,12 @@ Running notes of the loop: decisions, mistakes, dead ends, and notes for the own
   The 4 targets per law that were not refuted turned out to be substitution instances of the law;
   the checker now proves that by matching, which decides the four rows. A new queue item checks
   that the copied law texts match the main repository's term trees.
+- 2026-11-22 (run 8): queue item 2 (copied law texts) offered two ways: re-run the main
+  repository's `src/check_laws_text.py` or write a comparison here. Did both: the main check only
+  covers the main list itself, not our copies, so `check_copied_laws.py` compares our ids and texts
+  with the main list and reads each text with the parser `check_refutations.py` uses. Added to the
+  LOOP gates but not to CI, because CI does not clone the main repository (changing CI to fetch
+  another repository was not needed). Nothing published, no format changed.
 
 ## Mistakes and dead ends
 
@@ -108,6 +114,10 @@ Running notes of the loop: decisions, mistakes, dead ends, and notes for the own
 - 2026-11-22 (run 7): a hand-made corrupted file for the exit-code test was not corrupted: the value
   written in was the stored value already. Same mistake as the run 6 lesson; caught because the run
   printed ALL PASS where a failure was expected.
+- 2026-11-22 (run 8): the first selftest draft of `check_copied_laws.py` counted a `KeyError`,
+  `IndexError` or `StopIteration` as "rejected", so a broken mutation (for example one that looked
+  for a certificate that does not exist) would have counted as caught. Changed to count only the
+  checker's own `Bad` failure before the first run.
 
 ## For other repositories
 
@@ -184,3 +194,7 @@ Running notes of the loop: decisions, mistakes, dead ends, and notes for the own
 - When a law is not refuted by a model of itself, check first whether it is just a substitution
   instance of that law (letters made equal). Such targets are implied in one step and need no
   solver.
+
+- A mutation selftest should count as "rejected" only the checker's own failure type. Catching
+  generic errors (missing key, index out of range) lets a mutation that crashed while being built
+  pass as caught.
