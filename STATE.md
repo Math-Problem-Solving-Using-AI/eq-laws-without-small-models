@@ -9,22 +9,28 @@ to one element, has a finite model, or has only infinite models.
 
 ## Queue (take the first item)
 
-1. **Five open laws**: `(f(x)*y)*z = y`, `(x*y)*f(z) = y`, `f((x*y)*z) = y`,
-   `f(x*(y*z)) = y`, `x*(y*f(z)) = y`. For each: look for a hand proof of collapse split into lemmas that
-   z3 checks one by one (see `lemma_chain_f_x_yz.py`), or an infinite model (see `infinite_models.py`).
-   Useful pattern from the two cases already analyzed: a law of the form "y is recoverable from a
-   product" forces an injection, which in a finite structure forces a bijection, which then
-   contradicts the law. For `(x*y)*f(z) = y` an attempted infinite model by formal terms ran into a
-   conflict, so it may collapse: test with z3 first.
-2. **Review of the two finite-versus-general leads** (`f(x*(y*z)) = y`, `x*(y*f(z)) = y`): the counting
+1. **`(f(x)*y)*z = y`**: collapse, or an infinite model? Untested hand idea from run 1 (a lead,
+   not a result): `(f(x)*y)*z = y` means `f(x)*y` determines `y`, which in a finite structure
+   should rule out 2 or more elements; for infinite structures try formal terms: `f(t)` formal,
+   `u*z := y` when `u` is the formal pair `(f(x), y)`, otherwise the formal pair `(u, z)`.
+   Check any construction with plain code (as in `infinite_models.py`) before any claim.
+2. **`f((x*y)*z) = y`**: collapse (hand proof written as a derivation for `check_derivation.py`,
+   plus a z3 lemma chain) or an infinite model.
+3. **Store the collapse proof of `f(x)*(y*z) = y` as a derivation** in the format of
+   `results/collapse_xy_fz.json` and check it with `check_derivation.py` (it is `z3-only` today).
+4. **Review of the two finite-versus-general leads** (`f(x*(y*z)) = y`, `x*(y*f(z)) = y`): the counting
    argument is about all finite structures and needs a human reviewer or a Lean proof. Write the
    Lean statement with an English reading next to it and check it as in `docs/shared/LEAN_CAVEATS.md`
    (statement fidelity first).
-3. **Use the infinite models to refute implications:** for law A with an infinite model M, a law B that
+5. **Use the infinite models to refute implications:** for law A with an infinite model M, a law B that
    fails in M at explicit elements gives a certificate that A does not imply B. Define a certificate
    format (elements as terms, evaluation by plain code), verify it independently with mutation tests,
    and report the counts to https://github.com/Math-Problem-Solving-Using-AI/eq-unary-magma-laws so its table can be updated.
-4. **Literature check** before any novelty claim (in progress in eq-unary-magma-laws `docs/PRIOR_WORK.md`).
+6. **Literature check** before any novelty claim (in progress in eq-unary-magma-laws `docs/PRIOR_WORK.md`),
+   now also for the collapse of `(x*y)*f(z) = y`.
+7. **Second independent check of the collapse proofs** (`check_derivation.py` was written in the same
+   session as the proof): a Lean proof following `docs/shared/LEAN_CAVEATS.md`, or a second prover.
+   Installing a new tool needs the owner.
 
 ## Done
 
@@ -34,10 +40,15 @@ to one element, has a finite model, or has only infinite models.
 - 2026-11-22: step 04. The three laws without `f` are settled with the ETP data and the 4-element
   models: `((x*y)*z)*x = w` collapses (trivial), the two others have fully decided rows.
 
+- 2026-11-22: step 05 (loop run 1). `(x*y)*f(z) = y` collapses: hand proof stored as 12 checkable
+  steps, accepted by the new plain-Python checker `check_derivation.py` (37 of 37 corrupted copies
+  rejected), z3 accepts each lemma. Label `z3-only` plus our own checker. Queue item "five open laws"
+  split; four laws remain.
+
 ## Last iteration
 
-2026-11-22 (research session): step 04.
-Five laws remain open, all contain `f`; two of them are the finite-versus-general leads.
+2026-11-22 (loop run 1): showed that the rule `(x*y)*f(z) = y` allows only one-element structures, and had a small program check each step of the proof.
+Next run: the rule `(f(x)*y)*z = y`; four of the nine rules are still undecided.
 
 ## Blocked
 
