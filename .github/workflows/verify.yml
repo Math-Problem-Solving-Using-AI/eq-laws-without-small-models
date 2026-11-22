@@ -17,6 +17,8 @@ jobs:
       - run: python term_models_z3.py --selftest
       - run: python check_derivation.py results/collapse_xy_fz.json
       - run: python check_derivation.py --selftest results/collapse_xy_fz.json
+      - run: python check_derivation.py results/collapse_fx_yz.json
+      - run: python check_derivation.py --selftest results/collapse_fx_yz.json
       - name: z3 lemma chain (z3 results vary between runs, informational only)
         continue-on-error: true
         run: python lemma_chain_f_x_yz.py

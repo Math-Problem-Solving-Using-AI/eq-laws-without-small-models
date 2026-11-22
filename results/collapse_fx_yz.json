@@ -1,0 +1,17 @@
+{
+ "law": "f(x)*(y*z) = y",
+ "comment": "Hand derivation (step 03, README) that the law forces every structure to one element, written out as single rewriting steps (step 08). Checked by check_derivation.py.",
+ "steps": [
+  {"id": "D1", "rule": "law", "subst": {"x": "a", "y": "b*c", "z": "c"}, "claim": "f(a)*((b*c)*c) = b*c"},
+  {"id": "D2", "rule": "law", "subst": {"x": "d", "y": "f(a)", "z": "(b*c)*c"}, "claim": "f(d)*(f(a)*((b*c)*c)) = f(a)"},
+  {"id": "D3", "rule": "rewrite", "from": "D1", "in": "f(d)*(f(a)*((b*c)*c))", "at": [2], "claim": "f(d)*(f(a)*((b*c)*c)) = f(d)*(b*c)"},
+  {"id": "D4", "rule": "sym", "from": "D3", "claim": "f(d)*(b*c) = f(d)*(f(a)*((b*c)*c))"},
+  {"id": "D5", "rule": "trans", "from": ["D4", "D2"], "claim": "f(d)*(b*c) = f(a)"},
+  {"id": "D6", "rule": "law", "subst": {"x": "d", "y": "b", "z": "c"}, "claim": "f(d)*(b*c) = b"},
+  {"id": "D7", "rule": "sym", "from": "D6", "claim": "b = f(d)*(b*c)"},
+  {"id": "D8", "rule": "trans", "from": ["D7", "D5"], "claim": "b = f(a)"},
+  {"id": "D9", "rule": "inst", "from": "D8", "subst": {"b": "e"}, "claim": "e = f(a)"},
+  {"id": "D10", "rule": "sym", "from": "D9", "claim": "f(a) = e"},
+  {"id": "D11", "rule": "trans", "from": ["D8", "D10"], "claim": "b = e"}
+ ]
+}
