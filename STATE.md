@@ -14,30 +14,37 @@ to one element, has a finite model, or has only infinite models.
    argument is about all finite structures and needs a human reviewer or a Lean proof. Write the
    Lean statement with an English reading next to it and check it as in `docs/shared/LEAN_CAVEATS.md`
    (statement fidelity first). Waits for the owner, see Blocked (no Lean on this machine).
-2. **Literature check: the four candidate Austin laws** (`f(x*(y*z)) = y`, `x*(y*f(z)) = y`,
-   `(f(x)*y)*z = y`, `f((x*y)*z) = y`), by their text and by shape (identities of type (2,1) or with
-   a constant that have only infinite nontrivial models; Dudek's `(ex)y = x`: re-read the Ernst
-   slides at their source, after that site's robots.txt).
-3. **Find out how Kisielewicz defines "Austin identity"** (1990, 1997): for any type of algebra or
+2. **Re-read the Ernst slides on Dudek's `(ex)y = x`** (a short identity with a constant that has
+   only infinite nontrivial models, cited in the README from a subagent report in the main
+   repository): find the slides' address in the main repository, read that site's robots.txt in
+   its own step, then read the slides and quote what they say, with date; split from the step 15
+   literature item.
+3. **Read the arXiv abstract page of 2609.05690** ("Trace-Tree Magmas: Proof-Producing Infinite
+   Countermodels and 28 New Order-Five Austin Classifications", seen only as a search result in
+   step 15): only `/abs`, after arXiv's robots.txt and 15 seconds from every request; record
+   whether it mentions unary operations, type (2,1), or the shapes of our four laws.
+4. **Find out how Kisielewicz defines "Austin identity"** (1990, 1997): for any type of algebra or
    for groupoids only (step 13 "NOT verified"). Springer and AMS are not fetched; look for an open
    source that quotes the definition (an open review database, an author copy) and label what
-   could not be read.
-4. **Literature check: the 2,828 non-implications of step 11** (search terms such as "term model",
+   could not be read. Lead from step 15: a record of "Austin identities" (1997) in the Wrocław
+   university digital library (`digilab.uwr.edu.pl`); read its robots.txt first.
+5. **Literature check: the 2,828 non-implications of step 11** (search terms such as "term model",
    "free algebra", "identities of type (2,1)").
-5. **Re-run the main repository's count check** (`src/check_laws_count.py`, read only, `python -B`)
+6. **Re-run the main repository's count check** (`src/check_laws_count.py`, read only, `python -B`)
    on `data/laws_3.json` and record whether its 712 laws are all and only the short laws, since
    steps 11 and 12 rely on that list (step 12 "NOT verified").
-6. **Second independent check of the collapse proofs** (`check_derivation.py` was written in the same
+7. **Second independent check of the collapse proofs** (`check_derivation.py` was written in the same
    session as the proof): a Lean proof following `docs/shared/LEAN_CAVEATS.md`, or a second prover.
    Installing a new tool needs the owner. The same Lean file could prove the mirror rule used in
    step 09 (a structure satisfies a law exactly when its mirror satisfies the mirror law), which is
    a hand argument so far.
    Since step 10 each collapse has two stored derivations (the second is the partner's proof read
    backwards); a second checker should check all four.
-7. **Deeper literature search for the two collapses** (`(x*y)*f(z) = y`, `f(x)*(y*z) = y`): step 14
+8. **Deeper literature search for the two collapses** (`(x*y)*f(z) = y`, `f(x)*(y*z) = y`): step 14
    searched only the web and GitHub (nothing found). Search zbMATH Open by shape (identities of
    type (2,1) that force a one-element algebra), after reading its robots.txt in its own step;
-   record queries, dates and what could not be read.
+   record queries, dates and what could not be read. The same zbMATH search can cover the four
+   candidate Austin laws (step 15 searched only the web and GitHub).
 
 ## Done
 
@@ -107,14 +114,22 @@ to one element, has a finite model, or has only infinite models.
   as forcing one element (new `etp_specializations.py`, 7 of 7 corrupted inputs rejected). Agrees
   with our collapse, does not prove it. No label changed.
 
+- 2026-11-22: step 15 (loop run 11). Literature check of the four candidate Austin laws, first
+  piece: 5 web and 4 GitHub searches found nothing about the laws. Their 22 magma special cases (up
+  to 5 operations) all force one element (ETP table up to order 4, z3 for order 5), as our finite
+  argument requires (new `etp_specializations_austin.py`, 13 of 13 corrupted inputs rejected).
+  Kisielewicz's Austin laws (ETP Equation28770 and 374794) are instances of a special case of
+  `(f(x)*y)*z = y`, with the same finite argument. No label changed. Ernst slides and an arXiv lead
+  queued separately.
+
 ## Last iteration
 
-2026-11-22 (loop run 10): looked for earlier work on the rule `(x*y)*f(z) = y` and its mirror, which force every structure down to one element: web and GitHub searches found nothing, and the simpler rules you get by replacing `f` with a fixed formula are all listed by the Equational Theories Project as forcing one element, which fits our result but does not prove it.
-Next run: look for earlier work on the four rules that seem to have only infinite structures with more than one element (queue item 2); the Lean items still wait for the owner.
+2026-11-22 (loop run 11): looked for earlier work on the four rules that seem to have only infinite structures with more than one element: nothing about the rules themselves was found, published data on simpler rules agrees with our reasoning, and a known rule from 1997 by Kisielewicz turns out to be a special case of one of our rules (with `f` replaced by a fixed formula), and its published proof for finite structures uses the same argument as ours.
+Next run: read the original slides about a similar rule with a constant (Dudek's rule), after checking that the site allows it; the Lean items still wait for the owner.
 
 ## Blocked
 
-- Queue item 1 (Lean review of the four finite-versus-general leads) and the Lean part of item 6:
+- Queue item 1 (Lean review of the four finite-versus-general leads) and the Lean part of item 7:
   Lean is not installed on this machine (`lean`, `lake`, `elan` not found, 2026-11-22, run 5), and
   installing a new tool needs the owner's decision: should the loop install Lean (elan) and Mathlib,
   and which version?

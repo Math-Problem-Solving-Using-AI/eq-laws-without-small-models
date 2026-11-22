@@ -81,6 +81,13 @@ Running notes of the loop: decisions, mistakes, dead ends, and notes for the own
   (`etp_specializations.py`) but not a LOOP gate or CI step, because it needs the ETP clone with a
   500 MB table and checks consistency with published data, not a result of ours. Nothing published,
   no format changed.
+- 2026-11-22 (run 11): queue item 1 (Lean review) is still blocked, so took item 2 (literature check
+  of the four candidate Austin laws). Split: this run did the offline ETP part (special cases up to
+  5 operations, the blueprint's Austin chapters), 5 web and 4 GitHub queries; re-reading the Ernst
+  slides and opening the arXiv lead 2609.05690 went back to the queue as separate items, because
+  each needs a robots.txt step first. Wrote a new script `etp_specializations_austin.py` instead of
+  extending `etp_specializations.py`, so the checker of step 14 stays unchanged. Not a LOOP gate or
+  CI step (needs the ETP clone). Nothing published, no format changed.
 
 
 ## Mistakes and dead ends
@@ -143,6 +150,14 @@ Running notes of the loop: decisions, mistakes, dead ends, and notes for the own
 - 2026-11-22 (run 10): no web or GitHub hit for either collapsing law. `gh search code` printed
   nothing at all for three queries; whether code search ran properly is unknown, so it is recorded as
   "no output", not as "no code exists".
+- 2026-11-22 (run 11): `mirror_pairs.normal` crashed on order-5 ETP equations (its renaming alphabet
+  has 6 letters, some equations have 7). The new script uses its own longer alphabet.
+- 2026-11-22 (run 11): an exit-code test replaced a module-level list after import; the function had
+  bound that list as a default argument at definition time, so the test changed nothing and seemed
+  to show a corrupted input accepted. Re-tested by passing the corrupted list as an argument:
+  rejected. The checker was fine, the test was wrong.
+- 2026-11-22 (run 11): a mutation draft shifted one of two copies of the same list, so it would have
+  been caught by a consistency guard instead of the check it was meant to test. Fixed before running.
 
 
 ## For other repositories
@@ -200,6 +215,14 @@ Running notes of the loop: decisions, mistakes, dead ends, and notes for the own
   laws themselves in 6 web and 4 GitHub queries.
 
 
+- eq-unary-magma-laws (for the owner): its `docs/PRIOR_WORK.md` could record that Kisielewicz's Austin
+  laws, as given in the ETP blueprint (Equation28770 `x = (((y*y)*y)*x)*(y*z)` and Equation374794
+  `x = (((y*y)*y)*x)*((y*y)*z)`), are instances of `(f(x)*y)*z = y` (its id 135) with
+  `f(t) := (t*t)*t`, and that the blueprint's finite argument for 28770 is the one used here for
+  id 135 (step 15 here, `etp_specializations_austin.py`). The 22 magma special cases of ids 135,
+  336, 450 and 639 all force one element (ETP table up to order 4, z3 for order 5).
+
+
 ## Lessons for the hub
 
 - When a mutation test reports "N of N caught", print the reason each mutation was rejected. A
@@ -245,3 +268,11 @@ Running notes of the loop: decisions, mistakes, dead ends, and notes for the own
   operation by each short formula and look the result up. If the law forces one element, every such
   special case must too. This is a cheap consistency check against published data (it can refute our
   claim, never prove it), and it lists which known results are only special cases of ours.
+
+- A test that corrupts a module-level constant after import does not reach a function that took the
+  constant as a default argument (`def check(..., items=ITEMS)` binds the object when the function is
+  defined; reassigning `module.ITEMS` later changes nothing). Pass the corrupted value as an
+  argument, or the test can report a false alarm or, worse, a false pass.
+- When a law has an extra operation, look for published laws of the plain operation that are its
+  instances with the extra operation replaced by a formula. Here Kisielewicz's 1997 Austin law turned
+  out to be one of our laws with `f(t) := (t*t)*t`, and its published finite argument is ours.
