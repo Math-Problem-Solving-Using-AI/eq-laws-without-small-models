@@ -46,6 +46,12 @@ structures; for finite structures these laws (by the hand argument below) imply 
 The 712 law texts and ids in that file are the main repository's: each text equals the main
 repository's text for its id and reads back to its stored term tree (step 12, `check_copied_laws.py`,
 which needs the main repository next to this one).
+Literature (step 20, shallow: 6 web, 5 OpenAlex and 6 GitHub searches, titles and summaries only):
+none of the 2,828 non-implications was found stated anywhere, which does not make them new. The way
+the models are built is known for magmas: the ETP report's section "Canonization" (read in the
+local clone) makes "a special kind of syntactic model" by rewriting each instance of the law's left
+side to its right side and leaving all other terms formal. Our four models have that shape, with `f`
+added; that they meet the theorem's three conditions is our reading, not checked by machine.
 
 **Mirror pairs** (noticed in step 07, checked by machine in step 09): reading every product `a*b`
 as `b*a` turns a model of one law into a model of its mirror law. `f(x*(y*z)) = y` and
@@ -196,6 +202,7 @@ found" does not mean new. Details in `steps/05-collapse-xy-fz.md`.
 17. `17-arxiv-trace-tree-magmas.md`
 18. `18-kisielewicz-definition-search.md`
 19. `19-dudek-source-search.md`
+20. `20-literature-refutations.md`
 
 ## Files
 
