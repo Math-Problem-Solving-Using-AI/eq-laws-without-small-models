@@ -27,13 +27,22 @@ Labels are defined in `docs/shared/VERIFICATION_PROTOCOL.md`. No row is Lean-che
 | `(x*y)*(y*x) = y` | **does not collapse**: a model with 4 elements, re-checked by plain evaluation (`model-verified`). **Known**: ETP Equation167, *Stein's third law*. Structures satisfying it are "centrist groupoids", and OEIS A128934 counts 0 of them with 2 or 3 elements and 58 with 4. **Row fully decided** (step 04): 710 targets refuted by certificates, 1 implication proved by the ETP. |
 | `(x*y)*(y*z) = y` | **does not collapse**, same evidence. **Known**: this is ETP Equation168, the *central groupoid law* (Evans; Knuth 1970, as cited in the ETP paper). Finite central groupoids have n^2 elements, so 4 is the smallest size above 1. **Row fully decided** (step 04): 707 refuted, 4 implications proved by the ETP. |
 | `((x*y)*z)*x = w` | **collapses, trivially** (step 04): `w` occurs only on the right, so put `x = y = z = a` and get `a = ((a*a)*a)*a = b` for any `a`, `b`. The ETP data agrees (Equation303 implies `x = y`). Our z3 run had missed it. |
-| `(f(x)*y)*z = y` | **does not collapse** (step 06): an infinite model of formal terms, law checked on all terms by z3 (`z3-only`) and on a sample by plain Python. No finite model with 2 or more elements by a counting argument (`hand-argument`; z3 agrees for sizes 2 to 6). Candidate Austin law, see leads below. |
+| `(f(x)*y)*z = y` | **does not collapse** (step 06): an infinite model of formal terms, law checked on all terms by z3 (`z3-only`) and on a sample by plain Python. No finite model with 2 or more elements by a counting argument (`hand-argument`; z3 agrees for sizes 2 to 6). Candidate Austin law, see leads below. **Row decided for general implication** (step 11): 707 targets fail in the infinite model (witnesses checked by plain code, `z3-only` because the model itself is), 4 are instances of the law. |
 | `(x*y)*f(z) = y` | **collapses** (step 05). Short hand proof below, written as 12 steps in `results/collapse_xy_fz.json` and accepted by our plain-Python checker `check_derivation.py` (mutation-tested); a second 11-step proof, the proof of `f(x)*(y*z) = y` read backwards, is accepted too (step 10); z3 accepts each lemma. `z3-only` plus our own checker, no human review, no Lean. |
-| `f((x*y)*z) = y` | **does not collapse** (step 07): infinite model of formal terms, law checked on all terms by z3 (`z3-only`) and on a sample by plain Python. No finite model with 2 or more elements by a counting argument (`hand-argument`; z3 agrees for sizes 2 to 6). It is the mirror image of `f(x*(y*z)) = y` (read every product backwards), so the two laws have the same answer. Candidate Austin law. |
-| `f(x*(y*z)) = y` | lead, see below: infinite model checked on all terms by z3 (`z3-only`), finite part `hand-argument` |
-| `x*(y*f(z)) = y` | lead, same |
+| `f((x*y)*z) = y` | **does not collapse** (step 07): infinite model of formal terms, law checked on all terms by z3 (`z3-only`) and on a sample by plain Python. No finite model with 2 or more elements by a counting argument (`hand-argument`; z3 agrees for sizes 2 to 6). It is the mirror image of `f(x*(y*z)) = y` (read every product backwards), so the two laws have the same answer. Candidate Austin law. **Row decided for general implication** (step 11), as for `(f(x)*y)*z = y`. |
+| `f(x*(y*z)) = y` | lead, see below: infinite model checked on all terms by z3 (`z3-only`), finite part `hand-argument`. **Row decided for general implication** (step 11), as above. |
+| `x*(y*f(z)) = y` | lead, same; row decided for general implication (step 11). |
 
 "No model up to size 6" does not rule out larger or infinite models.
+
+**What the four infinite models refute** (step 11): for each of the four laws with an infinite
+model, 707 of the other 711 laws of the main repository's list fail in that model at explicit
+elements, so the law does not imply them (2,828 certificates in
+`results/refutations_term_models.json`, recomputed by plain Python in `check_refutations.py`,
+mutation-tested, each also checked read backwards in the mirror model). The other 4 per law are
+the law itself with letters made equal, so they are implied. Label `z3-only`, because that the
+model satisfies its law is checked on all terms only by z3. This is implication over all
+structures; for finite structures these laws (by the hand argument below) imply every law.
 
 **Mirror pairs** (noticed in step 07, checked by machine in step 09): reading every product `a*b`
 as `b*a` turns a model of one law into a model of its mirror law. `f(x*(y*z)) = y` and
@@ -147,6 +156,7 @@ checked by a human, Lean, or another prover. Not checked against the literature.
 8. `08-collapse-fx-yz-derivation.md`
 9. `09-mirror-pairs-by-machine.md`
 10. `10-mirror-collapse-proofs.md`
+11. `11-refutations-from-infinite-models.md`
 
 ## Files
 
@@ -163,6 +173,10 @@ checked by a human, Lean, or another prover. Not checked against the literature.
 - `check_derivation.py` plain-Python checker of a stored step-by-step collapse proof
   (`results/collapse_xy_fz.json`, `results/collapse_fx_yz.json`), with `--selftest` (corrupted
   copies must be rejected).
+- `refute_by_term_models.py` searches the four infinite models for elements where each law of the
+  main repository's list fails (plain search, then z3). Output: `results/refutations_term_models.json`.
+- `check_refutations.py` plain-Python checker of those certificates (own copy of the models, laws
+  read from their texts, mirror cross-check), with `--selftest`.
 - Depends on the engine in `src/` of [eq-unary-magma-laws](https://github.com/Math-Problem-Solving-Using-AI/eq-unary-magma-laws) (clone it next to this repository) and its generated data.
 
 ## Reproduce
@@ -187,6 +201,8 @@ python check_derivation.py results/collapse_fx_yz_by_mirror.json results/collaps
 python check_derivation.py --selftest results/collapse_fx_yz_by_mirror.json results/collapse_xy_fz_by_mirror.json
 python mirror_pairs.py                                           # mirror pairs and mirrored models
 python mirror_pairs.py --selftest                                # corrupted mirrors must fail
+python check_refutations.py results/refutations_term_models.json            # 2,828 non-implications
+python check_refutations.py --selftest results/refutations_term_models.json # corrupted input must fail
 python lemma_chain_xy_fz.py                                      # z3 on the second hand proof
 python lemma_chain_f_x_yz.py                                    # z3 on the hand proof (results vary between runs)
 ```
