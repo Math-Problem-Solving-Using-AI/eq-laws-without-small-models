@@ -74,6 +74,14 @@ Running notes of the loop: decisions, mistakes, dead ends, and notes for the own
   piece the queue named explicitly, re-reading the source of the term "Austin law". Sources read:
   the local ETP clone (no web request) and one arXiv `/html` page. Nothing published, no format
   changed, only the README paragraph and a new step file.
+- 2026-11-22 (run 10): queue item 1 (Lean review) is still blocked, so took item 2 (literature check of
+  the collapse of `(x*y)*f(z) = y`). Did it at the depth one run allows: the ETP special cases
+  offline, 6 web queries, 4 GitHub queries. A deeper search (zbMATH Open) went back to the queue as
+  its own item instead of stretching the run. The ETP lookup became a script with a selftest
+  (`etp_specializations.py`) but not a LOOP gate or CI step, because it needs the ETP clone with a
+  500 MB table and checks consistency with published data, not a result of ours. Nothing published,
+  no format changed.
+
 
 ## Mistakes and dead ends
 
@@ -128,6 +136,14 @@ Running notes of the loop: decisions, mistakes, dead ends, and notes for the own
   `robots.txt` on the same site, which asks for `Crawl-delay: 15`. robots.txt was read in its own
   step, as required, but the delay was not counted from that request. One request; no more arXiv
   requests in this run.
+- 2026-11-22 (run 10): the first selftest draft of `etp_specializations.py` loaded outcome rows only
+  for the expected equations, so the mutation "law that does not collapse" crashed with a `KeyError`.
+  It was not counted as caught, because the selftest counts only the checker's own failure (the run 8
+  lesson worked). Fixed by loading the rows the mutation needs.
+- 2026-11-22 (run 10): no web or GitHub hit for either collapsing law. `gh search code` printed
+  nothing at all for three queries; whether code search ran properly is unknown, so it is recorded as
+  "no output", not as "no code exists".
+
 
 ## For other repositories
 
@@ -176,6 +192,13 @@ Running notes of the loop: decisions, mistakes, dead ends, and notes for the own
   Two things it could add: the definition is stated for magmas only, so "candidate Austin laws in
   type (2,1)" is our carry-over; and the ETP's published report (arXiv 2512.07087v2) never uses
   the term, only the blueprint does.
+- eq-unary-magma-laws (for the owner): the magma special cases of the two collapsing laws (replace
+  `f` by `z`, `z*z`, `z*(z*z)`, `(z*z)*z`) are ETP Equations 30, 174, 1508, 1711 and 15, 178, 1933,
+  2136, all recorded by the ETP outcome table (2024-11-10 snapshot) as implying Equation2 (step 14
+  here, `etp_specializations.py`). Its `docs/PRIOR_WORK.md` A3(a) names Equation15 only; the other
+  seven, and the mirror law `(x*y)*f(z) = y` (Equation30), could be added. No literature hit for the
+  laws themselves in 6 web and 4 GitHub queries.
+
 
 ## Lessons for the hub
 
@@ -217,3 +240,8 @@ Running notes of the loop: decisions, mistakes, dead ends, and notes for the own
 - A site's crawl delay counts from every request to it, including the one that fetched
   `robots.txt`. Reading robots.txt "in its own step" is not enough: wait the delay before the first
   page as well.
+
+- A law with an extra operation can be tested against data for the plain operation: replace the extra
+  operation by each short formula and look the result up. If the law forces one element, every such
+  special case must too. This is a cheap consistency check against published data (it can refute our
+  claim, never prove it), and it lists which known results are only special cases of ours.
