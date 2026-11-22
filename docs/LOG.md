@@ -145,6 +145,12 @@ Running notes of the loop: decisions, mistakes, dead ends, and notes for the own
   open ams.org papers it turned up (the loop's rule) and did not read the Zenodo preprint (queued,
   one item per run). Nothing published, no format changed; README and llms.txt gained a few words.
 
+- 2026-11-22 (run 19): items 1 and 2 still wait for the owner (`lean`, `lake`, `elan`, `vampire`,
+  `eprover` not found again). Took item 3 whole: one arXiv robots.txt request and one `/html` page,
+  nothing else. Fetched no pictures, no PDF and none of the papers it cites. Recorded two new leads
+  as queue items rather than following them in this run (one item per run). Nothing published, no
+  format changed; README paragraph and step list updated.
+
 ## Mistakes and dead ends
 
 - 2026-11-22 (run 1): first draft of the derivation checker's mutation test had two weak
@@ -267,6 +273,11 @@ Running notes of the loop: decisions, mistakes, dead ends, and notes for the own
 - 2026-11-22 (run 18): dead end: OpenAlex title searches with long phrases ("identities of type
   (2,1)", "groupoids with a unary operation", "unary operation identities") returned 0 results;
   shorter title words ("type (2,1)") returned 96.
+
+- 2026-11-22 (run 19): the first mutation of the step 23 quote check replaced quotes in the raw page
+  text, where two of them run across a line break; the copy's safety assert (`count == 1`) stopped
+  it, no corrupted copy was written, and the check then failed only on a missing file. Redone on the
+  whitespace-collapsed text, which is what the check reads.
 
 ## For other repositories
 
@@ -453,3 +464,7 @@ Running notes of the loop: decisions, mistakes, dead ends, and notes for the own
   answer in the same run.
 - Write the list of "hits already read by hand" after reading the hits, not before; a list written
   from expectation makes the first run fail for the wrong reason (or, if written too wide, pass).
+
+- A mutation must be applied to the text in the same form the checker reads it (here after
+  collapsing whitespace). On the raw form a quote split across lines is not found, and a run that
+  then fails on a missing file looks like a passing mutation test unless the failure reason is read.

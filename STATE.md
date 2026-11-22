@@ -22,20 +22,17 @@ to one element, has a finite model, or has only infinite models.
    Since step 10 each collapse has two stored derivations (the second is the partner's proof read
    backwards); a second checker should check all four. Waits for the owner, see Blocked (step 22:
    no second prover is installed, z3 is the only one).
-3. **Read the HTML full text of arXiv 2609.05690v3** (step 17 read only its abstract page): only
-   `/html/2609.05690v3`, after arXiv's robots.txt in its own request and 15 seconds from every
-   request. Record whether the body mentions unary operations, other types of algebra, or laws
-   like ours, how its "trace-tree magmas" compare with our term models (`term_models_z3.py`), and
-   whether it quotes Kisielewicz's definition of "Austin identity" (step 18: not found elsewhere).
-4. **Read the README of `github.com/YanbiaoLab/trace-tree-magmas`** (the code of 2609.05690) with
+3. **Read the README of `github.com/YanbiaoLab/trace-tree-magmas`** (the code of 2609.05690) with
    `gh api`: what its Lean certificates look like, which Lean and Mathlib versions, which license.
-   A lead for the blocked Lean item 1, not a source of our results.
-5. **Read the Zenodo record of the 2026 preprint** "Seeded infinite models of the Austin identities
+   A lead for the blocked Lean item 1, not a source of our results. Step 23: the paper names
+   "Judge v3 revision 380d1b2c, Lean 4.33.1, and Mathlib revision 0df444a3"; compare with the README.
+4. **Read the Zenodo record of the 2026 preprint** "Seeded infinite models of the Austin identities
    E5093 and E5107" (Jason Peng, `doi:10.5281/zenodo.24340685`, found in step 22 by its OpenAlex
    record only): read `zenodo.org/robots.txt` first in its own request. Record what E5093 and E5107
    are (ETP magma laws, by the title), how its "seeded" models compare with our term models, and
-   whether it mentions a unary operation. A lead, not a source of our results.
-6. **Retry the Wrocław university digital library** (`digilab.uwr.edu.pl`) for its record of
+   whether it mentions a unary operation. A lead, not a source of our results. Step 23: E5093 and
+   E5107 are not among the 32 laws of arXiv 2609.05690.
+5. **Retry the Wrocław university digital library** (`digilab.uwr.edu.pl`) for its record of
    Kisielewicz, "Austin identities" (1997): its robots.txt answered 502 twice on 2026-11-22 (step 18).
    Read robots.txt first; fetch nothing if it cannot be read. If the record has the text, read how
    "Austin identity" is defined (any type of algebra, or groupoids only).
@@ -43,10 +40,10 @@ to one element, has a finite model, or has only infinite models.
    groupoids" (2006), record `cn=E1BGBB_2006_v22n2_215`, which cites Dudek's 1988 note (step 19):
    its robots.txt gave an empty reply on both domains on 2026-11-22. If readable, record what it
    says about Dudek 1988 and whether it quotes `(ex)y = x`.
-7. **Confirm the raised number in Ernst's slides** (`ee = 2^5` where their table gives `2^3`, step
+6. **Confirm the raised number in Ernst's slides** (`ee = 2^5` where their table gives `2^3`, step
    16): look whether a PDF renderer is already installed (install nothing); if one is, render that
    slide as a picture and read it.
-8. **Check by machine that the four infinite models fit the ETP's canonization conditions** (step
+7. **Check by machine that the four infinite models fit the ETP's canonization conditions** (step
    20, a hand reading so far): the ETP report (`paper/metatheorems.tex`, lines 54 to 121 in the
    clone at `dbc9a2b`) proves that a rewrite `R` that is "weakly collapsing, a weak canonizer, and
    non-overlapping" gives a syntactic model, for magmas. Write the three conditions for our models
@@ -54,12 +51,24 @@ to one element, has a finite model, or has only infinite models.
    on a sample by plain code, with a mutation test, and say whether the ETP proof carries over to
    `f` (hand argument until checked). This would be a second route to "the model satisfies its
    law", next to `term_models_z3.py`.
-9. **Read the Knuth-Bendix paper (1970)**, "Simple word problems in universal algebras", in the
+8. **Read the Knuth-Bendix paper (1970)**, "Simple word problems in universal algebras", in the
    open copy at `www.cs.tufts.edu/~nr/cs257/archive/don-knuth/knuth-bendix.pdf` (robots.txt first,
    in its own request): a web-search summary (step 20, not read) says it has an example with a
    unary operator. Record whether it treats free algebras of one binary and one unary operation and
    whether any of our laws or models appear. Needs a way to read the PDF text with tools already
    installed; install nothing.
+9. **Read the arXiv abstract page of 2602.16324** (M. Janota, M. Rawson, S. Schulz, "Case study:
+   saturations as explicit models in equational theories", 2026, cited in step 23): only `/abs`,
+   after arXiv's robots.txt in its own request and 15 seconds from every request. Step 23 quotes
+   arXiv 2609.05690 saying "A saturated unit-equational clause set can sometimes be read as a
+   convergent rewrite presentation of an explicit, possibly infinite model." Record whether this is
+   the same kind of model as our four term models and whether its conditions (termination,
+   confluence) could check them; a lead for item 7.
+10. **Find an open copy of A. K. Austin, "Finite models for laws in two variables"** (Proc. AMS 17,
+   1966, pp. 1410–1412, as cited in arXiv 2609.05690, step 23): look up its record in OpenAlex
+   (robots.txt `Allow: /`, read again first, 10 seconds between requests) and record where it is
+   open. If only on ams.org, add it to the owner's ams.org question under Blocked; fetch nothing
+   from ams.org.
 
 ## Done
 
@@ -181,10 +190,17 @@ to one element, has a finite model, or has only infinite models.
   1963 are open only on ams.org, which the loop does not fetch. Queue item 2 moved to Blocked (no
   second prover installed). No label changed.
 
+- 2026-11-22: step 23 (loop run 19). Read the HTML full text of arXiv 2609.05690v3 ("Trace-Tree
+  Magmas"), after arXiv's robots.txt: it is about magmas only ("unary" always means a tree builder,
+  never an operation of the algebra), none of our laws appears, and it does not quote Kisielewicz's
+  definition of "Austin identity" (still unknown). Its models use the same three tree builders and
+  the same free-pair default as ours (hand reading). Two leads queued: Janota, Rawson and Schulz
+  (arXiv 2602.16324) and Austin 1966. No label changed.
+
 ## Last iteration
 
-2026-11-22 (loop run 18): searched the titles in a free index of research papers for earlier work on our two laws that force one element and our four laws with only infinite examples; nothing about them turned up, while three test searches did find the papers they should, so the search itself works.
-Next run: the two checking tasks still wait for the owner (they need new software), so the next run reads the full text of the 2026 arXiv paper on infinite magma models (arXiv rules: robots.txt first, 15 seconds between requests).
+2026-11-22 (loop run 19): read the full text of a 2026 paper that builds infinite examples for laws with one operation; it never treats a second, one-input operation like our `f`, does not mention our laws, and does not give Kisielewicz's old definition of "Austin identity", though its examples are built the same way as ours.
+Next run: the two checking tasks still wait for the owner (they need new software), so the next run reads the description page of that paper's code on GitHub (with the `gh` tool) to see how its Lean proofs are set up.
 
 ## Blocked
 
