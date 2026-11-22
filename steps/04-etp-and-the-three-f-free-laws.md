@@ -49,8 +49,8 @@ python src/verify_witnesses.py results/witnesses_ffree_models.json
 - `((x*y)*z)*x = w` should never have been on the "open" list. Any law with a variable that occurs
   only alone on one side collapses at once. Our z3 run gave `unknown` at 5 s, and nobody looked at the
   law. Lesson recorded in the hub's `docs/LESSONS.md`.
-- The table now has 6 genuinely open laws, all with `f`.
+- Five laws remain open, all with `f` (two of them are the finite-versus-general leads).
 
 ## Next
 
-The six laws that contain `f` (queue in `STATE.md`).
+The five open laws, all with `f` (queue in `STATE.md`).
