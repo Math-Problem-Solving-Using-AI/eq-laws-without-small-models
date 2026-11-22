@@ -9,16 +9,17 @@ to one element, has a finite model, or has only infinite models.
 
 ## Queue (take the first item)
 
-1. **Check the mirror pairs by machine** (step 07, hand argument so far): a small script that
-   mirrors each of the nine laws (read `a*b` as `b*a`, rename variables), confirms which laws pair up,
-   and checks with z3 on all terms that the mirror of each infinite model satisfies the mirror law.
-   Also find out from the main repository's data why `x*(y*(z*x)) = w`, the mirror of
-   `((x*y)*z)*x = w`, is not among the nine.
+1. **Second route to each collapse proof through the mirror** (step 09 left it out): write a small
+   script that mirrors a stored derivation (every term read backwards, paths with 1 and 2 swapped
+   under `*`, law variables renamed to match the stored law text), apply it to
+   `results/collapse_xy_fz.json` to get a proof of `f(x)*(y*z) = y` and to
+   `results/collapse_fx_yz.json` to get one of `(x*y)*f(z) = y`, and check both with
+   `check_derivation.py`. New data files only; the checker stays unchanged.
 2. **Review of the four finite-versus-general leads** (`f(x*(y*z)) = y`, `x*(y*f(z)) = y`,
    `(f(x)*y)*z = y`, `f((x*y)*z) = y`): the counting
    argument is about all finite structures and needs a human reviewer or a Lean proof. Write the
    Lean statement with an English reading next to it and check it as in `docs/shared/LEAN_CAVEATS.md`
-   (statement fidelity first).
+   (statement fidelity first). Waits for the owner, see Blocked (no Lean on this machine).
 3. **Use the infinite models to refute implications:** for law A with an infinite model M, a law B that
    fails in M at explicit elements gives a certificate that A does not imply B. Define a certificate
    format (elements as terms, evaluation by plain code), verify it independently with mutation tests.
@@ -31,7 +32,9 @@ to one element, has a finite model, or has only infinite models.
    primary page it cites) before using it further.
 5. **Second independent check of the collapse proofs** (`check_derivation.py` was written in the same
    session as the proof): a Lean proof following `docs/shared/LEAN_CAVEATS.md`, or a second prover.
-   Installing a new tool needs the owner.
+   Installing a new tool needs the owner. The same Lean file could prove the mirror rule used in
+   step 09 (a structure satisfies a law exactly when its mirror satisfies the mirror law), which is
+   a hand argument so far.
 
 ## Done
 
@@ -64,11 +67,21 @@ to one element, has a finite model, or has only infinite models.
   corrupted copies rejected, each for the intended reason). Label raised from `z3-only` to
   `z3-only` plus our own checker. Added to CI and the LOOP gates.
 
+- 2026-11-22: step 09 (loop run 5). The mirror pairs are checked by machine (`mirror_pairs.py`, in
+  CI and the LOOP gates, 9 of 9 mutations rejected): the pairs of step 07 are right, the transposed
+  4-element tables are models of the partner law (plain evaluation), the four mirrored infinite
+  models are models of the partner law (z3 on all terms, `z3-only`). `x*(y*(z*x)) = w` is not among
+  the nine because z3 proves its collapse but not that of its mirror `((x*y)*z)*x = w`. The main
+  repository's 712 laws and its 216 laws with no small model are closed under mirroring.
+
 ## Last iteration
 
-2026-11-22 (loop run 4): the proof that the rule `f(x)*(y*z) = y` forces every structure down to one element is now written as 11 small steps, and our own short checking program, which needs no solver and was shown to reject damaged copies, accepted every step.
-Next run: write a small program that turns each of the nine rules into its mirror image (every product read backwards) and checks by machine which rules pair up and that the endless structures found earlier still work after mirroring.
+2026-11-22 (loop run 5): a new program read each of the nine rules backwards and confirmed by machine which rules are mirror images of each other, and that the structures found earlier, read backwards, still obey the mirror rule; it also showed that one rule's mirror is missing from the list only because the solver happened to settle that mirror and not the original.
+Next run: read the two stored collapse proofs backwards, which should give a second, independent proof for each mirror rule, and let our checking program check them (the Lean review waits for the owner, because Lean is not installed).
 
 ## Blocked
 
-(nothing)
+- Queue item 2 (Lean review of the four finite-versus-general leads) and the Lean part of item 5:
+  Lean is not installed on this machine (`lean`, `lake`, `elan` not found, 2026-11-22, run 5), and
+  installing a new tool needs the owner's decision: should the loop install Lean (elan) and Mathlib,
+  and which version?

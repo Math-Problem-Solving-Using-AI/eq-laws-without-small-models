@@ -35,6 +35,18 @@ Running notes of the loop: decisions, mistakes, dead ends, and notes for the own
   only, checker unchanged, nothing published. Label kept below `independent-prover`, as in run 1,
   because the checker is our own and unreviewed.
 
+- 2026-11-22 (run 5): queue item 1 (check the mirror pairs by machine) taken whole; it fitted one
+  session. New script `mirror_pairs.py` only (imports the parser of `check_derivation.py` and the
+  models of `term_models_z3.py`, both unchanged), added to CI and the LOOP gates; nothing published,
+  no format changed. Besides the infinite models the queue asked for, it also checks the transposed
+  4-element tables, because that costs nothing and tests the pairing on real data. The main
+  repository was only read (with `python -B`, so no bytecode was written there). Mirroring the
+  stored derivations was left out of this run and put in the queue as its own item.
+- 2026-11-22 (run 5): the next queue item (Lean review of the four leads) cannot move: `lean`,
+  `lake` and `elan` are not on this machine, and installing a new tool needs the owner. Moved to
+  Blocked with the question; the new item "mirror the stored derivations" goes first, since it needs
+  nothing new.
+
 ## Mistakes and dead ends
 
 - 2026-11-22 (run 1): first draft of the derivation checker's mutation test had two weak
@@ -59,6 +71,14 @@ Running notes of the loop: decisions, mistakes, dead ends, and notes for the own
   (`f(x)*(y*z) = y`, `x*(y*f(z)) = y`). Not wrong, only repeated work; it now gives an independent
   second route to each result.
 
+- 2026-11-22 (run 5): a planned mutation "normal form that tries only one side of the equation" was
+  not caught on the nine laws, because all nine are written as expression = letter. Dropped from the
+  selftest rather than counted.
+- 2026-11-22 (run 5): `((x*y)*z)*x = w` reached the list of nine only because z3 is not symmetric
+  under mirroring: its mirror `x*(y*(z*x)) = w` was proved to collapse by the same query, three
+  times out of three, while z3 gave up on `((x*y)*z)*x = w` three times out of three. A mirror
+  check at the time would have settled it at once.
+
 ## For other repositories
 
 - eq-unary-magma-laws (for the owner): `(x*y)*f(z) = y` collapses (step 05 here, `z3-only` plus
@@ -79,6 +99,15 @@ Running notes of the loop: decisions, mistakes, dead ends, and notes for the own
   label here is `z3-only` plus our own checker; if the main repository records that row as
   `z3-only`, it can be updated when the owner accepts this label.
 
+- eq-unary-magma-laws (for the owner): its 712 laws are closed under mirroring (read every `a*b` as
+  `b*a`; 54 laws are their own mirror), and so are its 216 laws with no model of size 2 or 3
+  (the 712 by `python mirror_pairs.py --laws-list ../eq-unary-magma-laws/data/laws_3.json`, the 216
+  by a one-off script; step 09 here). By
+  the mirror rule (a hand argument), A implies B exactly when mirror(A) implies mirror(B), so its
+  status matrix could be checked for mirror consistency, and any result for one law of a pair
+  transfers to the other. Also: `x*(y*(z*x)) = w` was proved to collapse by its z3 query, and its
+  mirror `((x*y)*z)*x = w` collapses by the same two-line argument (step 04 here).
+
 ## Lessons for the hub
 
 - When a mutation test reports "N of N caught", print the reason each mutation was rejected. A
@@ -94,3 +123,8 @@ Running notes of the loop: decisions, mistakes, dead ends, and notes for the own
   other symmetric variants among the laws already settled. A model of a law, with its products read
   backwards, is a model of the mirror law, so their answers are the same. Here two loop runs redid
   work that a mirror would have given at once.
+
+- A solver is not symmetric under mirroring. The same z3
+  query with the same time limit proved the collapse of `x*(y*(z*x)) = w` every time and gave up on
+  its mirror every time. When a list of "unresolved" laws is built from solver runs, close it under
+  the obvious symmetries first: a law whose mirror was settled is settled too.

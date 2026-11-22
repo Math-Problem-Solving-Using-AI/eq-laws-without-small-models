@@ -192,5 +192,6 @@ plus all gates of `LOOP.md`. Not committed, run in a terminal:
 
 ## Next
 
-Queue: review of the four finite-versus-general leads (Lean statement with an English reading,
-statement fidelity first).
+Queue: mirror the two stored collapse derivations and check the mirrored proofs with
+`check_derivation.py`. The Lean review of the four finite-versus-general leads waits for the owner:
+Lean is not installed on this machine (see Blocked in `STATE.md`).
