@@ -28,6 +28,12 @@ Running notes of the loop: decisions, mistakes, dead ends, and notes for the own
 - 2026-11-22 (run 3): the mirror-pair observation is recorded as a hand argument only. Checking it
   by machine was added to the queue as its own item rather than done in this run, to keep one item
   per run.
+- 2026-11-22 (run 4): queue item 1 (store the collapse proof of `f(x)*(y*z) = y` as a derivation)
+  taken whole. Of the two routes the queue mentioned, stored the README's own hand proof (step 03)
+  rather than the mirror of `results/collapse_xy_fz.json`, so that the proof the README shows is
+  the proof that is checked; the mirror route is left to the mirror-pair queue item. New data file
+  only, checker unchanged, nothing published. Label kept below `independent-prover`, as in run 1,
+  because the checker is our own and unreviewed.
 
 ## Mistakes and dead ends
 
@@ -67,6 +73,11 @@ Running notes of the loop: decisions, mistakes, dead ends, and notes for the own
   model, `z3-only` on all terms); same situation as `(f(x)*y)*z = y` above. It is the mirror image
   of `f(x*(y*z)) = y`. If the main repository's law list is closed under mirroring, its results
   for one law of a mirror pair may transfer to the other; not checked.
+
+- eq-unary-magma-laws (for the owner): the collapse of `f(x)*(y*z) = y` now has a stored derivation
+  (`results/collapse_fx_yz.json`, step 08 here) accepted by our checker, like `(x*y)*f(z) = y`. Its
+  label here is `z3-only` plus our own checker; if the main repository records that row as
+  `z3-only`, it can be updated when the owner accepts this label.
 
 ## Lessons for the hub
 
