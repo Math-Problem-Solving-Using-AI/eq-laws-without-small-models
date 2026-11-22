@@ -27,11 +27,11 @@ Labels are defined in `docs/shared/VERIFICATION_PROTOCOL.md`. No row is Lean-che
 | `(x*y)*(y*x) = y` | **does not collapse**: a model with 4 elements, re-checked by plain evaluation (`model-verified`). **Known**: ETP Equation167, *Stein's third law*. Structures satisfying it are "centrist groupoids", and OEIS A128934 counts 0 of them with 2 or 3 elements and 58 with 4. **Row fully decided** (step 04): 710 targets refuted by certificates, 1 implication proved by the ETP. |
 | `(x*y)*(y*z) = y` | **does not collapse**, same evidence. **Known**: this is ETP Equation168, the *central groupoid law* (Evans; Knuth 1970, as cited in the ETP paper). Finite central groupoids have n^2 elements, so 4 is the smallest size above 1. **Row fully decided** (step 04): 707 refuted, 4 implications proved by the ETP. |
 | `((x*y)*z)*x = w` | **collapses, trivially** (step 04): `w` occurs only on the right, so put `x = y = z = a` and get `a = ((a*a)*a)*a = b` for any `a`, `b`. The ETP data agrees (Equation303 implies `x = y`). Our z3 run had missed it. |
-| `(f(x)*y)*z = y` | open. No model of size 4, 5, 6 (z3 `unsat`, `z3-only`). Collapse unproven. |
+| `(f(x)*y)*z = y` | **does not collapse** (step 06): an infinite model of formal terms, law checked on all terms by z3 (`z3-only`) and on a sample by plain Python. No finite model with 2 or more elements by a counting argument (`hand-argument`; z3 agrees for sizes 2 to 6). Candidate Austin law, see leads below. |
 | `(x*y)*f(z) = y` | **collapses** (step 05). Short hand proof below, written as 12 steps in `results/collapse_xy_fz.json` and accepted by our plain-Python checker `check_derivation.py` (mutation-tested); z3 accepts each lemma. `z3-only` plus our own checker, no human review, no Lean. |
-| `f((x*y)*z) = y` | open, same |
-| `f(x*(y*z)) = y` | open, same |
-| `x*(y*f(z)) = y` | open, same |
+| `f((x*y)*z) = y` | open. No model of size 4, 5, 6 (z3 `unsat`, `z3-only`). Collapse unproven. |
+| `f(x*(y*z)) = y` | lead, see below: infinite model checked on all terms by z3 (`z3-only`), finite part `hand-argument` |
+| `x*(y*f(z)) = y` | lead, same |
 
 "No model up to size 6" does not rule out larger or infinite models.
 
@@ -40,12 +40,13 @@ Labels are defined in `docs/shared/VERIFICATION_PROTOCOL.md`. No row is Lean-che
 Vocabulary (literature check, eq-unary-magma-laws `docs/PRIOR_WORK.md`): a law with infinite models
 but no nontrivial finite model is called an **Austin law**. ETP blueprint: "no law of order four or
 less is an Austin law" for magmas. With a unary operation, size 3 seems enough, much as a short
-identity with a constant, `(ex)y = x` (Dudek), has only infinite nontrivial models. So the two laws
+identity with a constant, `(ex)y = x` (Dudek), has only infinite nontrivial models. So the three laws
 below are **candidate Austin laws in type (2,1)**. This kind of result is known in general. We found
-nothing about these two specific laws. The arguments were re-read step by step on 2026-11-22
-(second reading, still not a human reviewer, not Lean).
+nothing about the first two specific laws; no search was done for the third, `(f(x)*y)*z = y`.
+The arguments for the first two were re-read step by step on 2026-11-22 (second reading, still not
+a human reviewer, not Lean); the third has had one reading.
 
-For `f(x*(y*z)) = y` and `x*(y*f(z)) = y` I think the answer is: **no finite structure with 2 or
+For `f(x*(y*z)) = y`, `x*(y*f(z)) = y` and `(f(x)*y)*z = y` (step 06) I think the answer is: **no finite structure with 2 or
 more elements satisfies the law, yet the law does not collapse, because an infinite structure
 satisfies it.** If true, each law "forces one element" for finite structures but not in general,
 the same kind of finite-versus-general gap the Equational Theories Project reported.
@@ -57,18 +58,24 @@ Finite part (counting argument, shown for `f(x*(y*z)) = y`):
    bijection `p`.
 3. Then `f(x*(y*z)) = f(p(x)) = y` for every y, impossible when n is at least 2.
 The same counting works for `x*(y*f(z)) = y`: `y*f(z) = p(y)`, so `x*w = p^-1(w)` for all x, w, and
-then `p(y) = p^-1(f(z))` for all y, impossible for n at least 2. z3 agrees for sizes 2 to 6.
+then `p(y) = p^-1(f(z))` for all y, impossible for n at least 2. For `(f(x)*y)*z = y`: `f(x)*y`
+determines `y`, so `y -> c*y` (with `c = f(a)`) is a bijection, so `u*z` does not depend on `z` for
+any `u`, in particular `c*z`, which contradicts injectivity for n at least 2. z3 agrees for sizes 2 to 6.
 
-Infinite part: models built by formula, sample-checked by `infinite_models.py`.
+Infinite part: models built by formula, sample-checked by `infinite_models.py`, and checked on all
+terms by z3 in `term_models_z3.py` (z3's algebraic datatypes are exactly the formal terms; `z3-only`).
 - `f(x*(y*z)) = y`: elements are nested pairs, `x*y` is the formal pair, `f` of a formal pair
   `(x, (y, z))` returns `y`, `f` of anything else returns it unchanged. The law holds by
   construction. Checked on all 17,576 triples from 26 elements, 0 failures.
 - `x*(y*f(z)) = y`: `f(t)` is the formal term, `x*w` returns `y` when `w` is the formal pair
   `(y, f(z))`, otherwise the formal pair `(x, w)`. The law holds by construction. Checked on
   300,000 random triples from 144 elements, 0 failures.
+- `(f(x)*y)*z = y`: `f(t)` is the formal term, `u*z` returns `y` when `u` is the formal pair
+  `(f(t), y)`, otherwise the formal pair `(u, z)`. The law holds by construction. Checked on
+  300,000 random triples from 144 elements, 0 failures.
 
-Status of both leads: `hand-argument`, construction sample-checked by plain code, **not**
-machine-proven, not checked by anyone else, not Lean, not literature-checked. The counting
+Status of the three leads: finite part `hand-argument`; infinite part `z3-only` on all terms plus a
+plain-code sample check. Not checked by anyone else, not Lean, not literature-checked. The counting
 argument is a statement about all finite structures, which z3 cannot prove, so it needs a Lean
 proof or a careful human review.
 
@@ -114,6 +121,7 @@ checked by a human, Lean, or another prover. Not checked against the literature.
 3. `03-hand-proof-f-x-yz.md`
 4. `04-etp-and-the-three-f-free-laws.md`
 5. `05-collapse-xy-fz.md`
+6. `06-f-x-y-z-infinite-model.md`
 
 ## Files
 
@@ -121,6 +129,8 @@ checked by a human, Lean, or another prover. Not checked against the literature.
   (the two models found are stored there as tables).
 - `lemma_chain_f_x_yz.py` z3 check of the hand proof for `f(x)*(y*z) = y`.
 - `lemma_chain_xy_fz.py` z3 check of the hand proof for `(x*y)*f(z) = y`.
+- `infinite_models.py` sample check of the three infinite models (plain Python), `--selftest`.
+- `term_models_z3.py` z3 check of the three infinite models on all terms, `--selftest`.
 - `check_derivation.py` plain-Python checker of a stored step-by-step collapse proof
   (`results/collapse_xy_fz.json`), with `--selftest` (corrupted copies must be rejected).
 - Depends on the engine in `src/` of [eq-unary-magma-laws](https://github.com/Math-Problem-Solving-Using-AI/eq-unary-magma-laws) (clone it next to this repository) and its generated data.
@@ -134,6 +144,9 @@ pip install -r requirements.txt
 python verify_models.py results/zero_model_laws.json            # the two structures, independent evaluator
 python verify_models.py --selftest results/zero_model_laws.json # corrupted input must fail
 python infinite_models.py                                       # sample check of the infinite constructions
+python infinite_models.py --selftest                            # corrupted models must fail
+python term_models_z3.py                                        # z3 on all terms of the infinite constructions
+python term_models_z3.py --selftest                             # corrupted models must fail
 python check_derivation.py results/collapse_xy_fz.json            # step-by-step collapse proof, no solver
 python check_derivation.py --selftest results/collapse_xy_fz.json # corrupted proofs must be rejected
 python lemma_chain_xy_fz.py                                      # z3 on the second hand proof
