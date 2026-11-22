@@ -1,5 +1,8 @@
 # Nine laws with no small model: do they collapse?
 
+> Part of [math-curiosity](https://github.com/MauroBCardoso/math-curiosity): open, reproducible experiments on equational laws, one repository per problem.
+> **LLMs and tools:** read [`llms.txt`](llms.txt). **Autonomous sessions:** [`LOOP.md`](LOOP.md) and [`STATE.md`](STATE.md). License: Apache-2.0.
+
 Belongs to [eq-unary-magma-laws](https://github.com/MauroBCardoso/eq-unary-magma-laws). Kept as its own problem because it is a self-contained open
 question, and because settling it decides 6,399 implication pairs of the main problem
 (9 laws, 711 candidate targets each).
@@ -94,16 +97,25 @@ literature. A first attempt at step 4 without the instance in step 2 was too wea
 
 ## Reproduce
 
-From the repo root, after reproducing the main problem's steps:
+Self-contained checks (CI runs them on every push):
+
+```
+pip install -r requirements.txt
+python verify_models.py results/zero_model_laws.json            # the two structures, independent evaluator
+python verify_models.py --selftest results/zero_model_laws.json # corrupted input must fail
+python infinite_models.py                                       # sample check of the infinite constructions
+python lemma_chain_f_x_yz.py                                    # z3 on the hand proof (results vary between runs)
+```
+
+Regenerating `results/zero_model_laws.json` needs the engine and generated data of
+[eq-unary-magma-laws](https://github.com/MauroBCardoso/eq-unary-magma-laws). Clone it next to this repository, reproduce its steps, then:
 
 ```
 P=../eq-unary-magma-laws
-python zero_model_laws.py $P/data/laws_3.json $P/data/o3 6 15000
-python lemma_chain_f_x_yz.py
+python zero_model_laws.py $P/data/laws_3.json $P/data/o3 6 15000     # or set EQ_ENGINE to its src/
 ```
 
-## Next
+## Contributing
 
-- Try to find hand proofs (or larger models) for the six open laws, each with a lemma chain.
-- Store derivations that a tiny independent checker can verify (the protocol's S2).
-- Cross-check the two `*`-only laws with the ETP data.
+Open an issue with a reference if you know existing results. Work items are in [`STATE.md`](STATE.md),
+protocol in [`LOOP.md`](LOOP.md). Every claim keeps the label it earned.
