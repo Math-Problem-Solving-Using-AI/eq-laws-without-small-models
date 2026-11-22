@@ -83,7 +83,8 @@ identities", Algebra Universalis 25 (1988), 400-401, but its text was not read, 
 no model with 2 to 6 elements). So the four laws below are **candidate
 Austin laws in type (2,1)**. Whether Kisielewicz's papers define the term for all types of algebra
 is unknown (not read; step 18 found no open copy, abstract or review of either paper). Literature (step 15, shallow: 5 web and 4 GitHub queries, no paper
-database): nothing found about any of the four laws. Their 22 magma special cases (`f` replaced by a
+database; step 22, OpenAlex titles, which also turned up an unread 2026 preprint on infinite models of
+the magma Austin identities E5093 and E5107, Zenodo `doi:10.5281/zenodo.24340685`): nothing found about any of the four laws. Their 22 magma special cases (`f` replaced by a
 formula in one letter, at most 5 operations in all) all force one element, by the ETP's outcome
 table (order 4 or less) or by z3 (order 5, `z3-only`), and none is in the blueprint's tables of
 unsettled order-5 laws; a special case with a nontrivial finite model would have refuted our
@@ -156,8 +157,9 @@ back `y`.
 Checked by: Claude reading it, z3 on each lemma (`lemma_chain_f_x_yz.py`), and since step 08 the
 derivation checker `check_derivation.py` on the 11 single steps in `results/collapse_fx_yz.json`
 (rejects 34 of 34 corrupted copies). Not checked by a human mathematician, a second independent
-proof checker, or Lean. Literature (step 14, shallow search): nothing found about this law; its
-magma special cases (`f(x)` replaced by `x`, `x*x`, `x*(x*x)`, `(x*x)*x`) are ETP Equations 15, 178,
+proof checker, or Lean. Literature (step 14, shallow search): nothing found about this law; a
+title search in the open index OpenAlex (step 22, 14 requests, three control searches found their known papers):
+nothing found either. Its magma special cases (`f(x)` replaced by `x`, `x*x`, `x*(x*x)`, `(x*x)*x`) are ETP Equations 15, 178,
 1933, 2136, all recorded by the ETP as forcing one element, which agrees with the collapse but does
 not prove it (`python etp_specializations.py`, needs a clone of the ETP). A first attempt at step 4 without the instance in step 2 was too weak: z3 returned
 `unknown`, because my sketch had skipped the instantiation.
@@ -177,7 +179,7 @@ back `y`.
 Checked by: the derivation checker `check_derivation.py` (written in this repository, plain
 Python, rejects 37 of 37 corrupted copies) and z3 on each lemma (`lemma_chain_xy_fz.py`). Not
 checked by a human, Lean, or another prover. Literature (step 14, shallow search: 6 web and 4
-GitHub queries, no paper database): nothing found about this law; its magma special cases are ETP
+GitHub queries, no paper database; step 22, OpenAlex titles): nothing found about this law; its magma special cases are ETP
 Equations 30, 174, 1508, 1711 (`f(z)` replaced by `z`, `z*z`, `z*(z*z)`, `(z*z)*z`), all recorded
 by the ETP as forcing one element. That agrees with the collapse but does not prove it, and "not
 found" does not mean new. Details in `steps/05-collapse-xy-fz.md`.
@@ -206,6 +208,7 @@ found" does not mean new. Details in `steps/05-collapse-xy-fz.md`.
 19. `19-dudek-source-search.md`
 20. `20-literature-refutations.md`
 21. `21-law-list-complete.md`
+22. `22-openalex-title-search.md`
 
 ## Files
 
