@@ -23,12 +23,12 @@ Labels are defined in `docs/shared/VERIFICATION_PROTOCOL.md`. No row is Lean-che
 
 | Law | Status |
 |-----|--------|
-| `f(x)*(y*z) = y` | **collapses**. Short hand proof below, written as 11 steps in `results/collapse_fx_yz.json` and accepted by our plain-Python checker `check_derivation.py` (step 08); z3 accepts each lemma. `z3-only` plus our own checker, no human review, no Lean. |
+| `f(x)*(y*z) = y` | **collapses**. Short hand proof below, written as 11 steps in `results/collapse_fx_yz.json` and accepted by our plain-Python checker `check_derivation.py` (step 08); a second, different 12-step proof, the proof of `(x*y)*f(z) = y` read backwards, is accepted too (step 10); z3 accepts each lemma. `z3-only` plus our own checker, no human review, no Lean. |
 | `(x*y)*(y*x) = y` | **does not collapse**: a model with 4 elements, re-checked by plain evaluation (`model-verified`). **Known**: ETP Equation167, *Stein's third law*. Structures satisfying it are "centrist groupoids", and OEIS A128934 counts 0 of them with 2 or 3 elements and 58 with 4. **Row fully decided** (step 04): 710 targets refuted by certificates, 1 implication proved by the ETP. |
 | `(x*y)*(y*z) = y` | **does not collapse**, same evidence. **Known**: this is ETP Equation168, the *central groupoid law* (Evans; Knuth 1970, as cited in the ETP paper). Finite central groupoids have n^2 elements, so 4 is the smallest size above 1. **Row fully decided** (step 04): 707 refuted, 4 implications proved by the ETP. |
 | `((x*y)*z)*x = w` | **collapses, trivially** (step 04): `w` occurs only on the right, so put `x = y = z = a` and get `a = ((a*a)*a)*a = b` for any `a`, `b`. The ETP data agrees (Equation303 implies `x = y`). Our z3 run had missed it. |
 | `(f(x)*y)*z = y` | **does not collapse** (step 06): an infinite model of formal terms, law checked on all terms by z3 (`z3-only`) and on a sample by plain Python. No finite model with 2 or more elements by a counting argument (`hand-argument`; z3 agrees for sizes 2 to 6). Candidate Austin law, see leads below. |
-| `(x*y)*f(z) = y` | **collapses** (step 05). Short hand proof below, written as 12 steps in `results/collapse_xy_fz.json` and accepted by our plain-Python checker `check_derivation.py` (mutation-tested); z3 accepts each lemma. `z3-only` plus our own checker, no human review, no Lean. |
+| `(x*y)*f(z) = y` | **collapses** (step 05). Short hand proof below, written as 12 steps in `results/collapse_xy_fz.json` and accepted by our plain-Python checker `check_derivation.py` (mutation-tested); a second 11-step proof, the proof of `f(x)*(y*z) = y` read backwards, is accepted too (step 10); z3 accepts each lemma. `z3-only` plus our own checker, no human review, no Lean. |
 | `f((x*y)*z) = y` | **does not collapse** (step 07): infinite model of formal terms, law checked on all terms by z3 (`z3-only`) and on a sample by plain Python. No finite model with 2 or more elements by a counting argument (`hand-argument`; z3 agrees for sizes 2 to 6). It is the mirror image of `f(x*(y*z)) = y` (read every product backwards), so the two laws have the same answer. Candidate Austin law. |
 | `f(x*(y*z)) = y` | lead, see below: infinite model checked on all terms by z3 (`z3-only`), finite part `hand-argument` |
 | `x*(y*f(z)) = y` | lead, same |
@@ -146,6 +146,7 @@ checked by a human, Lean, or another prover. Not checked against the literature.
 7. `07-f-xy-z-infinite-model.md`
 8. `08-collapse-fx-yz-derivation.md`
 9. `09-mirror-pairs-by-machine.md`
+10. `10-mirror-collapse-proofs.md`
 
 ## Files
 
@@ -157,6 +158,8 @@ checked by a human, Lean, or another prover. Not checked against the literature.
 - `term_models_z3.py` z3 check of the four infinite models on all terms, `--selftest`.
 - `mirror_pairs.py` mirror pairs of the nine laws and the mirrored models (plain Python and z3),
   `--selftest`, and `--laws-list PATH` for the main repository's law list.
+- `mirror_derivation.py` reads a stored collapse proof backwards to get a proof of the mirror law
+  (`results/*_by_mirror.json`), `--check`, `--selftest`; its output is checked by `check_derivation.py`.
 - `check_derivation.py` plain-Python checker of a stored step-by-step collapse proof
   (`results/collapse_xy_fz.json`, `results/collapse_fx_yz.json`), with `--selftest` (corrupted
   copies must be rejected).
@@ -178,6 +181,10 @@ python check_derivation.py results/collapse_xy_fz.json            # step-by-step
 python check_derivation.py --selftest results/collapse_xy_fz.json # corrupted proofs must be rejected
 python check_derivation.py results/collapse_fx_yz.json            # the same for f(x)*(y*z) = y
 python check_derivation.py --selftest results/collapse_fx_yz.json
+python mirror_derivation.py --check                              # mirrored proofs match a fresh run
+python mirror_derivation.py --selftest                           # broken mirrors must be rejected
+python check_derivation.py results/collapse_fx_yz_by_mirror.json results/collapse_xy_fz_by_mirror.json
+python check_derivation.py --selftest results/collapse_fx_yz_by_mirror.json results/collapse_xy_fz_by_mirror.json
 python mirror_pairs.py                                           # mirror pairs and mirrored models
 python mirror_pairs.py --selftest                                # corrupted mirrors must fail
 python lemma_chain_xy_fz.py                                      # z3 on the second hand proof
