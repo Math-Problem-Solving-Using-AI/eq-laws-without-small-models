@@ -36,7 +36,7 @@ to one element, has a finite model, or has only infinite models.
 
 ## Last iteration
 
-2026-11-22 (research session, branch research/2026-11-22-literature-and-erdos): step 04.
+2026-11-22 (research session): step 04.
 Five laws remain open, all contain `f`; two of them are the finite-versus-general leads.
 
 ## Blocked
