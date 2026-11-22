@@ -30,6 +30,9 @@ in `steps/`.
   - `python verify_models.py results/zero_model_laws.json`
   - `python verify_models.py --selftest results/zero_model_laws.json`
   - `python infinite_models.py`
+  - `python infinite_models.py --selftest`
+  - `python term_models_z3.py`
+  - `python term_models_z3.py --selftest`
   - `python check_derivation.py results/collapse_xy_fz.json`
   - `python check_derivation.py --selftest results/collapse_xy_fz.json`
   A verifier you changed must still fail on corrupted input (mutation test).
