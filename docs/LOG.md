@@ -93,6 +93,13 @@ Running notes of the loop: decisions, mistakes, dead ends, and notes for the own
   nothing sent but the two addresses. Wrote `dudek_slides_check.py` to check our reading of the
   slides' formulas; not a LOOP gate and not in CI, like the other literature-check scripts. The
   missing reference for Dudek became its own queue item. Nothing published, no format changed.
+- 2026-11-22 (run 13): queue item 1 (Lean review) is still blocked, so took item 2 (arXiv abstract
+  page of 2609.05690). Two requests to `arxiv.org` (robots.txt, then `/abs/2609.05690` 29 seconds
+  later), nothing sent but the two addresses. Kept to the abstract page as the item said; the HTML
+  full text and the paper's code repository became two new queue items at the end, so the older
+  items (Kisielewicz, Dudek) keep their turn. No script added: the result is a quote, checked by a
+  keyword search with one mutation in the scratch folder. README gained one paragraph and the
+  missing step 16 in its step list. Nothing published, no format changed.
 
 
 ## Mistakes and dead ends
@@ -173,6 +180,10 @@ Running notes of the loop: decisions, mistakes, dead ends, and notes for the own
   search tries. Two other mutations were first caught by the wrong check; fixed and re-run.
 - 2026-11-22 (run 12): the slides write `ee = 2^5` where their own table gives `2^3`; either a typo
   in the slides or our decoding of the raised number is wrong (not rendered as a picture).
+- 2026-11-22 (run 13): the keyword script crashed on the Windows console when printing `⋄`
+  (`UnicodeEncodeError`, code page cp1252). Printed the keys with `ascii()` instead.
+- 2026-11-22 (run 13): the README's step list had stopped at step 15; step 16 had not been added in
+  run 12. Added with step 17.
 
 
 ## For other repositories
@@ -303,3 +314,8 @@ Running notes of the loop: decisions, mistakes, dead ends, and notes for the own
 - When a PDF's text extraction loses raised or lowered symbols and no renderer is available, the
   page's content stream lists each text piece with its font; the font object's encoding tells which
   character a code is. Record that the reading was reconstructed, not seen.
+- A keyword search that finds nothing in a source ("the abstract never says unary") is only worth
+  something if the same search, run on a copy with the word put in, finds it. Run that positive
+  control, and print non-ASCII search keys with `ascii()` on Windows consoles.
+- When a step adds a file to a list kept by hand (a README step list), check the list in the same
+  commit; here one step was missing for a whole run.
