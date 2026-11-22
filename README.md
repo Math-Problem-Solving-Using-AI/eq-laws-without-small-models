@@ -68,8 +68,10 @@ infinite models, but no nontrivial finite models". That definition is for magmas
 our laws with `f` is our own step. Known magma examples: Austin (1965, order 9), Kisielewicz (1990,
 order 6; 1997, order 5), and 10 laws of order 5 in the ETP blueprint, which also says "no law of
 order four or less is an Austin law" (magmas only). With a unary operation, size 3 seems enough,
-much as a short identity with a constant, `(ex)y = x` (Dudek; slides read only by a subagent in the
-main repository), has only infinite nontrivial models. So the four laws below are **candidate
+much as a short identity with a constant, `(ex)y = x` (Dudek), has only infinite nontrivial models
+(quote and infinite model re-read in step 16 from Z. Ernst's slides of 2008; the slides give no
+reference for Dudek's paper; `python dudek_slides_check.py` checks the model on a sample and finds
+no model with 2 to 6 elements). So the four laws below are **candidate
 Austin laws in type (2,1)**. Whether Kisielewicz's papers define the term for all types of algebra
 is unknown (not read). Literature (step 15, shallow: 5 web and 4 GitHub queries, no paper
 database): nothing found about any of the four laws. Their 22 magma special cases (`f` replaced by a
