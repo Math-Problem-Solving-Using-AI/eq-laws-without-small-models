@@ -14,6 +14,7 @@
   and `f`) or the solver's answer per size (`unsat` for sizes 4 to 6 means none found by z3, not independently checked)
 - `python verify_models.py results/zero_model_laws.json` re-checks the structures with an independent evaluator
 - `python check_derivation.py results/collapse_xy_fz.json results/collapse_fx_yz.json` re-checks the two stored collapse proofs without a solver
+- `python mirror_pairs.py` confirms the mirror pairs from the law texts and checks the mirrored models (tables by plain code, infinite models by z3, `z3-only`); the rule that a law and its mirror share their answer is a hand argument
 
 ## How to trust it
 

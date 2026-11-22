@@ -35,11 +35,17 @@ Labels are defined in `docs/shared/VERIFICATION_PROTOCOL.md`. No row is Lean-che
 
 "No model up to size 6" does not rule out larger or infinite models.
 
-**Mirror pairs** (noticed in step 07, hand argument): reading every product `a*b` as `b*a` turns a
-model of one law into a model of its mirror law. `f(x*(y*z)) = y` and `f((x*y)*z) = y` are mirrors,
-so are `x*(y*f(z)) = y` and `(f(x)*y)*z = y`, and `f(x)*(y*z) = y` and `(x*y)*f(z) = y`. The two
-laws of a pair always have the same answer. The pairs were worked out independently here, which
-gives a second route to each result.
+**Mirror pairs** (noticed in step 07, checked by machine in step 09): reading every product `a*b`
+as `b*a` turns a model of one law into a model of its mirror law. `f(x*(y*z)) = y` and
+`f((x*y)*z) = y` are mirrors, so are `x*(y*f(z)) = y` and `(f(x)*y)*z = y`, and `f(x)*(y*z) = y`
+and `(x*y)*f(z) = y`; the two laws with 4-element models are their own mirrors. `mirror_pairs.py`
+confirms these pairs from the law texts, checks the transposed 4-element tables by plain
+evaluation, and checks the four mirrored infinite models on all terms with z3 (`z3-only`). The
+general rule "a law and its mirror have the same answer" is still a hand argument (short induction
+on terms). The pairs were worked out independently here, which gives a second route to each result.
+The mirror of `((x*y)*z)*x = w` is `x*(y*(z*x)) = w`; it is not among the nine because z3 proved its
+collapse in the main repository (three re-runs of that query in step 09 agree), while it gave up on
+`((x*y)*z)*x = w`. z3 is not symmetric under mirroring.
 
 ### Leads from hand analysis (NOT machine-proven): candidate Austin laws
 
@@ -139,6 +145,7 @@ checked by a human, Lean, or another prover. Not checked against the literature.
 6. `06-f-x-y-z-infinite-model.md`
 7. `07-f-xy-z-infinite-model.md`
 8. `08-collapse-fx-yz-derivation.md`
+9. `09-mirror-pairs-by-machine.md`
 
 ## Files
 
@@ -148,6 +155,8 @@ checked by a human, Lean, or another prover. Not checked against the literature.
 - `lemma_chain_xy_fz.py` z3 check of the hand proof for `(x*y)*f(z) = y`.
 - `infinite_models.py` sample check of the four infinite models (plain Python), `--selftest`.
 - `term_models_z3.py` z3 check of the four infinite models on all terms, `--selftest`.
+- `mirror_pairs.py` mirror pairs of the nine laws and the mirrored models (plain Python and z3),
+  `--selftest`, and `--laws-list PATH` for the main repository's law list.
 - `check_derivation.py` plain-Python checker of a stored step-by-step collapse proof
   (`results/collapse_xy_fz.json`, `results/collapse_fx_yz.json`), with `--selftest` (corrupted
   copies must be rejected).
@@ -169,6 +178,8 @@ python check_derivation.py results/collapse_xy_fz.json            # step-by-step
 python check_derivation.py --selftest results/collapse_xy_fz.json # corrupted proofs must be rejected
 python check_derivation.py results/collapse_fx_yz.json            # the same for f(x)*(y*z) = y
 python check_derivation.py --selftest results/collapse_fx_yz.json
+python mirror_pairs.py                                           # mirror pairs and mirrored models
+python mirror_pairs.py --selftest                                # corrupted mirrors must fail
 python lemma_chain_xy_fz.py                                      # z3 on the second hand proof
 python lemma_chain_f_x_yz.py                                    # z3 on the hand proof (results vary between runs)
 ```
