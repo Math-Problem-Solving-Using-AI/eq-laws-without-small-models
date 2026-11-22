@@ -24,10 +24,10 @@ Labels are defined in `docs/shared/VERIFICATION_PROTOCOL.md`. No row is Lean-che
 | Law | Status |
 |-----|--------|
 | `f(x)*(y*z) = y` | **collapses**. Short hand proof below, every step accepted by z3. `z3-only`. |
-| `(x*y)*(y*x) = y` | **does not collapse**: a model with 4 elements, re-checked by plain evaluation. `model-verified`. Contains no `f`, so already inside the Equational Theories Project's scope, NOT yet cross-checked against its data. |
-| `(x*y)*(y*z) = y` | same as above: model with 4 elements, `model-verified`, not cross-checked against ETP. |
-| `((x*y)*z)*x = w` | open. No model of size 4, 5, 6 (z3 `unsat`, `z3-only`). Collapse unproven. |
-| `(f(x)*y)*z = y` | open, same |
+| `(x*y)*(y*x) = y` | **does not collapse**: a model with 4 elements, re-checked by plain evaluation (`model-verified`). This is ETP Equation167, whose smallest model the ETP also lists as 4 elements. **Row fully decided** (step 04): 710 targets refuted by certificates, 1 implication proved by the ETP. |
+| `(x*y)*(y*z) = y` | **does not collapse**, same evidence. **Known**: this is ETP Equation168, the *central groupoid law* (Evans; Knuth 1970, as cited in the ETP paper). Finite central groupoids have n^2 elements, so 4 is the smallest size above 1. **Row fully decided** (step 04): 707 refuted, 4 implications proved by the ETP. |
+| `((x*y)*z)*x = w` | **collapses, trivially** (step 04): `w` occurs only on the right, so put `x = y = z = a` and get `a = ((a*a)*a)*a = b` for any `a`, `b`. The ETP data agrees (Equation303 implies `x = y`). Our z3 run had missed it. |
+| `(f(x)*y)*z = y` | open. No model of size 4, 5, 6 (z3 `unsat`, `z3-only`). Collapse unproven. |
 | `(x*y)*f(z) = y` | open, same |
 | `f((x*y)*z) = y` | open, same |
 | `f(x*(y*z)) = y` | open, same |
@@ -87,6 +87,7 @@ literature. A first attempt at step 4 without the instance in step 2 was too wea
 1. `01-find-the-laws.md`
 2. `02-search-larger-models.md`
 3. `03-hand-proof-f-x-yz.md`
+4. `04-etp-and-the-three-f-free-laws.md`
 
 ## Files
 
