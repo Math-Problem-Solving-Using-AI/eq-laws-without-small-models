@@ -1,6 +1,6 @@
 # Nine laws with no small model: do they collapse?
 
-Belongs to `../unary-magma-laws`. Kept as its own problem because it is a self-contained open
+Belongs to [eq-unary-magma-laws](https://github.com/MauroBCardoso/eq-unary-magma-laws). Kept as its own problem because it is a self-contained open
 question, and because settling it decides 6,399 implication pairs of the main problem
 (9 laws, 711 candidate targets each).
 
@@ -16,7 +16,7 @@ A law that collapses implies every other law. A law with a bigger model does not
 
 ## Current status
 
-Labels are defined in `docs/VERIFICATION_PROTOCOL.md`. No row is Lean-checked.
+Labels are defined in `docs/shared/VERIFICATION_PROTOCOL.md`. No row is Lean-checked.
 
 | Law | Status |
 |-----|--------|
@@ -90,16 +90,16 @@ literature. A first attempt at step 4 without the instance in step 2 was too wea
 - `zero_model_laws.py` searches for models of size 4 to 6. Output: `results/zero_model_laws.json`
   (the two models found are stored there as tables).
 - `lemma_chain_f_x_yz.py` z3 check of the hand proof above.
-- Depends on the engine in `../unary-magma-laws/src` and its generated data.
+- Depends on the engine in `src/` of [eq-unary-magma-laws](https://github.com/MauroBCardoso/eq-unary-magma-laws) (clone it next to this repository) and its generated data.
 
 ## Reproduce
 
 From the repo root, after reproducing the main problem's steps:
 
 ```
-P=problems/unary-magma-laws
-.venv/Scripts/python.exe problems/laws-without-small-models/zero_model_laws.py $P/data/laws_3.json $P/data/o3 6 15000
-.venv/Scripts/python.exe problems/laws-without-small-models/lemma_chain_f_x_yz.py
+P=../eq-unary-magma-laws
+python zero_model_laws.py $P/data/laws_3.json $P/data/o3 6 15000
+python lemma_chain_f_x_yz.py
 ```
 
 ## Next

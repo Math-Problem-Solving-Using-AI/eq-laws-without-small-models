@@ -12,7 +12,9 @@ import time
 import numpy as np
 
 from pathlib import Path
-ENGINE = Path(__file__).resolve().parents[1] / "unary-magma-laws" / "src"
+import os
+
+ENGINE = Path(os.environ.get("EQ_ENGINE", Path(__file__).resolve().parent.parent / "eq-unary-magma-laws" / "src"))
 sys.path.insert(0, str(ENGINE))
 from findmodel import check_model, find_model  # noqa: E402
 from prove import tuplify  # noqa: E402

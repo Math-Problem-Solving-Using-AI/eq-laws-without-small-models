@@ -15,7 +15,7 @@ Model B, law  x*(y*f(z)) = y :
     x*w  := y   if w == ('p', y, ('f', z))
             ('p', x, w)  otherwise
 
-Run from repo root: .venv/Scripts/python.exe problems/laws-without-small-models/infinite_models.py
+Run from repo root: python infinite_models.py
 """
 import itertools
 

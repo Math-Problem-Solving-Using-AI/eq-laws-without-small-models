@@ -11,7 +11,7 @@ Each lemma is checked as: assumptions AND NOT(lemma) is unsat.
 
 A chain of z3 'unsat' answers has status z3-only. It is NOT an independent certificate.
 
-Run from repo root: .venv/Scripts/python.exe problems/laws-without-small-models/lemma_chain_f_x_yz.py
+Run from repo root: python lemma_chain_f_x_yz.py
 """
 import z3
 

@@ -2,7 +2,7 @@
 
 - Date: 2026-11-22
 - Status label: `z3-only`
-- Commit(s): 673be00
+- Commit(s): see this repository's history; engine history in eq-unary-magma-laws
 
 ## Goal
 Replace "z3 timed out" for one of the seven open laws with a human-readable argument whose every
@@ -15,7 +15,7 @@ product. The statement of the proof is in `../README.md`.
 
 ## Command(s)
 ```
-.venv/Scripts/python.exe problems/laws-without-small-models/lemma_chain_f_x_yz.py
+python lemma_chain_f_x_yz.py
 ```
 
 ## Output

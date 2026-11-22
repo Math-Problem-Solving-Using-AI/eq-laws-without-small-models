@@ -2,7 +2,7 @@
 
 - Date: 2026-11-22
 - Status label: `model-verified` for the two models found, `z3-only` for the "none found" results
-- Commit(s): 3afde82, restructured in 673be00
+- Commit(s): see this repository's history; engine history in eq-unary-magma-laws
 
 ## Goal
 For each of the nine laws, look for a model with 4, 5 or 6 elements. A model proves the law
@@ -10,8 +10,8 @@ does not collapse.
 
 ## Command(s)
 ```
-P=problems/unary-magma-laws
-.venv/Scripts/python.exe problems/laws-without-small-models/zero_model_laws.py $P/data/laws_3.json $P/data/o3 6 15000
+P=../eq-unary-magma-laws
+python zero_model_laws.py $P/data/laws_3.json $P/data/o3 6 15000
 ```
 
 ## Inputs
@@ -35,7 +35,7 @@ the law is instantiated for every assignment of elements. Timeout 15 s per size.
 
 ## Surprises, errors, dead ends
 - First run crashed: z3 refuses to declare an enumeration sort with a name already used. Fixed by
-  unique names per call. Recorded in `docs/LESSONS.md`.
+  unique names per call. Recorded in `docs/shared/LESSONS.md`.
 
 ## Next
 Step 03: look for proofs of collapse for the seven.
