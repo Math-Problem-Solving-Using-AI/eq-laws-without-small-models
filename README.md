@@ -28,7 +28,7 @@ Labels are defined in `docs/shared/VERIFICATION_PROTOCOL.md`. No row is Lean-che
 | `(x*y)*(y*z) = y` | **does not collapse**, same evidence. **Known**: this is ETP Equation168, the *central groupoid law* (Evans; Knuth 1970, as cited in the ETP paper). Finite central groupoids have n^2 elements, so 4 is the smallest size above 1. **Row fully decided** (step 04): 707 refuted, 4 implications proved by the ETP. |
 | `((x*y)*z)*x = w` | **collapses, trivially** (step 04): `w` occurs only on the right, so put `x = y = z = a` and get `a = ((a*a)*a)*a = b` for any `a`, `b`. The ETP data agrees (Equation303 implies `x = y`). Our z3 run had missed it. |
 | `(f(x)*y)*z = y` | open. No model of size 4, 5, 6 (z3 `unsat`, `z3-only`). Collapse unproven. |
-| `(x*y)*f(z) = y` | open, same |
+| `(x*y)*f(z) = y` | **collapses** (step 05). Short hand proof below, written as 12 steps in `results/collapse_xy_fz.json` and accepted by our plain-Python checker `check_derivation.py` (mutation-tested); z3 accepts each lemma. `z3-only` plus our own checker, no human review, no Lean. |
 | `f((x*y)*z) = y` | open, same |
 | `f(x*(y*z)) = y` | open, same |
 | `x*(y*f(z)) = y` | open, same |
@@ -89,6 +89,23 @@ human mathematician, an independent proof checker, or Lean. Not yet checked agai
 literature. A first attempt at step 4 without the instance in step 2 was too weak: z3 returned
 `unknown`, because my sketch had skipped the instantiation.
 
+## Hand proof that `(x*y)*f(z) = y` collapses
+
+Call the law (L). Plain English: multiplying any product `x*y` on the right by any `f(z)` gives
+back `y`.
+
+1. (L) at `x:=a, y:=b, z:=c`: `(a*b)*f(c) = b`.
+2. (L) at `x:=a*b, y:=f(c), z:=d`: `((a*b)*f(c))*f(d) = f(c)`. By step 1 the left side is
+   `b*f(d)`, so `b*f(d) = f(c)` for all `b`, `c`, `d`.
+3. (L) at `x:=a, y:=b, z:=d`: `(a*b)*f(d) = b`. Step 2 with `b:=a*b` says the same left side is
+   `f(c)`. So `b = f(c)` for all `b`, `c`.
+4. Any two elements equal `f(c)`, so they are equal.
+
+Checked by: the derivation checker `check_derivation.py` (written in this repository, plain
+Python, rejects 37 of 37 corrupted copies) and z3 on each lemma (`lemma_chain_xy_fz.py`). Not
+checked by a human, Lean, or another prover. Not checked against the literature. Details in
+`steps/05-collapse-xy-fz.md`.
+
 ## Steps (granular record)
 
 `steps/`:
@@ -96,12 +113,16 @@ literature. A first attempt at step 4 without the instance in step 2 was too wea
 2. `02-search-larger-models.md`
 3. `03-hand-proof-f-x-yz.md`
 4. `04-etp-and-the-three-f-free-laws.md`
+5. `05-collapse-xy-fz.md`
 
 ## Files
 
 - `zero_model_laws.py` searches for models of size 4 to 6. Output: `results/zero_model_laws.json`
   (the two models found are stored there as tables).
-- `lemma_chain_f_x_yz.py` z3 check of the hand proof above.
+- `lemma_chain_f_x_yz.py` z3 check of the hand proof for `f(x)*(y*z) = y`.
+- `lemma_chain_xy_fz.py` z3 check of the hand proof for `(x*y)*f(z) = y`.
+- `check_derivation.py` plain-Python checker of a stored step-by-step collapse proof
+  (`results/collapse_xy_fz.json`), with `--selftest` (corrupted copies must be rejected).
 - Depends on the engine in `src/` of [eq-unary-magma-laws](https://github.com/Math-Problem-Solving-Using-AI/eq-unary-magma-laws) (clone it next to this repository) and its generated data.
 
 ## Reproduce
@@ -113,6 +134,9 @@ pip install -r requirements.txt
 python verify_models.py results/zero_model_laws.json            # the two structures, independent evaluator
 python verify_models.py --selftest results/zero_model_laws.json # corrupted input must fail
 python infinite_models.py                                       # sample check of the infinite constructions
+python check_derivation.py results/collapse_xy_fz.json            # step-by-step collapse proof, no solver
+python check_derivation.py --selftest results/collapse_xy_fz.json # corrupted proofs must be rejected
+python lemma_chain_xy_fz.py                                      # z3 on the second hand proof
 python lemma_chain_f_x_yz.py                                    # z3 on the hand proof (results vary between runs)
 ```
 
