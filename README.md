@@ -130,8 +130,10 @@ back `y`.
 Checked by: Claude reading it, z3 on each lemma (`lemma_chain_f_x_yz.py`), and since step 08 the
 derivation checker `check_derivation.py` on the 11 single steps in `results/collapse_fx_yz.json`
 (rejects 34 of 34 corrupted copies). Not checked by a human mathematician, a second independent
-proof checker, or Lean. Not yet checked against the
-literature. A first attempt at step 4 without the instance in step 2 was too weak: z3 returned
+proof checker, or Lean. Literature (step 14, shallow search): nothing found about this law; its
+magma special cases (`f(x)` replaced by `x`, `x*x`, `x*(x*x)`, `(x*x)*x`) are ETP Equations 15, 178,
+1933, 2136, all recorded by the ETP as forcing one element, which agrees with the collapse but does
+not prove it (`python etp_specializations.py`, needs a clone of the ETP). A first attempt at step 4 without the instance in step 2 was too weak: z3 returned
 `unknown`, because my sketch had skipped the instantiation.
 
 ## Hand proof that `(x*y)*f(z) = y` collapses
@@ -148,8 +150,11 @@ back `y`.
 
 Checked by: the derivation checker `check_derivation.py` (written in this repository, plain
 Python, rejects 37 of 37 corrupted copies) and z3 on each lemma (`lemma_chain_xy_fz.py`). Not
-checked by a human, Lean, or another prover. Not checked against the literature. Details in
-`steps/05-collapse-xy-fz.md`.
+checked by a human, Lean, or another prover. Literature (step 14, shallow search: 6 web and 4
+GitHub queries, no paper database): nothing found about this law; its magma special cases are ETP
+Equations 30, 174, 1508, 1711 (`f(z)` replaced by `z`, `z*z`, `z*(z*z)`, `(z*z)*z`), all recorded
+by the ETP as forcing one element. That agrees with the collapse but does not prove it, and "not
+found" does not mean new. Details in `steps/05-collapse-xy-fz.md`.
 
 ## Steps (granular record)
 
@@ -166,6 +171,8 @@ checked by a human, Lean, or another prover. Not checked against the literature.
 10. `10-mirror-collapse-proofs.md`
 11. `11-refutations-from-infinite-models.md`
 12. `12-copied-law-texts.md`
+13. `13-source-of-austin-law.md`
+14. `14-literature-collapse-xy-fz.md`
 
 ## Files
 
@@ -188,6 +195,9 @@ checked by a human, Lean, or another prover. Not checked against the literature.
   read from their texts, mirror cross-check), with `--selftest`.
 - `check_copied_laws.py` checks that the law ids and texts in that results file are the main
   repository's and read back to its term trees, with `--selftest`. Needs the main repository.
+- `etp_specializations.py` looks up the magma special cases of the two collapsing laws in the
+  ETP data and checks that the ETP records each as forcing one element, with `--selftest`. Needs a
+  clone of the ETP; not in CI.
 - Depends on the engine in `src/` of [eq-unary-magma-laws](https://github.com/Math-Problem-Solving-Using-AI/eq-unary-magma-laws) (clone it next to this repository) and its generated data.
 
 ## Reproduce
@@ -232,6 +242,14 @@ that repository):
 ```
 python check_copied_laws.py results/refutations_term_models.json            # 2,848 references, 712 ids
 python check_copied_laws.py --selftest results/refutations_term_models.json # corrupted input must fail
+```
+
+The magma special cases of the two collapses are looked up in the ETP data (not in CI, it needs a
+clone of `github.com/teorth/equational_theories` at `../_external/equational_theories`):
+
+```
+python etp_specializations.py              # 8 special cases, each an ETP equation implying x = y
+python etp_specializations.py --selftest   # corrupted input must fail
 ```
 
 ## Contributing
