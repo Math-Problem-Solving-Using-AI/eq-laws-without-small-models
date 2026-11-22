@@ -73,7 +73,7 @@ much as a short identity with a constant, `(ex)y = x` (Dudek), has only infinite
 reference for Dudek's paper; `python dudek_slides_check.py` checks the model on a sample and finds
 no model with 2 to 6 elements). So the four laws below are **candidate
 Austin laws in type (2,1)**. Whether Kisielewicz's papers define the term for all types of algebra
-is unknown (not read). Literature (step 15, shallow: 5 web and 4 GitHub queries, no paper
+is unknown (not read; step 18 found no open copy, abstract or review of either paper). Literature (step 15, shallow: 5 web and 4 GitHub queries, no paper
 database): nothing found about any of the four laws. Their 22 magma special cases (`f` replaced by a
 formula in one letter, at most 5 operations in all) all force one element, by the ETP's outcome
 table (order 4 or less) or by z3 (order 5, `z3-only`), and none is in the blueprint's tables of
@@ -193,6 +193,7 @@ found" does not mean new. Details in `steps/05-collapse-xy-fz.md`.
 15. `15-literature-austin-candidates.md`
 16. `16-ernst-slides-dudek.md`
 17. `17-arxiv-trace-tree-magmas.md`
+18. `18-kisielewicz-definition-search.md`
 
 ## Files
 
