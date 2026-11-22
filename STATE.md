@@ -9,32 +9,28 @@ to one element, has a finite model, or has only infinite models.
 
 ## Queue (take the first item)
 
-1. **Second route to each collapse proof through the mirror** (step 09 left it out): write a small
-   script that mirrors a stored derivation (every term read backwards, paths with 1 and 2 swapped
-   under `*`, law variables renamed to match the stored law text), apply it to
-   `results/collapse_xy_fz.json` to get a proof of `f(x)*(y*z) = y` and to
-   `results/collapse_fx_yz.json` to get one of `(x*y)*f(z) = y`, and check both with
-   `check_derivation.py`. New data files only; the checker stays unchanged.
-2. **Review of the four finite-versus-general leads** (`f(x*(y*z)) = y`, `x*(y*f(z)) = y`,
+1. **Review of the four finite-versus-general leads** (`f(x*(y*z)) = y`, `x*(y*f(z)) = y`,
    `(f(x)*y)*z = y`, `f((x*y)*z) = y`): the counting
    argument is about all finite structures and needs a human reviewer or a Lean proof. Write the
    Lean statement with an English reading next to it and check it as in `docs/shared/LEAN_CAVEATS.md`
    (statement fidelity first). Waits for the owner, see Blocked (no Lean on this machine).
-3. **Use the infinite models to refute implications:** for law A with an infinite model M, a law B that
+2. **Use the infinite models to refute implications:** for law A with an infinite model M, a law B that
    fails in M at explicit elements gives a certificate that A does not imply B. Define a certificate
    format (elements as terms, evaluation by plain code), verify it independently with mutation tests.
    A certificate for one law gives one for its mirror law (mirror both laws and the model).
    Report the counts to https://github.com/Math-Problem-Solving-Using-AI/eq-unary-magma-laws so its table can be updated.
-4. **Literature check** before any novelty claim (in progress in eq-unary-magma-laws `docs/PRIOR_WORK.md`),
+3. **Literature check** before any novelty claim (in progress in eq-unary-magma-laws `docs/PRIOR_WORK.md`),
    now also for the collapse of `(x*y)*f(z) = y` and the candidate Austin laws `(f(x)*y)*z = y` and
    `f((x*y)*z) = y`.
    Also re-read the source of the term "Austin law" (eq-unary-magma-laws `docs/PRIOR_WORK.md` and the
    primary page it cites) before using it further.
-5. **Second independent check of the collapse proofs** (`check_derivation.py` was written in the same
+4. **Second independent check of the collapse proofs** (`check_derivation.py` was written in the same
    session as the proof): a Lean proof following `docs/shared/LEAN_CAVEATS.md`, or a second prover.
    Installing a new tool needs the owner. The same Lean file could prove the mirror rule used in
    step 09 (a structure satisfies a law exactly when its mirror satisfies the mirror law), which is
    a hand argument so far.
+   Since step 10 each collapse has two stored derivations (the second is the partner's proof read
+   backwards); a second checker should check all four.
 
 ## Done
 
@@ -74,14 +70,20 @@ to one element, has a finite model, or has only infinite models.
   the nine because z3 proves its collapse but not that of its mirror `((x*y)*z)*x = w`. The main
   repository's 712 laws and its 216 laws with no small model are closed under mirroring.
 
+- 2026-11-22: step 10 (loop run 6). Each of the two collapsing laws now has a second stored proof:
+  the other law's proof read backwards (`mirror_derivation.py`, `results/*_by_mirror.json`), accepted
+  by the unchanged `check_derivation.py` (37 of 37 and 34 of 34 corrupted copies rejected; 10 of 10
+  deliberately wrong mirrors rejected). Label unchanged: `z3-only` plus our own checker. In CI and
+  the LOOP gates.
+
 ## Last iteration
 
-2026-11-22 (loop run 5): a new program read each of the nine rules backwards and confirmed by machine which rules are mirror images of each other, and that the structures found earlier, read backwards, still obey the mirror rule; it also showed that one rule's mirror is missing from the list only because the solver happened to settle that mirror and not the original.
-Next run: read the two stored collapse proofs backwards, which should give a second, independent proof for each mirror rule, and let our checking program check them (the Lean review waits for the owner, because Lean is not installed).
+2026-11-22 (loop run 6): each of the two rules that force a one-element structure got a second written proof, made by reading the other rule's proof backwards, and our checking program accepted both new proofs and rejected every deliberately broken version; this is the same checking program as before, so the trust level stays the same.
+Next run: start using the infinite structures found earlier to show, with checkable examples, that some rules do not follow from others (queue item "Use the infinite models"; the Lean items still wait for the owner).
 
 ## Blocked
 
-- Queue item 2 (Lean review of the four finite-versus-general leads) and the Lean part of item 5:
+- Queue item 1 (Lean review of the four finite-versus-general leads) and the Lean part of item 4:
   Lean is not installed on this machine (`lean`, `lake`, `elan` not found, 2026-11-22, run 5), and
   installing a new tool needs the owner's decision: should the loop install Lean (elan) and Mathlib,
   and which version?

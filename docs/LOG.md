@@ -46,6 +46,11 @@ Running notes of the loop: decisions, mistakes, dead ends, and notes for the own
   `lake` and `elan` are not on this machine, and installing a new tool needs the owner. Moved to
   Blocked with the question; the new item "mirror the stored derivations" goes first, since it needs
   nothing new.
+- 2026-11-22 (run 6): queue item 1 (mirror the stored derivations) taken: it changes no published
+  format, publishes nothing and costs nothing. New data files `results/*_by_mirror.json` beside the
+  originals (the originals and `check_derivation.py` unchanged), new script `mirror_derivation.py`,
+  added to CI and the LOOP gates. Label of both collapses unchanged (same checker for all four
+  proofs). Next free item is 3 (refutation certificates from the infinite models).
 
 ## Mistakes and dead ends
 
@@ -79,6 +84,12 @@ Running notes of the loop: decisions, mistakes, dead ends, and notes for the own
   times out of three, while z3 gave up on `((x*y)*z)*x = w` three times out of three. A mirror
   check at the time would have settled it at once.
 
+- 2026-11-22 (run 6): two planned mutations of `mirror_derivation.py --selftest` were not useful.
+  "Do not mirror inside `f`" produced identical output, because in both proofs `f` only wraps a
+  single letter; dropped. "Mirror only the outermost product" was rejected by the script's own
+  law-matching guard, so it never reached the checker; replaced by mutations that do (subst terms,
+  rewritten terms, claims not mirrored). Found by printing every rejection reason.
+
 ## For other repositories
 
 - eq-unary-magma-laws (for the owner): `(x*y)*f(z) = y` collapses (step 05 here, `z3-only` plus
@@ -108,6 +119,10 @@ Running notes of the loop: decisions, mistakes, dead ends, and notes for the own
   transfers to the other. Also: `x*(y*(z*x)) = w` was proved to collapse by its z3 query, and its
   mirror `((x*y)*z)*x = w` collapses by the same two-line argument (step 04 here).
 
+- eq-unary-magma-laws (for the owner): each of the two collapsing laws `f(x)*(y*z) = y` and
+  `(x*y)*f(z) = y` now has a second stored derivation, the other law's proof read backwards
+  (`results/*_by_mirror.json`, step 10 here), accepted by the same checker. No label change.
+
 ## Lessons for the hub
 
 - When a mutation test reports "N of N caught", print the reason each mutation was rejected. A
@@ -128,3 +143,7 @@ Running notes of the loop: decisions, mistakes, dead ends, and notes for the own
   query with the same time limit proved the collapse of `x*(y*(z*x)) = w` every time and gave up on
   its mirror every time. When a list of "unresolved" laws is built from solver runs, close it under
   the obvious symmetries first: a law whose mirror was settled is settled too.
+- Before counting a mutation as caught, check that its output differs from the unmutated output. A
+  mutation of a rule the data never exercises (here: mirroring inside `f`, when `f` only wraps
+  letters) changes nothing and can only be "not caught"; a count that silently skipped it would
+  overstate what was tested.
