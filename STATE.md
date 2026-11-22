@@ -9,21 +9,27 @@ to one element, has a finite model, or has only infinite models.
 
 ## Queue (take the first item)
 
-1. **`f((x*y)*z) = y`**: collapse (hand proof written as a derivation for `check_derivation.py`,
-   plus a z3 lemma chain) or an infinite model.
-2. **Store the collapse proof of `f(x)*(y*z) = y` as a derivation** in the format of
-   `results/collapse_xy_fz.json` and check it with `check_derivation.py` (it is `z3-only` today).
-3. **Review of the three finite-versus-general leads** (`f(x*(y*z)) = y`, `x*(y*f(z)) = y`,
-   `(f(x)*y)*z = y`): the counting
+1. **Store the collapse proof of `f(x)*(y*z) = y` as a derivation** in the format of
+   `results/collapse_xy_fz.json` and check it with `check_derivation.py` (it is `z3-only` today). The law is the mirror of
+   `(x*y)*f(z) = y` (step 07), so mirroring that stored derivation is one way to start.
+2. **Check the mirror pairs by machine** (step 07, hand argument so far): a small script that
+   mirrors each of the nine laws (read `a*b` as `b*a`, rename variables), confirms which laws pair up,
+   and checks with z3 on all terms that the mirror of each infinite model satisfies the mirror law.
+   Also find out from the main repository's data why `x*(y*(z*x)) = w`, the mirror of
+   `((x*y)*z)*x = w`, is not among the nine.
+3. **Review of the four finite-versus-general leads** (`f(x*(y*z)) = y`, `x*(y*f(z)) = y`,
+   `(f(x)*y)*z = y`, `f((x*y)*z) = y`): the counting
    argument is about all finite structures and needs a human reviewer or a Lean proof. Write the
    Lean statement with an English reading next to it and check it as in `docs/shared/LEAN_CAVEATS.md`
    (statement fidelity first).
 4. **Use the infinite models to refute implications:** for law A with an infinite model M, a law B that
    fails in M at explicit elements gives a certificate that A does not imply B. Define a certificate
-   format (elements as terms, evaluation by plain code), verify it independently with mutation tests,
-   and report the counts to https://github.com/Math-Problem-Solving-Using-AI/eq-unary-magma-laws so its table can be updated.
+   format (elements as terms, evaluation by plain code), verify it independently with mutation tests.
+   A certificate for one law gives one for its mirror law (mirror both laws and the model).
+   Report the counts to https://github.com/Math-Problem-Solving-Using-AI/eq-unary-magma-laws so its table can be updated.
 5. **Literature check** before any novelty claim (in progress in eq-unary-magma-laws `docs/PRIOR_WORK.md`),
-   now also for the collapse of `(x*y)*f(z) = y` and the candidate Austin law `(f(x)*y)*z = y`.
+   now also for the collapse of `(x*y)*f(z) = y` and the candidate Austin laws `(f(x)*y)*z = y` and
+   `f((x*y)*z) = y`.
    Also re-read the source of the term "Austin law" (eq-unary-magma-laws `docs/PRIOR_WORK.md` and the
    primary page it cites) before using it further.
 6. **Second independent check of the collapse proofs** (`check_derivation.py` was written in the same
@@ -50,10 +56,16 @@ to one element, has a finite model, or has only infinite models.
   mutation selftest and fails properly. One law is still open; three are leads whose finite part
   needs a Lean proof or a human review.
 
+- 2026-11-22: step 07 (loop run 3). `f((x*y)*z) = y` does not collapse: an infinite model of
+  formal terms, checked on all terms by z3 (`z3-only`) and on a sample by plain Python. No finite
+  model with 2 or more elements by a counting argument (`hand-argument`). Fourth candidate Austin
+  law. Noticed that the nine laws come in mirror pairs (read `a*b` as `b*a`); this law is the
+  mirror of `f(x*(y*z)) = y`. No law is fully open any more.
+
 ## Last iteration
 
-2026-11-22 (loop run 2): showed that the rule `(f(x)*y)*z = y` has an endless (infinite) structure that obeys it, so it does not force one element, while a paper argument says no finite structure with two or more elements obeys it.
-Next run: the rule `f((x*y)*z) = y`, the only one of the nine rules with no answer or lead yet.
+2026-11-22 (loop run 3): showed that the last unanswered rule, `f((x*y)*z) = y`, has an endless (infinite) structure that obeys it, so it does not force one element, while a paper argument says no finite structure with two or more elements obeys it; it is the mirror image of an earlier rule, which gives the same answer.
+Next run: write the earlier solver-only proof that `f(x)*(y*z) = y` forces one element as a step-by-step proof that our plain checker can re-check.
 
 ## Blocked
 

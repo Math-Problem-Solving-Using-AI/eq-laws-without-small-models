@@ -22,6 +22,13 @@ Running notes of the loop: decisions, mistakes, dead ends, and notes for the own
 - 2026-11-22 (run 2): label for "does not collapse" kept at `z3-only` (plus a plain-code sample
   check), not higher, because the all-terms check rests on z3 alone.
 
+- 2026-11-22 (run 3): queue item 1 (`f((x*y)*z) = y`) taken whole; it fitted one session. The
+  infinite model was added to the two existing checkers (no new format, nothing published). Label
+  for "does not collapse" kept at `z3-only`, finite part `hand-argument`, as in run 2.
+- 2026-11-22 (run 3): the mirror-pair observation is recorded as a hand argument only. Checking it
+  by machine was added to the queue as its own item rather than done in this run, to keep one item
+  per run.
+
 ## Mistakes and dead ends
 
 - 2026-11-22 (run 1): first draft of the derivation checker's mutation test had two weak
@@ -41,6 +48,11 @@ Running notes of the loop: decisions, mistakes, dead ends, and notes for the own
   `F(...)`") does not break the law: "a pair times anything gives back its second part" is also a
   model of `(f(x)*y)*z = y`. Not a mutation; replaced by others.
 
+- 2026-11-22 (run 3): runs 1 and 2 worked out `(x*y)*f(z) = y` and `(f(x)*y)*z = y` from scratch,
+  although each is the mirror image (read `a*b` as `b*a`) of a law settled earlier
+  (`f(x)*(y*z) = y`, `x*(y*f(z)) = y`). Not wrong, only repeated work; it now gives an independent
+  second route to each result.
+
 ## For other repositories
 
 - eq-unary-magma-laws (for the owner): `(x*y)*f(z) = y` collapses (step 05 here, `z3-only` plus
@@ -50,6 +62,11 @@ Running notes of the loop: decisions, mistakes, dead ends, and notes for the own
   model, `z3-only` on all terms). So its row is not "all 711 implications"; implications from it
   must be decided one by one. Its finite part (no finite model with 2 or more elements) is a
   `hand-argument`, so in the finite sense it may still imply everything.
+
+- eq-unary-magma-laws (for the owner): `f((x*y)*z) = y` does not collapse (step 07 here, infinite
+  model, `z3-only` on all terms); same situation as `(f(x)*y)*z = y` above. It is the mirror image
+  of `f(x*(y*z)) = y`. If the main repository's law list is closed under mirroring, its results
+  for one law of a mirror pair may transfer to the other; not checked.
 
 ## Lessons for the hub
 
@@ -62,3 +79,7 @@ Running notes of the loop: decisions, mistakes, dead ends, and notes for the own
 - z3 accessors (`left`, `right` of a datatype) applied to the wrong constructor give unspecified
   values, which z3 chooses freely. When modelling term algebras in z3, guard every accessor with its
   `is_...` test, or the check can fail or pass for a junk reason.
+- Before working on a law, look for its mirror image (read every product `a*b` as `b*a`) and its
+  other symmetric variants among the laws already settled. A model of a law, with its products read
+  backwards, is a model of the mirror law, so their answers are the same. Here two loop runs redid
+  work that a mirror would have given at once.
