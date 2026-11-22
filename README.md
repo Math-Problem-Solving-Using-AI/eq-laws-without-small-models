@@ -102,6 +102,10 @@ differently), and it emits a Lean 4 certificate per model. Our term models below
 shape (formal pairs by default, a few exceptions; our reading, step 23). The full text (step 23)
 is about magmas only: "unary" there always means a tree builder, never an operation of the algebra,
 none of our laws appears, and it does not quote Kisielewicz's definition of "Austin identity".
+Its code repository (step 24, `github.com/YanbiaoLab/trace-tree-magmas`, read through the GitHub
+API) publishes its Lean certificates under Apache-2.0, but not the Lean file `JudgeProblem` that
+states their goal, and its Lean version string does not match a Lean commit (unknown); a pattern
+for a future Lean proof of our infinite models, nothing was copied or run.
 The arguments for the first two were re-read step by step on 2026-11-22 (second reading, still not
 a human reviewer, not Lean); the third and fourth have had one reading each.
 
@@ -212,6 +216,7 @@ found" does not mean new. Details in `steps/05-collapse-xy-fz.md`.
 21. `21-law-list-complete.md`
 22. `22-openalex-title-search.md`
 23. `23-arxiv-trace-tree-full-text.md`
+24. `24-trace-tree-code-repository.md`
 
 ## Files
 
