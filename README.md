@@ -70,7 +70,8 @@ order 6; 1997, order 5), and 10 laws of order 5 in the ETP blueprint, which also
 order four or less is an Austin law" (magmas only). With a unary operation, size 3 seems enough,
 much as a short identity with a constant, `(ex)y = x` (Dudek), has only infinite nontrivial models
 (quote and infinite model re-read in step 16 from Z. Ernst's slides of 2008; the slides give no
-reference for Dudek's paper; `python dudek_slides_check.py` checks the model on a sample and finds
+reference for Dudek's paper; a candidate source, by metadata only, is J. Dudek, "A note on models of
+identities", Algebra Universalis 25 (1988), 400-401, but its text was not read, step 19; `python dudek_slides_check.py` checks the model on a sample and finds
 no model with 2 to 6 elements). So the four laws below are **candidate
 Austin laws in type (2,1)**. Whether Kisielewicz's papers define the term for all types of algebra
 is unknown (not read; step 18 found no open copy, abstract or review of either paper). Literature (step 15, shallow: 5 web and 4 GitHub queries, no paper
@@ -194,6 +195,7 @@ found" does not mean new. Details in `steps/05-collapse-xy-fz.md`.
 16. `16-ernst-slides-dudek.md`
 17. `17-arxiv-trace-tree-magmas.md`
 18. `18-kisielewicz-definition-search.md`
+19. `19-dudek-source-search.md`
 
 ## Files
 
