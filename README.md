@@ -30,11 +30,14 @@ Every one of the nine laws has an answer, and every answer has a machine check:
    central groupoid law). The 4-element tables are re-checked by plain evaluation.
 3. **Four laws have an infinite structure with more than one element**, so they do not collapse
    either: `f(x*(y*z)) = y`, `f((x*y)*z) = y`, `x*(y*f(z)) = y` and `(f(x)*y)*z = y`. The
-   infinite structures are checked on all terms by the solver z3 (`z3-only`).
+   infinite structures are checked on all terms by the solver z3 (`z3-only`). For
+   `(f(x)*y)*z = y` this was already known: Dudek (1988), as reported by Kisielewicz (1990), and so,
+   by the mirror rule, for `x*(y*f(z)) = y` (step 26).
 
 What it does NOT say: none of this is checked in Lean or by a mathematician. For the four laws in
 point 3, "no finite structure with 2 or more elements obeys them" is a hand argument (below),
-checked by z3 only for sizes 2 to 6. Nothing here is claimed to be new. Work that would raise these
+checked by z3 only for sizes 2 to 6. Nothing here is claimed to be new; two of the four laws in
+point 3 are known (above). Work that would raise these
 labels is listed under "Optional later" in [`STATE.md`](STATE.md).
 
 ## Current status
@@ -47,11 +50,11 @@ Labels are defined in `docs/shared/VERIFICATION_PROTOCOL.md`. No row is Lean-che
 | `(x*y)*(y*x) = y` | **does not collapse**: a model with 4 elements, re-checked by plain evaluation (`model-verified`). **Known**: ETP Equation167, *Stein's third law*. Structures satisfying it are "centrist groupoids", and OEIS A128934 counts 0 of them with 2 or 3 elements and 58 with 4. **Row fully decided** (step 04): 710 targets refuted by certificates, 1 implication proved by the ETP. |
 | `(x*y)*(y*z) = y` | **does not collapse**, same evidence. **Known**: this is ETP Equation168, the *central groupoid law* (Evans; Knuth 1970, as cited in the ETP paper). Finite central groupoids have n^2 elements, so 4 is the smallest size above 1. **Row fully decided** (step 04): 707 refuted, 4 implications proved by the ETP. |
 | `((x*y)*z)*x = w` | **collapses, trivially** (step 04): `w` occurs only on the right, so put `x = y = z = a` and get `a = ((a*a)*a)*a = b` for any `a`, `b`. The ETP data agrees (Equation303 implies `x = y`). Our z3 run had missed it. |
-| `(f(x)*y)*z = y` | **does not collapse** (step 06): an infinite model of formal terms, law checked on all terms by z3 (`z3-only`) and on a sample by plain Python. No finite model with 2 or more elements by a counting argument (`hand-argument`; z3 agrees for sizes 2 to 6). Candidate Austin law, see leads below. **Row decided for general implication** (step 11): 707 targets fail in the infinite model (witnesses checked by plain code, `z3-only` because the model itself is), 4 are instances of the law. |
+| `(f(x)*y)*z = y` | **does not collapse** (step 06): an infinite model of formal terms, law checked on all terms by z3 (`z3-only`) and on a sample by plain Python. No finite model with 2 or more elements by a counting argument (`hand-argument`; z3 agrees for sizes 2 to 6). **Known**: J. Dudek (1988) showed that `(x'y)z = y` in type <1,2> has a nontrivial model but no nontrivial finite one, as reported by A. Kisielewicz (1990, p. 130); Dudek's paper itself not read (step 26). **Row decided for general implication** (step 11): 707 targets fail in the infinite model (witnesses checked by plain code, `z3-only` because the model itself is), 4 are instances of the law. |
 | `(x*y)*f(z) = y` | **collapses** (step 05). Short hand proof below, written as 12 steps in `results/collapse_xy_fz.json` and accepted by our plain-Python checker `check_derivation.py` (mutation-tested); a second 11-step proof, the proof of `f(x)*(y*z) = y` read backwards, is accepted too (step 10); z3 accepts each lemma. `z3-only` plus our own checker, no human review, no Lean. |
 | `f((x*y)*z) = y` | **does not collapse** (step 07): infinite model of formal terms, law checked on all terms by z3 (`z3-only`) and on a sample by plain Python. No finite model with 2 or more elements by a counting argument (`hand-argument`; z3 agrees for sizes 2 to 6). It is the mirror image of `f(x*(y*z)) = y` (read every product backwards), so the two laws have the same answer. Candidate Austin law. **Row decided for general implication** (step 11), as for `(f(x)*y)*z = y`. |
 | `f(x*(y*z)) = y` | lead, see below: infinite model checked on all terms by z3 (`z3-only`), finite part `hand-argument`. **Row decided for general implication** (step 11), as above. |
-| `x*(y*f(z)) = y` | lead, same; row decided for general implication (step 11). |
+| `x*(y*f(z)) = y` | lead, same; it is the mirror of `(f(x)*y)*z = y`, so known up to the mirror rule (Dudek 1988, step 26); row decided for general implication (step 11). |
 
 "No model up to size 6" does not rule out larger or infinite models.
 
@@ -98,11 +101,13 @@ order 6; 1997, order 5), and 10 laws of order 5 in the ETP blueprint, which also
 order four or less is an Austin law" (magmas only). With a unary operation, size 3 seems enough,
 much as a short identity with a constant, `(ex)y = x` (Dudek), has only infinite nontrivial models
 (quote and infinite model re-read in step 16 from Z. Ernst's slides of 2008; the slides give no
-reference for Dudek's paper; a candidate source, by metadata only, is J. Dudek, "A note on models of
-identities", Algebra Universalis 25 (1988), 400-401, but its text was not read, step 19; `python dudek_slides_check.py` checks the model on a sample and finds
+reference for Dudek's paper; Kisielewicz (1990, p. 130, read in step 26) credits `(Cx)y = x` in type
+<0,2> to Dudek [1985], not to the 1988 note guessed in step 19; `python dudek_slides_check.py` checks the model on a sample and finds
 no model with 2 to 6 elements). So the four laws below are **candidate
 Austin laws in type (2,1)**. Whether Kisielewicz's papers define the term for all types of algebra
-is unknown (not read; step 18 found no open copy, abstract or review of either paper). Literature (step 15, shallow: 5 web and 4 GitHub queries, no paper
+is unknown (step 18 found no open copy; step 26 read pages 129-130 of the 1990 chapter, which treats
+"varieties with no nontrivial finite members" of any type, including type <1,2>, but those pages do
+not call such laws "Austin identities"; they cite Austin 1965 only as the first magma example). Literature (step 15, shallow: 5 web and 4 GitHub queries, no paper
 database; step 22, OpenAlex titles, which also turned up a 2026 preprint on infinite models of
 the magma Austin identities E5093 and E5107, Zenodo `doi:10.5281/zenodo.24340685`, read in step 25): nothing found about any of the four laws. Their 22 magma special cases (`f` replaced by a
 formula in one letter, at most 5 operations in all) all force one element, by the ETP's outcome
@@ -237,13 +242,14 @@ found" does not mean new. Details in `steps/05-collapse-xy-fz.md`.
 16. `16-ernst-slides-dudek.md`
 17. `17-arxiv-trace-tree-magmas.md`
 18. `18-kisielewicz-definition-search.md`
-19. `19-dudek-source-search.md`
+19. `19-dudek-source-search.md` (its guess about Dudek 1988 is corrected in step 26)
 20. `20-literature-refutations.md`
 21. `21-law-list-complete.md`
 22. `22-openalex-title-search.md`
 23. `23-arxiv-trace-tree-full-text.md`
 24. `24-trace-tree-code-repository.md`
 25. `25-zenodo-e5093-preprint.md`
+26. `26-primary-sources-from-the-owner.md`
 
 ## Files
 

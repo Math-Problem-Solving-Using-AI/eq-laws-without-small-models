@@ -40,6 +40,7 @@ machine since 2026-11-23, so items 1 and 2 are no longer blocked by a missing to
    Kisielewicz, "Austin identities" (1997): its robots.txt answered 502 twice on 2026-11-22 (step 18).
    Read robots.txt first; fetch nothing if it cannot be read. If the record has the text, read how
    "Austin identity" is defined (any type of algebra, or groupoids only).
+   (Step 26: the KoreaScience part below is done; the owner supplied the Cho-Dudek paper.)
    Same run, same rules: retry KoreaScience for J. R. Cho and J. Dudek, "A note on the Austin's
    groupoids" (2006), record `cn=E1BGBB_2006_v22n2_215`, which cites Dudek's 1988 note (step 19):
    its robots.txt gave an empty reply on both domains on 2026-11-22. If readable, record what it
@@ -68,7 +69,7 @@ machine since 2026-11-23, so items 1 and 2 are no longer blocked by a missing to
    convergent rewrite presentation of an explicit, possibly infinite model." Record whether this is
    the same kind of model as our four term models and whether its conditions (termination,
    confluence) could check them; a lead for item 5 (canonization conditions).
-8. **Find an open copy of A. K. Austin, "Finite models for laws in two variables"** (Proc. AMS 17,
+8. **Done in step 26** (the owner supplied the paper). **Find an open copy of A. K. Austin, "Finite models for laws in two variables"** (Proc. AMS 17,
    1966, pp. 1410–1412, as cited in arXiv 2609.05690, step 23): look up its record in OpenAlex
    (robots.txt `Allow: /`, read again first, 10 seconds between requests) and record where it is
    open. If only on ams.org, add it to the owner's ams.org question under Blocked; fetch nothing
@@ -232,11 +233,16 @@ machine since 2026-11-23, so items 1 and 2 are no longer blocked by a missing to
   and credits an earlier model by "vkg". None of its laws is a special case of ours (new
   `zenodo_e5093_check.py`, 8 of 8 corrupted inputs rejected). It names a public home of
   `JudgeProblem` (added to queue item 9). No label changed.
+- 2026-11-23: step 26 (owner session). Read five primary sources supplied by the owner. Main
+  finding: `(f(x)*y)*z = y` is a known 1988 result of Dudek (type <1,2>, as reported by Kisielewicz
+  1990, p. 130), and so, by the mirror rule, is `x*(y*f(z)) = y`. Austin 1966 (every two-letter law with
+  a letter on both sides has a finite model, any operator arities at least 1) agrees with all our
+  answers. Step 19's guess about the source of `(ex)y = x` corrected (Dudek 1985). No answer changed.
 
 ## Last iteration
 
-2026-11-23 (owner session, after loop run 21): the repository reached its finish line. Every one of the nine laws has an answer, each answer has a machine check, and the README explains it in plain words.
-No more loop runs: the remaining work only raises how well the answers are checked or reads more papers, so it moved to "Optional later" for the owner to pick from.
+2026-11-23 (owner session, step 26): read five old papers the owner downloaded. One of our four "infinite only" laws, and its mirror, turn out to be a known result from 1988; nothing in our answers changes.
+The repository stays finished; reading Dudek's 1988 paper itself is optional later work.
 
 ## Blocked
 
@@ -247,12 +253,8 @@ No more loop runs: the remaining work only raises how well the answers are check
 - Optional item 2 (second check of the collapse proofs), the part without Lean: no second prover is
   installed either (16 names looked for, only z3 found, 2026-11-22, run 18). Decision needed: may the
   loop install one (for example Vampire, E, Prover9 or Twee), and which?
-- zbMATH Open (the part of the literature search of the two collapses that step 22 could not do,
-  and the Dudek question closed in step 19): its robots.txt (read 2026-11-22, run 14) says
-  `Disallow: /` for `anthropic-ai`, `ClaudeBot` and `Claude-Web`. Decision needed: should the loop
-  leave zbMATH alone (current behaviour), or may the owner look up the reviews of Kisielewicz 1990
-  and 1997 and Dudek 1988 by hand and save them in the repository? (Step 19: what Dudek 1988 proves
-  has no open source either; only a review or the paper itself can tell.)
-  Same question for two open papers on ams.org, which the loop does not fetch (step 22): A. K. Austin,
-  "A Note on Models of Identities" (Proc. AMS 1965) and S. K. Stein, "Finite Models of Identities"
-  (Proc. AMS 1963); may the owner read or save them by hand?
+- Answered by the owner on 2026-11-23 (step 26): the owner read nothing on zbMATH but supplied PDFs of
+  Austin 1965, Austin 1966, Stein 1963, Kisielewicz 1990 (pages 129-130 only) and Cho-Dudek 2006.
+  They are kept outside the repository (copyright); step 26 records what they say. Dudek 1988 and
+  Kisielewicz 1997 are paywalled and were not supplied. Optional later: a zbMATH review of Dudek 1988,
+  copied by hand, to read the type <1,2> result first-hand.
