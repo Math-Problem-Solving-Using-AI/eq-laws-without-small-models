@@ -1,0 +1,17 @@
+{
+ "law": "(x*y)*f(z) = y",
+ "comment": "Mirror (every a*b read as b*a) of the derivation in results/collapse_fx_yz.json, built by mirror_derivation.py; variables of the mirror law renamed to those of the stored law {'x': 'z', 'y': 'y', 'z': 'x'}. Checked by check_derivation.py, not trusted on its own.",
+ "steps": [
+  {"id": "D1", "rule": "law", "subst": {"z": "a", "y": "c*b", "x": "c"}, "claim": "(c*(c*b))*f(a) = c*b"},
+  {"id": "D2", "rule": "law", "subst": {"z": "d", "y": "f(a)", "x": "c*(c*b)"}, "claim": "((c*(c*b))*f(a))*f(d) = f(a)"},
+  {"id": "D3", "rule": "rewrite", "from": "D1", "in": "((c*(c*b))*f(a))*f(d)", "at": [1], "claim": "((c*(c*b))*f(a))*f(d) = (c*b)*f(d)"},
+  {"id": "D4", "rule": "sym", "from": "D3", "claim": "(c*b)*f(d) = ((c*(c*b))*f(a))*f(d)"},
+  {"id": "D5", "rule": "trans", "from": ["D4", "D2"], "claim": "(c*b)*f(d) = f(a)"},
+  {"id": "D6", "rule": "law", "subst": {"z": "d", "y": "b", "x": "c"}, "claim": "(c*b)*f(d) = b"},
+  {"id": "D7", "rule": "sym", "from": "D6", "claim": "b = (c*b)*f(d)"},
+  {"id": "D8", "rule": "trans", "from": ["D7", "D5"], "claim": "b = f(a)"},
+  {"id": "D9", "rule": "inst", "from": "D8", "subst": {"b": "e"}, "claim": "e = f(a)"},
+  {"id": "D10", "rule": "sym", "from": "D9", "claim": "f(a) = e"},
+  {"id": "D11", "rule": "trans", "from": ["D8", "D10"], "claim": "b = e"}
+ ]
+}

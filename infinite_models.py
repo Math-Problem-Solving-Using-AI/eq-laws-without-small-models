@@ -1,4 +1,4 @@
-"""Test hand-built INFINITE models for two of the open laws, on a large finite sample of elements.
+"""Test hand-built INFINITE models for four of the open laws, on a large finite sample of elements.
 
 An infinite model cannot be checked exhaustively. This script only checks the law on every triple
 (x, y, z) drawn from a pool of terms up to a size limit. A pass is a sanity check of a construction
@@ -14,10 +14,20 @@ Model B, law  x*(y*f(z)) = y :
     f(t) := ('f', t)                        formal
     x*w  := y   if w == ('p', y, ('f', z))
             ('p', x, w)  otherwise
+Model C, law  (f(x)*y)*z = y :
+    f(t) := ('f', t)                        formal
+    u*z  := y   if u == ('p', ('f', t), y)
+            ('p', u, z)  otherwise
+Model D, law  f((x*y)*z) = y :
+    x*y := ('p', x, y)                      formal pair, no collapsing
+    f(t) := y   if t == ('p', ('p', x, y), z)
+            t   otherwise
 
 Run from repo root: python infinite_models.py
+Mutation test:      python infinite_models.py --selftest   (corrupted models must show failures)
 """
 import itertools
+import sys
 
 G = ("g",)
 
@@ -57,6 +67,28 @@ def mulB(x, w):
     return ("p", x, w)
 
 
+# Model C
+def fC(t):
+    return ("f", t)
+
+
+def mulC(u, z):
+    if isinstance(u, tuple) and u[0] == "p" and isinstance(u[1], tuple) and u[1][0] == "f":
+        return u[2]
+    return ("p", u, z)
+
+
+# Model D
+def mulD(x, y):
+    return ("p", x, y)
+
+
+def fD(t):
+    if isinstance(t, tuple) and t[0] == "p" and isinstance(t[1], tuple) and t[1][0] == "p":
+        return t[1][2]
+    return t
+
+
 def check(name, mul, f, law, depth, limit=300_000):
     import random
 
@@ -81,9 +113,71 @@ def check(name, mul, f, law, depth, limit=300_000):
     return bad == 0
 
 
-okA = check("Model A f(x*(y*z)) = y", mulA, fA, lambda m, f, x, y, z: f(m(x, m(y, z))) == y, depth=3)
-okB = check("Model B x*(y*f(z)) = y", mulB, fB, lambda m, f, x, y, z: m(x, m(y, f(z))) == y, depth=3)
+lawA = lambda m, f, x, y, z: f(m(x, m(y, z))) == y
+lawB = lambda m, f, x, y, z: m(x, m(y, f(z))) == y
+lawC = lambda m, f, x, y, z: m(m(f(x), y), z) == y
+lawD = lambda m, f, x, y, z: f(m(m(x, y), z)) == y
+
+
+def selftest():
+    """Each corrupted model (or wrong law) must give at least one failure."""
+    def fA_bad(t):  # returns z instead of y
+        if isinstance(t, tuple) and t[0] == "p" and isinstance(t[2], tuple) and t[2][0] == "p":
+            return t[2][2]
+        return t
+
+    def mulB_bad(x, w):  # returns f(z) instead of y
+        if isinstance(w, tuple) and w[0] == "p" and isinstance(w[2], tuple) and w[2][0] == "f":
+            return w[2]
+        return ("p", x, w)
+
+    def mulC_bad(u, z):  # returns f(t) instead of y
+        if isinstance(u, tuple) and u[0] == "p" and isinstance(u[1], tuple) and u[1][0] == "f":
+            return u[1]
+        return ("p", u, z)
+
+    def fC_bad(t):  # f not formal: f(t) = t
+        return t
+
+    def fD_bad(t):  # returns z instead of y
+        if isinstance(t, tuple) and t[0] == "p" and isinstance(t[1], tuple) and t[1][0] == "p":
+            return t[2]
+        return t
+
+    mutations = [
+        ("A: f returns z", mulA, fA_bad, lawA),
+        ("B: * returns f(z)", mulB_bad, fB, lawB),
+        ("C: * returns f(t)", mulC_bad, fC, lawC),
+        ("C: f is the identity", mulC, fC_bad, lawC),
+        ("C checked against (f(x)*y)*z = z", mulC, fC, lambda m, f, x, y, z: m(m(f(x), y), z) == z),
+        ("A checked against law C", mulA, fA, lawC),
+        ("D: f returns z", mulD, fD_bad, lawD),
+        ("D: f is the identity", mulD, fC_bad, lawD),
+        ("D checked against law A", mulD, fD, lawA),
+    ]
+    caught = 0
+    for name, mul, f, law in mutations:
+        ok = check("mutation " + name, mul, f, law, depth=2)
+        caught += not ok
+    print(f"selftest: {caught} of {len(mutations)} corrupted models rejected")
+    return caught == len(mutations)
+
+
+if "--selftest" in sys.argv:
+    passed = selftest()
+    print("ALL PASS" if passed else "SOME FAILED")
+    sys.exit(0 if passed else 1)
+
+okA = check("Model A f(x*(y*z)) = y", mulA, fA, lawA, depth=3)
+okB = check("Model B x*(y*f(z)) = y", mulB, fB, lawB, depth=3)
+okC = check("Model C (f(x)*y)*z = y", mulC, fC, lawC, depth=3)
+okD = check("Model D f((x*y)*z) = y", mulD, fD, lawD, depth=3)
 
 # the models must not be trivial: more than one element, so the laws do not collapse
-print("nontrivial (more than one element):", len(pool(mulA, fA, 2)) > 1, len(pool(mulB, fB, 2)) > 1)
-print("ALL PASS" if okA and okB else "SOME FAILED")
+print("nontrivial (more than one element):",
+      len(pool(mulA, fA, 2)) > 1, len(pool(mulB, fB, 2)) > 1, len(pool(mulC, fC, 2)) > 1,
+      len(pool(mulD, fD, 2)) > 1)
+nontrivial = all(len(pool(m, f, 2)) > 1 for m, f in [(mulA, fA), (mulB, fB), (mulC, fC), (mulD, fD)])
+passed = okA and okB and okC and okD and nontrivial
+print("ALL PASS" if passed else "SOME FAILED")
+sys.exit(0 if passed else 1)
