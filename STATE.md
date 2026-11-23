@@ -22,13 +22,7 @@ to one element, has a finite model, or has only infinite models.
    Since step 10 each collapse has two stored derivations (the second is the partner's proof read
    backwards); a second checker should check all four. Waits for the owner, see Blocked (step 22:
    no second prover is installed, z3 is the only one).
-3. **Read the Zenodo record of the 2026 preprint** "Seeded infinite models of the Austin identities
-   E5093 and E5107" (Jason Peng, `doi:10.5281/zenodo.24340685`, found in step 22 by its OpenAlex
-   record only): read `zenodo.org/robots.txt` first in its own request. Record what E5093 and E5107
-   are (ETP magma laws, by the title), how its "seeded" models compare with our term models, and
-   whether it mentions a unary operation. A lead, not a source of our results. Step 23: E5093 and
-   E5107 are not among the 32 laws of arXiv 2609.05690.
-4. **Retry the Wrocław university digital library** (`digilab.uwr.edu.pl`) for its record of
+3. **Retry the Wrocław university digital library** (`digilab.uwr.edu.pl`) for its record of
    Kisielewicz, "Austin identities" (1997): its robots.txt answered 502 twice on 2026-11-22 (step 18).
    Read robots.txt first; fetch nothing if it cannot be read. If the record has the text, read how
    "Austin identity" is defined (any type of algebra, or groupoids only).
@@ -36,10 +30,10 @@ to one element, has a finite model, or has only infinite models.
    groupoids" (2006), record `cn=E1BGBB_2006_v22n2_215`, which cites Dudek's 1988 note (step 19):
    its robots.txt gave an empty reply on both domains on 2026-11-22. If readable, record what it
    says about Dudek 1988 and whether it quotes `(ex)y = x`.
-5. **Confirm the raised number in Ernst's slides** (`ee = 2^5` where their table gives `2^3`, step
+4. **Confirm the raised number in Ernst's slides** (`ee = 2^5` where their table gives `2^3`, step
    16): look whether a PDF renderer is already installed (install nothing); if one is, render that
    slide as a picture and read it.
-6. **Check by machine that the four infinite models fit the ETP's canonization conditions** (step
+5. **Check by machine that the four infinite models fit the ETP's canonization conditions** (step
    20, a hand reading so far): the ETP report (`paper/metatheorems.tex`, lines 54 to 121 in the
    clone at `dbc9a2b`) proves that a rewrite `R` that is "weakly collapsing, a weak canonizer, and
    non-overlapping" gives a syntactic model, for magmas. Write the three conditions for our models
@@ -47,31 +41,41 @@ to one element, has a finite model, or has only infinite models.
    on a sample by plain code, with a mutation test, and say whether the ETP proof carries over to
    `f` (hand argument until checked). This would be a second route to "the model satisfies its
    law", next to `term_models_z3.py`.
-7. **Read the Knuth-Bendix paper (1970)**, "Simple word problems in universal algebras", in the
+6. **Read the Knuth-Bendix paper (1970)**, "Simple word problems in universal algebras", in the
    open copy at `www.cs.tufts.edu/~nr/cs257/archive/don-knuth/knuth-bendix.pdf` (robots.txt first,
    in its own request): a web-search summary (step 20, not read) says it has an example with a
    unary operator. Record whether it treats free algebras of one binary and one unary operation and
    whether any of our laws or models appear. Needs a way to read the PDF text with tools already
    installed; install nothing.
-8. **Read the arXiv abstract page of 2602.16324** (M. Janota, M. Rawson, S. Schulz, "Case study:
+7. **Read the arXiv abstract page of 2602.16324** (M. Janota, M. Rawson, S. Schulz, "Case study:
    saturations as explicit models in equational theories", 2026, cited in step 23): only `/abs`,
    after arXiv's robots.txt in its own request and 15 seconds from every request. Step 23 quotes
    arXiv 2609.05690 saying "A saturated unit-equational clause set can sometimes be read as a
    convergent rewrite presentation of an explicit, possibly infinite model." Record whether this is
    the same kind of model as our four term models and whether its conditions (termination,
-   confluence) could check them; a lead for item 6 (canonization conditions).
-9. **Find an open copy of A. K. Austin, "Finite models for laws in two variables"** (Proc. AMS 17,
+   confluence) could check them; a lead for item 5 (canonization conditions).
+8. **Find an open copy of A. K. Austin, "Finite models for laws in two variables"** (Proc. AMS 17,
    1966, pp. 1410–1412, as cited in arXiv 2609.05690, step 23): look up its record in OpenAlex
    (robots.txt `Allow: /`, read again first, 10 seconds between requests) and record where it is
    open. If only on ams.org, add it to the owner's ams.org question under Blocked; fetch nothing
    from ams.org.
-10. **Find where `JudgeProblem` of `YanbiaoLab/trace-tree-magmas` is stated** (step 24: every
+9. **Find where `JudgeProblem` of `YanbiaoLab/trace-tree-magmas` is stated** (step 24: every
    certificate starts `import JudgeProblem`, which is not among the repository's 993 files): read
    `arxiv-v1/experiments/unrestricted_four_search_20260904/runner/vendor/solver_runtime_sandbox/judge.py`
    and `scripts/submit_judge_v3.py` with `gh api` (two seconds between requests). Record how their
    Lean goal ("the law has a model with two different elements") is written, if it is shown, as a
    pattern for the Lean statement of blocked item 1. Also unknown from step 24: what `lean-4a7ab54d`
    in their Judge version string names (not a Lean commit).
+   Step 25: Peng's preprint says its certificates import "the official `JudgeProblem` module" of
+   `github.com/SAIRcompetition/equational-theories-lean-stage2` (revision `817a465`), checked on
+   Lean 4.33.1. Look there first (`gh api`, two seconds between requests); that it is the same file
+   the trace-tree certificates import is a guess until both are compared.
+10. **Could the greedy table-filling method give a second model for one of our four laws?** Peng's
+   preprint (step 25) builds models of E5093 and E5107 on 0, 1, 2, ... by filling a partial table
+   one cell at a time under seven conditions. Read its Section 2 again and write down, by hand, what
+   the conditions would be for one of our laws with `f` (for example `(f(x)*y)*z = y`), or why the
+   method does not carry over. A lead for an independent second route to "the law has an infinite
+   model" (ours rests on z3, `z3-only`); hand reading until checked by machine.
 
 ## Done
 
@@ -207,10 +211,18 @@ to one element, has a finite model, or has only infinite models.
   statements cannot be checked from the repository. The Mathlib commit matches "Lean 4.33.1"; the
   Lean part of their version string is not a Lean commit (unknown). Nothing copied. No label changed.
 
+- 2026-11-23: step 25 (loop run 21). Read the Zenodo record and LaTeX source of Peng's 2026
+  preprint (after Zenodo's robots.txt): E5093 and E5107 are magma laws (no unary operation), listed
+  in the ETP clone as "trivial finite models, unknown infinite models"; the preprint builds infinite
+  models by filling a table on 0, 1, 2, ... cell by cell, a different method from our term models,
+  and credits an earlier model by "vkg". None of its laws is a special case of ours (new
+  `zenodo_e5093_check.py`, 8 of 8 corrupted inputs rejected). It names a public home of
+  `JudgeProblem` (added to queue item 9). No label changed.
+
 ## Last iteration
 
-2026-11-22 (loop run 20): looked at the public code of a 2026 paper that proves infinite examples in the proof checker Lean; its Lean files may be reused under a common open license and show a pattern we could follow later, but the file that says what they prove is not published, and one version label in it could not be matched.
-Next run: the two checking tasks still wait for the owner (they need new software), so the next run reads the record of a 2026 preprint on Zenodo about infinite examples for two such laws.
+2026-11-23 (loop run 21): read a 2026 preprint on Zenodo about two short laws with only infinite examples; they are about one operation only, not ours, and its infinite examples are built by filling a table step by step, a different method from ours; a small new script confirms the parts we rely on.
+Next run: the two checking tasks still wait for the owner (they need new software), so the next run tries again to reach two library sites that did not answer before (Wrocław and KoreaScience).
 
 ## Blocked
 

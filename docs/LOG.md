@@ -160,6 +160,16 @@ Running notes of the loop: decisions, mistakes, dead ends, and notes for the own
   new last queue item rather than being chased in this run. Nothing published, no format changed;
   README gained one sentence and the step list one line.
 
+- 2026-11-23 (run 21): items 1 and 2 still wait for the owner. Took item 3 whole: Zenodo's
+  robots.txt, the record page and the paper's LaTeX source (3 requests, 10 seconds or more apart).
+  Read the `.tex` instead of the PDF because it is plain text and needs no PDF tool. Did not fetch
+  the Lean files, the zip or the PDF, and did not follow the Lean Zulip thread or the SAIR data it
+  cites. Kept the check as a repository script (`zenodo_e5093_check.py`, not in CI, needs the ETP
+  clone) so a reader can re-run it; the downloaded `.tex` (CC BY 4.0) is not stored here. Two new
+  queue facts went into existing or new items rather than being followed: the SAIR home of
+  `JudgeProblem` (item 9) and the greedy method as a second route (new item 10). Nothing
+  published, no format changed.
+
 ## Mistakes and dead ends
 
 - 2026-11-22 (run 1): first draft of the derivation checker's mutation test had two weak
@@ -294,6 +304,18 @@ Running notes of the loop: decisions, mistakes, dead ends, and notes for the own
 - 2026-11-22 (run 20): the first draft of step 24 shortened file hashes to "first 8 ... last 2"
   characters and wrote the last two from memory; most were wrong. Replaced by full hashes, each then
   found once in the step file by a command that hashed the scratch files again.
+
+- 2026-11-23 (run 21): one quote in the scratch check of step 25 was copied across a line break of
+  the LaTeX source; the check reported it missing (it worked), the quote was cut to one line.
+- 2026-11-23 (run 21): a planted change of an ETP law text replaced a substring (`z ◇ z`) that the
+  law does not contain, so the plant changed nothing and passed. Seen only by counting the failure
+  reasons (5 of 6 kinds); fixed with an assert that a plant really changes its input.
+- 2026-11-23 (run 21): the first selftest of `zenodo_e5093_check.py` did not reject "one of our laws
+  removed": both positive controls also matched another law with `f(t) := t`. The control now
+  requires the exact law and term recorded in step 15.
+- 2026-11-23 (run 21): first draft of step 25 called the ETP clone "older than the preprint"; it
+  is a shallow clone whose only commit is dated the same day (2026-11-19), so when its files last
+  changed is unknown. Corrected before commit.
 
 ## For other repositories
 
@@ -491,3 +513,11 @@ Running notes of the loop: decisions, mistakes, dead ends, and notes for the own
   failure reason of every mutation run, not only its exit code.
 - Never shorten a hash by hand. Copy it whole from the command output, or cut it with a command;
   then grep the record for each hash the files really have.
+
+- A mutation that replaces a substring must assert that the substring was there; otherwise the
+  "corrupted" input can be identical to the original and the test proves nothing.
+- A positive control can pass through a degenerate route (here `f(t) := t` made one law look like
+  another). Require the exact witness the control is known for, and include a mutation that removes
+  the thing the control is meant to need.
+- A shallow clone (`git rev-parse --is-shallow-repository` says true) cannot date its files: every
+  file shows the one commit's date. Do not call its content "older than" or "newer than" anything.

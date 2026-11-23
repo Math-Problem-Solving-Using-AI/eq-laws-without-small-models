@@ -88,11 +88,11 @@
      replaced by every magma term with up to 3 operations, every way of matching). So the paper
      says nothing directly about our laws. Its greedy method is a possible second, independent
      way to build models of our four laws (queued as a lead).
-   - **A lead for queue item 10.** Its Lean certificates import "the official `JudgeProblem`
+   - **A lead for the `JudgeProblem` queue item** (item 10 before this run, item 9 after it). Its Lean certificates import "the official `JudgeProblem`
      module" of `github.com/SAIRcompetition/equational-theories-lean-stage2` (revision `817a465`),
      checked "on Lean 4.33.1". Step 24 found that the trace-tree certificates also import a
      `JudgeProblem` that their repository does not contain, and also name Lean 4.33.1. That they
-     are the same file is a guess, not checked; it is added to queue item 10.
+     are the same file is a guess, not checked; it is added to that queue item.
    - It does NOT mean the preprint's proofs are right: its Lean files were not fetched or run, and
      its Theorem 1 (every admissible seed extends to a model) was read, not checked. Our size 2 and
      3 search is a finite search, not a proof for all sizes (the paper's own Proposition 3 is a hand
