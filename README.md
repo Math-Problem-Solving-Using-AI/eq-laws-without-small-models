@@ -83,8 +83,8 @@ identities", Algebra Universalis 25 (1988), 400-401, but its text was not read, 
 no model with 2 to 6 elements). So the four laws below are **candidate
 Austin laws in type (2,1)**. Whether Kisielewicz's papers define the term for all types of algebra
 is unknown (not read; step 18 found no open copy, abstract or review of either paper). Literature (step 15, shallow: 5 web and 4 GitHub queries, no paper
-database; step 22, OpenAlex titles, which also turned up an unread 2026 preprint on infinite models of
-the magma Austin identities E5093 and E5107, Zenodo `doi:10.5281/zenodo.24340685`): nothing found about any of the four laws. Their 22 magma special cases (`f` replaced by a
+database; step 22, OpenAlex titles, which also turned up a 2026 preprint on infinite models of
+the magma Austin identities E5093 and E5107, Zenodo `doi:10.5281/zenodo.24340685`, read in step 25): nothing found about any of the four laws. Their 22 magma special cases (`f` replaced by a
 formula in one letter, at most 5 operations in all) all force one element, by the ETP's outcome
 table (order 4 or less) or by z3 (order 5, `z3-only`), and none is in the blueprint's tables of
 unsettled order-5 laws; a special case with a nontrivial finite model would have refuted our
@@ -106,6 +106,12 @@ Its code repository (step 24, `github.com/YanbiaoLab/trace-tree-magmas`, read th
 API) publishes its Lean certificates under Apache-2.0, but not the Lean file `JudgeProblem` that
 states their goal, and its Lean version string does not match a Lean commit (unknown); a pattern
 for a future Lean proof of our infinite models, nothing was copied or run.
+A second method (step 25): Y. J. Peng's preprint (Zenodo record 24360387, version 2, 2026-11-19)
+builds infinite models of the magma laws E5093 and E5107 on the numbers 0, 1, 2, ... by "completing
+finite partial tables", one cell at a time, optionally from a given finite seed; it credits an
+earlier model of E5093 by "vkg" (Lean Zulip, August 2026). Magmas only (no unary operation), and
+none of the two laws or E40951 is a special case of our laws (`python zenodo_e5093_check.py`,
+needs the ETP clone); not a source of our results. Its proofs were read, not checked.
 The arguments for the first two were re-read step by step on 2026-11-22 (second reading, still not
 a human reviewer, not Lean); the third and fourth have had one reading each.
 
@@ -217,6 +223,7 @@ found" does not mean new. Details in `steps/05-collapse-xy-fz.md`.
 22. `22-openalex-title-search.md`
 23. `23-arxiv-trace-tree-full-text.md`
 24. `24-trace-tree-code-repository.md`
+25. `25-zenodo-e5093-preprint.md`
 
 ## Files
 
@@ -249,6 +256,10 @@ found" does not mean new. Details in `steps/05-collapse-xy-fz.md`.
   5 operations: ETP outcome table, the blueprint's order-5 tables and z3), and checks how
   Kisielewicz's Austin laws are instances of a special case, with `--selftest`. Needs a clone of
   the ETP; not in CI.
+- `zenodo_e5093_check.py` checks our reading of Peng's preprint on E5093 and E5107 (law texts
+  against the ETP, its worked failures from its seed table, no model of size 2 or 3, not a special
+  case of our laws; with `--paper` the quotes of step 25), with `--selftest`. Needs a clone of the
+  ETP; not in CI.
 - Depends on the engine in `src/` of [eq-unary-magma-laws](https://github.com/Math-Problem-Solving-Using-AI/eq-unary-magma-laws) (clone it next to this repository) and its generated data.
 
 ## Reproduce
@@ -305,6 +316,8 @@ python etp_specializations.py              # 8 special cases, each an ETP equati
 python etp_specializations.py --selftest   # corrupted input must fail
 python etp_specializations_austin.py              # 22 special cases of the four candidate Austin laws
 python etp_specializations_austin.py --selftest   # corrupted input must fail
+python zenodo_e5093_check.py              # step 25: Peng's E5093/E5107 preprint, our reading
+python zenodo_e5093_check.py --selftest   # corrupted input must fail
 ```
 
 ## Contributing
