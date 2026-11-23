@@ -319,6 +319,18 @@ Running notes of the loop: decisions, mistakes, dead ends, and notes for the own
 
 ## For other repositories
 
+- 2026-11-23 (step 26), for `eq-unary-magma-laws`: Austin 1966 (Proc. AMS 17, 1410-1412) proves that
+  every law in at most two letters with a letter on both sides has a finite model with 2 or more
+  elements, for operators of any arity at least 1, so for type (2,1). Read-only check of that
+  repository's data: of its 216 laws with no model of size 2 or 3, only `(x*y)*(y*x) = y` has that
+  shape, and it has a 4-element model, so no conflict. Austin's models are linear: `x*y` is `a·x + b·y`
+  and `f(x)` is `c·x`, modulo some `k`, for integers `a`, `b`, `c`. That family is cheap to search and may refute some open pairs.
+- 2026-11-23 (step 26), for `eq-unit-magma-laws`: Austin 1966 shows his theorem fails with a constant:
+  `((y*x)*a)*a = x` for a constant `a` has no nontrivial model. Kisielewicz 1990 (p. 130) credits
+  `(Cx)y = x` in type <0,2> (a constant `C`) to Dudek [1985] as having nontrivial models but no
+  nontrivial finite one. Both are short laws with a constant: check them against that repository's
+  scope and data.
+
 - eq-unary-magma-laws (for the owner): `(x*y)*f(z) = y` collapses (step 05 here, `z3-only` plus
   our derivation checker). Its 711 targets are implications. Codes 5 for this row can be updated
   when the owner accepts this label.
