@@ -2,12 +2,26 @@
 
 push: ask   (commit locally only; the owner pushes. Change to `allowed` to let loop sessions push.)
 
+finished: yes (2026-11-23)   (the finish line in `LOOP.md` holds; loop sessions stop.)
+
 ## Focus
 
 Decide, for each of the nine laws with no model of size 2 or 3, whether it collapses every structure
 to one element, has a finite model, or has only infinite models.
+Answered for all nine (2026-11-23): 3 collapse, 2 have a 4-element model, 4 have an infinite model
+and no model of size 2 to 6. For those four, "no finite model of any size" is a hand argument only;
+machine-checking it is item 1 of "Optional later".
 
 ## Queue (take the first item)
+
+(empty: finished, see the finish line in `LOOP.md`)
+
+## Optional later (loop sessions never take these; only the owner moves one to the queue)
+
+Moved here from the queue on 2026-11-23 by the owner's decision. None of them changes an answer:
+items 1 and 2 raise labels (Lean, a second prover), item 5 is a second route to a check that
+exists, the rest are literature leads. Lean 4.36.0 (elan, no Mathlib) is installed on the owner's
+machine since 2026-11-23, so items 1 and 2 are no longer blocked by a missing tool.
 
 1. **Review of the four finite-versus-general leads** (`f(x*(y*z)) = y`, `x*(y*f(z)) = y`,
    `(f(x)*y)*z = y`, `f((x*y)*z) = y`): the counting
@@ -221,19 +235,16 @@ to one element, has a finite model, or has only infinite models.
 
 ## Last iteration
 
-2026-11-23 (loop run 21): read a 2026 preprint on Zenodo about two short laws with only infinite examples; they are about one operation only, not ours, and its infinite examples are built by filling a table step by step, a different method from ours; a small new script confirms the parts we rely on.
-Next run: the two checking tasks still wait for the owner (they need new software), so the next run tries again to reach two library sites that did not answer before (Wrocław and KoreaScience).
+2026-11-23 (owner session, after loop run 21): the repository reached its finish line. Every one of the nine laws has an answer, each answer has a machine check, and the README explains it in plain words.
+No more loop runs: the remaining work only raises how well the answers are checked or reads more papers, so it moved to "Optional later" for the owner to pick from.
 
 ## Blocked
 
-- Queue item 1 (Lean review of the four finite-versus-general leads) and the Lean part of item 2:
-  Lean is not installed on this machine (`lean`, `lake`, `elan` not found, 2026-11-22, run 5), and
-  installing a new tool needs the owner's decision: should the loop install Lean (elan) and Mathlib,
-  and which version?
-  Related (step 24): if Lean comes, may a Lean file here follow the certificate pattern of
-  `YanbiaoLab/trace-tree-magmas` (Apache-2.0, which asks to keep its notice), or should it be
-  written without looking at it?
-- Queue item 2 (second check of the collapse proofs), the part without Lean: no second prover is
+- Optional item 1 and the Lean part of item 2: Lean 4.36.0 was installed by the owner on 2026-11-23
+  (elan, toolchain `stable`, no Mathlib yet). Still open for the owner: should a Lean file here
+  follow the certificate pattern of `YanbiaoLab/trace-tree-magmas` (Apache-2.0, which asks to keep
+  its notice), or be written without looking at it? Whether to add Mathlib, and which version.
+- Optional item 2 (second check of the collapse proofs), the part without Lean: no second prover is
   installed either (16 names looked for, only z3 found, 2026-11-22, run 18). Decision needed: may the
   loop install one (for example Vampire, E, Prover9 or Twee), and which?
 - zbMATH Open (the part of the literature search of the two collapses that step 22 could not do,

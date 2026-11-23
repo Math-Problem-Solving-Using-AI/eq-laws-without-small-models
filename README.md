@@ -17,6 +17,26 @@ For each of the nine: does it collapse, or does it have some model (of any size)
 
 A law that collapses implies every other law. A law with a bigger model does not.
 
+## Answer in plain words (finished 2026-11-23)
+
+Every one of the nine laws has an answer, and every answer has a machine check:
+
+1. **Three laws collapse**: any structure that obeys them has only one element.
+   `((x*y)*z)*x = w` by a one-line argument (the letter `w` appears on one side only), and
+   `f(x)*(y*z) = y` and its mirror `(x*y)*f(z) = y` by short proofs stored step by step and
+   accepted by our own checker (z3 also accepts each lemma).
+2. **Two laws have a structure with 4 elements**, so they do not collapse:
+   `(x*y)*(y*x) = y` and `(x*y)*(y*z) = y`. Both were already known (Stein's third law and the
+   central groupoid law). The 4-element tables are re-checked by plain evaluation.
+3. **Four laws have an infinite structure with more than one element**, so they do not collapse
+   either: `f(x*(y*z)) = y`, `f((x*y)*z) = y`, `x*(y*f(z)) = y` and `(f(x)*y)*z = y`. The
+   infinite structures are checked on all terms by the solver z3 (`z3-only`).
+
+What it does NOT say: none of this is checked in Lean or by a mathematician. For the four laws in
+point 3, "no finite structure with 2 or more elements obeys them" is a hand argument (below),
+checked by z3 only for sizes 2 to 6. Nothing here is claimed to be new. Work that would raise these
+labels is listed under "Optional later" in [`STATE.md`](STATE.md).
+
 ## Current status
 
 Labels are defined in `docs/shared/VERIFICATION_PROTOCOL.md`. No row is Lean-checked.
